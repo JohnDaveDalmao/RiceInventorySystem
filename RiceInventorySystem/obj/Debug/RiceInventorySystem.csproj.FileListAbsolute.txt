@@ -1,0 +1,12 @@
+D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\bin\Debug\RiceInventorySystem.exe.config
+D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\bin\Debug\RiceInventorySystem.exe
+D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\bin\Debug\RiceInventorySystem.pdb
+D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\obj\Debug\RiceInventorySystem.csprojAssemblyReference.cache
+D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\obj\Debug\RiceInventorySystem.Properties.Resources.resources
+D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\obj\Debug\RiceInventorySystem.csproj.GenerateResource.cache
+D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\obj\Debug\RiceInventorySystem.csproj.CoreCompileInputs.cache
+D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\obj\Debug\RiceInventorySystem.exe
+D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\obj\Debug\RiceInventorySystem.pdb
+D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\obj\Debug\RiceInventorySystem.Main.resources
+D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\bin\Debug\SystemDB.mdf
+D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\bin\Debug\SystemDB_log.ldf
