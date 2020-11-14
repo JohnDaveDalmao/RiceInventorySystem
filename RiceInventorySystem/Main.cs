@@ -26,32 +26,15 @@ namespace RiceInventorySystem {
             InitializeComponent();
             this.SetStyle(ControlStyles.ResizeRedraw, true);
 
-            this.SetLastColumnWidth();
-            this.stockListView.Layout += delegate {
-                this.SetLastColumnWidth();
-            };
-
             mainPanel.BackColor = Color.FromArgb(55, 71, 79);
             addPanel.BackColor = Color.FromArgb(69, 90, 100);
             stockPanel.BackColor = Color.FromArgb(69, 90, 100);
             summaryPanel.BackColor = Color.FromArgb(69, 90, 100);
-
-            stockListView.FullRowSelect = true;
-            ListViewExtender extender = new ListViewExtender(stockListView);
-            // extend 4th column
-            ListViewButtonColumn buttonAction = new ListViewButtonColumn(2);
-            buttonAction.Click += OnButtonActionClick;
-            buttonAction.FixedWidth = true;
-            extender.AddColumn(buttonAction);
-        }
-
-        private void OnButtonActionClick(object sender, ListViewColumnMouseEventArgs e) {
-            MessageBox.Show(this, @"you clicked " + e.SubItem.Text);
         }
 
         private void Main_Load(object sender, EventArgs e) {
             dropdownRefresh();
-            populateListView();
+            populateDataGridView();
         }
 
 
@@ -75,42 +58,32 @@ namespace RiceInventorySystem {
             con.Close();
         }
 
-        private void populateListView() {
-            stockListView.Items.Clear();
+        private void populateDataGridView() {
+            con.Open();
+            SqlCommand cm = new SqlCommand("SELECT * FROM FullSummary");
+            cm.Connection = con;
 
-            SqlCommand cmd = new SqlCommand("SELECT * FROM FullSummary ORDER BY Name ASC", con);
+            SqlDataAdapter da = new SqlDataAdapter(cm);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            stockGridView.AutoGenerateColumns = false;
+            //stockGridView.ColumnCount = 3;
+            stockGridView.Columns[0].DataPropertyName = "Name";
+            stockGridView.Columns[1].DataPropertyName = "Price";
+            stockGridView.Columns[2].DataPropertyName = "Quantity";
+            stockGridView.DataSource = dt;
+            con.Close();
+        }
 
-            try {
-                con.Open();
-                SqlDataReader dr = cmd.ExecuteReader();
+        void quantity_change(object sender) {
+            var row = stockGridView.CurrentRow;
 
-                while (dr.Read()) {
-                    ListViewItem item = new ListViewItem(dr["Name"].ToString());
-                    item.SubItems.Add("₱ " + (dr["Price"].ToString()));
-                    item.SubItems.Add(dr["Quantity"].ToString());
+            if (row == null || row.Index < 0)
+                return;
+            var unit = (sender == Add) ? 1 : -1;
+            var quantity = Convert.ToInt32(row.Cells["Quantity"].Value) + unit;
 
-                    stockListView.Items.Add(item);
-                }
-                con.Close();
-
-                /*con.Open();
-                SqlDataAdapter sda = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                sda.Fill(dt);
-
-                foreach (DataRow dr in dt.Rows) {
-                    ListViewItem item = new ListViewItem(dr["Name"].ToString());
-                    item.SubItems.Add(dr["Price"].ToString());
-                    item.SubItems.Add(dr["Quantity"].ToString());
-                    stockListView.Items.Add(item);
-                }
-                con.Close();*/
-            }
-
-            catch (Exception ex) {
-                MessageBox.Show(ex.Message, Application.ProductName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
+            row.Cells["Quantity"].Value = quantity;
         }
 
         protected override void WndProc(ref Message m) {
@@ -196,7 +169,8 @@ namespace RiceInventorySystem {
         }
 
         private void stockPanel_Click(object sender, EventArgs e) {
-            populateListView();
+            //populateListView();
+            populateDataGridView();
             mainStockPanel.Location = new Point(223, 37);
             mainStockPanel.Size = new Size(778, 616);
 
@@ -465,22 +439,20 @@ namespace RiceInventorySystem {
             }
         }
 
-        private void stockListView_DrawColumnHeader(object sender, DrawListViewColumnHeaderEventArgs e) {
-            //Set Ownerdraw property to true to make this work
-            // Fill header background with solid yelloW color.
-            e.Graphics.FillRectangle(Brushes.LightGray, e.Bounds);
-            // Let ListView draw everything else.
-            e.DrawText();
-        }
-        private void SetLastColumnWidth() {
-            //Set Ownerdraw property to true to make this work
-            // Force the last ListView column width to occupy all the
-            // available space.
-            this.stockListView.Columns[this.stockListView.Columns.Count - 1].Width = -2;
+        private void stockGridView_CellContentClick(object sender, DataGridViewCellEventArgs e) {
+            if (stockGridView.Columns[e.ColumnIndex].Name == "Add") {
+                quantity_change(Add);
+            }
+
+            if (stockGridView.Columns[e.ColumnIndex].Name == "Subtract") {
+                quantity_change(Subtract);
+            }
+
+            if (stockGridView.Columns[e.ColumnIndex].Name == "Save") {
+                MessageBox.Show("Save", "!");
+                populateDataGridView();
+            }
         }
 
-        private void stockListView_DrawSubItem(object sender, DrawListViewSubItemEventArgs e) {
-            e.DrawText();
-        }
     }
 }
