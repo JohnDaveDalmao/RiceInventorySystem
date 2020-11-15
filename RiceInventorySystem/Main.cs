@@ -64,7 +64,7 @@ namespace RiceInventorySystem {
 
         private void populateDataGridView() {
             con.Open();
-            SqlCommand cm = new SqlCommand("SELECT * FROM FullSummary");
+            SqlCommand cm = new SqlCommand("SELECT * FROM Stock");
             cm.Connection = con;
 
             SqlDataAdapter da = new SqlDataAdapter(cm);
@@ -322,21 +322,41 @@ namespace RiceInventorySystem {
                 MessageBox.Show("Fill up all fields correctly!", "!");
             }
             else {
-                DialogResult dialog = MessageBox.Show("Do you want to add " + quantityTextBox.Text + " " + riceComboBox.Text + "/s ?", "Continue Process?", MessageBoxButtons.YesNo);
-                if (dialog == DialogResult.Yes) {
-                    con.Open();
-                    // Auto increment Id to avoid error (Id properties -> Identity Specification (set to TRUE))
-                    SqlCommand cmd = new SqlCommand("INSERT INTO FullSummary VALUES (@Name, @Price, @Quantity, @Type, @Total, @DateAndTime)", con);
-                    cmd.Parameters.AddWithValue("@Name", riceComboBox.Text);
-                    cmd.Parameters.AddWithValue("@Price", priceValue.Text);
-                    cmd.Parameters.AddWithValue("@Quantity", quantityTextBox.Text);
-                    cmd.Parameters.AddWithValue("@Type", "Added");
-                    cmd.Parameters.AddWithValue("@Total", totalValue.Text);
-                    cmd.Parameters.AddWithValue("@DateAndTime", Convert.ToDateTime(DateTime.Now.ToLongTimeString()));
-                    cmd.ExecuteNonQuery();
-                    con.Close();
-                    dropdownRefresh();
-                    MessageBox.Show(quantityTextBox.Text + " " + riceComboBox.Text + "/s Addded!", ":)");
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT Name FROM Stock WHERE Name = '" + riceComboBox.Text + "'", con);
+                DataTable dt = new DataTable();
+                sda.Fill(dt);
+
+                if (dt.Rows.Count >= 1) {
+                    MessageBox.Show(riceComboBox.Text + " Already Exists! Increase its quantity on the STOCK page!", "!");
+                }
+                else {
+                    DialogResult dialog = MessageBox.Show("Do you want to add " + quantityTextBox.Text + " " + riceComboBox.Text + "/s ?", "Continue Process?", MessageBoxButtons.YesNo);
+                    if (dialog == DialogResult.Yes) {
+                        //(@Name1, @Price1, @Total1, @Quantity1) and (@Name2, @Price2, @Total2, @Quantity2) because variable names must be unique within a query batch or stored procedure
+                        SqlCommand cmd = new SqlCommand("INSERT INTO FullSummary VALUES (@Name1, @Price1, @Quantity1, @Type1, @Total1, @DateAndTime1)", con);
+                        con.Open();
+                        // Auto increment Id to avoid error (Id properties -> Identity Specification (set to TRUE))
+                        cmd.Parameters.AddWithValue("@Name1", riceComboBox.Text);
+                        cmd.Parameters.AddWithValue("@Price1", priceValue.Text);
+                        cmd.Parameters.AddWithValue("@Quantity1", quantityTextBox.Text);
+                        cmd.Parameters.AddWithValue("@Type1", "Added");
+                        cmd.Parameters.AddWithValue("@Total1", totalValue.Text);
+                        cmd.Parameters.AddWithValue("@DateAndTime1", Convert.ToDateTime(DateTime.Now.ToLongTimeString()));
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+
+                        con.Open();
+                        cmd.CommandText = "INSERT INTO Stock VALUES (@Name2, @Price2, @Total2, @Quantity2)";
+                        cmd.Parameters.AddWithValue("@Name2", riceComboBox.Text);
+                        cmd.Parameters.AddWithValue("@Price2", priceValue.Text);
+                        cmd.Parameters.AddWithValue("@Total2", totalValue.Text);
+                        cmd.Parameters.AddWithValue("@Quantity2", quantityTextBox.Text);
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+
+                        dropdownRefresh();
+                        MessageBox.Show(quantityTextBox.Text + " " + riceComboBox.Text + "/s Addded!", ":)");
+                    }
                 }
             }
         }
@@ -365,6 +385,7 @@ namespace RiceInventorySystem {
             //priceValue.Text = "0";
             quantityTextBox.Text = "";
 
+            //Check If RiceClass exists then Display its PRICE
             SqlDataAdapter sda = new SqlDataAdapter("SELECT RiceClass FROM RiceClassPreview WHERE RiceClass = '" + riceComboBox.Text + "'", con);
             DataTable dt = new DataTable();
             sda.Fill(dt);
@@ -381,6 +402,7 @@ namespace RiceInventorySystem {
             else {
                 priceValue.Text = "0";
             }
+            ///////////////////////////////////////////////////
         }
 
         private void addPriceTextBox_KeyPress(object sender, KeyPressEventArgs e) {
@@ -404,7 +426,7 @@ namespace RiceInventorySystem {
                 if (dialog == DialogResult.Yes) {
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    //for the dropdown
+                    //for the Dropdown
                     con.Open();
                     cmd.CommandText = "UPDATE RiceClassPreview SET RiceClass='" + addRiceTextBox.Text + "', Price='" + addPriceTextBox.Text + "' WHERE RiceClass='" + riceComboBoxPreview.Text + "'";
                     cmd.ExecuteNonQuery();
@@ -413,6 +435,12 @@ namespace RiceInventorySystem {
                     //for the Full Summary
                     con.Open();
                     cmd.CommandText = "UPDATE FullSummary SET Name='" + addRiceTextBox.Text + "', Price='" + addPriceTextBox.Text + "' WHERE Name='" + riceComboBoxPreview.Text + "'";
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+
+                    //for the Stock
+                    con.Open();
+                    cmd.CommandText = "UPDATE Stock SET Name='" + addRiceTextBox.Text + "', Price='" + addPriceTextBox.Text + "' WHERE Name='" + riceComboBoxPreview.Text + "'";
                     cmd.ExecuteNonQuery();
                     con.Close();
                     dropdownRefresh();
