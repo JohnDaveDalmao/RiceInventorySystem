@@ -35,6 +35,10 @@ namespace RiceInventorySystem {
         private void Main_Load(object sender, EventArgs e) {
             dropdownRefresh();
             populateDataGridView();
+
+            foreach (DataGridViewColumn column in stockGridView.Columns) {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
         }
 
 
@@ -70,20 +74,19 @@ namespace RiceInventorySystem {
             //stockGridView.ColumnCount = 3;
             stockGridView.Columns[0].DataPropertyName = "Name";
             stockGridView.Columns[1].DataPropertyName = "Price";
-            stockGridView.Columns[2].DataPropertyName = "Quantity";
+            stockGridView.Columns[2].DataPropertyName = "Total";
+            stockGridView.Columns[3].DataPropertyName = "Quantity";
             stockGridView.DataSource = dt;
             con.Close();
         }
 
-        void quantity_change(object sender) {
+        void quantity_change(int n) {
             var row = stockGridView.CurrentRow;
-
-            if (row == null || row.Index < 0)
-                return;
-            var unit = (sender == Add) ? 1 : -1;
-            var quantity = Convert.ToInt32(row.Cells["Quantity"].Value) + unit;
-
+            var quantity = Convert.ToInt32(row.Cells["Quantity"].Value) + n;
             row.Cells["Quantity"].Value = quantity;
+
+            var price = Convert.ToDouble(row.Cells["Price"].Value);
+            row.Cells["Total"].Value = quantity * price;
         }
 
         protected override void WndProc(ref Message m) {
@@ -264,7 +267,7 @@ namespace RiceInventorySystem {
 
                         dropdownRefresh();
 
-                        MessageBox.Show(addRiceTextBox.Text + " Added!", "!");
+                        MessageBox.Show(addRiceTextBox.Text + " Added! Check the dropdown.", "!");
                     }
                 }
             }
@@ -440,19 +443,19 @@ namespace RiceInventorySystem {
         }
 
         private void stockGridView_CellContentClick(object sender, DataGridViewCellEventArgs e) {
-            if (stockGridView.Columns[e.ColumnIndex].Name == "Add") {
-                quantity_change(Add);
+            if (stockGridView.Columns[e.ColumnIndex].Name == "Add" && e.RowIndex >= 0) {
+                quantity_change(1);
             }
 
-            if (stockGridView.Columns[e.ColumnIndex].Name == "Subtract") {
-                quantity_change(Subtract);
+
+            if (stockGridView.Columns[e.ColumnIndex].Name == "Subtract" && e.RowIndex >= 0) {
+                quantity_change(-1);
             }
 
-            if (stockGridView.Columns[e.ColumnIndex].Name == "Save") {
+            if (stockGridView.Columns[e.ColumnIndex].Name == "Save" && e.RowIndex >= 0) {
                 MessageBox.Show("Save", "!");
                 populateDataGridView();
             }
         }
-
     }
 }

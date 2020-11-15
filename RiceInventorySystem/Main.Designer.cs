@@ -55,12 +55,6 @@
             this.minimize = new System.Windows.Forms.PictureBox();
             this.mainStockPanel = new System.Windows.Forms.Panel();
             this.stockGridView = new System.Windows.Forms.DataGridView();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Add = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.Subtract = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.Save = new System.Windows.Forms.DataGridViewButtonColumn();
             this.stockHEHE = new System.Windows.Forms.Label();
             this.addRicePanel = new System.Windows.Forms.Panel();
             this.label19 = new System.Windows.Forms.Label();
@@ -78,6 +72,13 @@
             this.mainAddPanel = new System.Windows.Forms.Panel();
             this.addRicePanelbtn = new System.Windows.Forms.Button();
             this.addItemPanelbtn = new System.Windows.Forms.Button();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Add = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.Subtract = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.Save = new System.Windows.Forms.DataGridViewButtonColumn();
             this.mainPanel.SuspendLayout();
             this.summaryPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
@@ -413,6 +414,7 @@
             // 
             this.stockGridView.AllowUserToAddRows = false;
             this.stockGridView.AllowUserToDeleteRows = false;
+            this.stockGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.stockGridView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
@@ -425,13 +427,16 @@
             this.stockGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.stockGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
-            this.Column2,
+            this.Price,
+            this.Total,
             this.Quantity,
             this.Add,
             this.Subtract,
             this.Save});
             this.stockGridView.Location = new System.Drawing.Point(13, 66);
+            this.stockGridView.MultiSelect = false;
             this.stockGridView.Name = "stockGridView";
+            this.stockGridView.ReadOnly = true;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
             dataGridViewCellStyle2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -440,6 +445,7 @@
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.stockGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            this.stockGridView.RowHeadersVisible = false;
             this.stockGridView.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.stockGridView.RowTemplate.Height = 28;
             this.stockGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -447,57 +453,10 @@
             this.stockGridView.TabIndex = 13;
             this.stockGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.stockGridView_CellContentClick);
             // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "Name";
-            this.Column1.Name = "Column1";
-            this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Column1.Width = 200;
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "Price";
-            this.Column2.Name = "Column2";
-            this.Column2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Column2.Width = 143;
-            // 
-            // Quantity
-            // 
-            this.Quantity.HeaderText = "Quantity";
-            this.Quantity.Name = "Quantity";
-            this.Quantity.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Quantity.Width = 143;
-            // 
-            // Add
-            // 
-            this.Add.HeaderText = "+";
-            this.Add.MinimumWidth = 25;
-            this.Add.Name = "Add";
-            this.Add.Text = "▲";
-            this.Add.UseColumnTextForButtonValue = true;
-            this.Add.Width = 30;
-            // 
-            // Subtract
-            // 
-            this.Subtract.HeaderText = "-";
-            this.Subtract.MinimumWidth = 25;
-            this.Subtract.Name = "Subtract";
-            this.Subtract.Text = "▼";
-            this.Subtract.UseColumnTextForButtonValue = true;
-            this.Subtract.Width = 30;
-            // 
-            // Save
-            // 
-            this.Save.HeaderText = "Save";
-            this.Save.Name = "Save";
-            this.Save.Text = "✔";
-            this.Save.UseColumnTextForButtonValue = true;
-            this.Save.Width = 150;
-            // 
             // stockHEHE
             // 
             this.stockHEHE.AutoSize = true;
-            this.stockHEHE.Location = new System.Drawing.Point(352, 18);
+            this.stockHEHE.Location = new System.Drawing.Point(374, 27);
             this.stockHEHE.Name = "stockHEHE";
             this.stockHEHE.Size = new System.Drawing.Size(78, 22);
             this.stockHEHE.TabIndex = 11;
@@ -667,6 +626,66 @@
             this.addItemPanelbtn.UseVisualStyleBackColor = true;
             this.addItemPanelbtn.Click += new System.EventHandler(this.addItemPanelbtn_Click);
             // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "Name";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Column1.Width = 202;
+            // 
+            // Price
+            // 
+            this.Price.HeaderText = "Price";
+            this.Price.Name = "Price";
+            this.Price.ReadOnly = true;
+            this.Price.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Price.Width = 135;
+            // 
+            // Total
+            // 
+            this.Total.HeaderText = "Total";
+            this.Total.Name = "Total";
+            this.Total.ReadOnly = true;
+            this.Total.Width = 135;
+            // 
+            // Quantity
+            // 
+            this.Quantity.HeaderText = "Quantity";
+            this.Quantity.Name = "Quantity";
+            this.Quantity.ReadOnly = true;
+            this.Quantity.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Quantity.Width = 135;
+            // 
+            // Add
+            // 
+            this.Add.HeaderText = "+";
+            this.Add.MinimumWidth = 25;
+            this.Add.Name = "Add";
+            this.Add.ReadOnly = true;
+            this.Add.Text = "▲";
+            this.Add.UseColumnTextForButtonValue = true;
+            this.Add.Width = 30;
+            // 
+            // Subtract
+            // 
+            this.Subtract.HeaderText = "-";
+            this.Subtract.MinimumWidth = 25;
+            this.Subtract.Name = "Subtract";
+            this.Subtract.ReadOnly = true;
+            this.Subtract.Text = "▼";
+            this.Subtract.UseColumnTextForButtonValue = true;
+            this.Subtract.Width = 30;
+            // 
+            // Save
+            // 
+            this.Save.HeaderText = "Save";
+            this.Save.Name = "Save";
+            this.Save.ReadOnly = true;
+            this.Save.Text = "✔";
+            this.Save.UseColumnTextForButtonValue = true;
+            this.Save.Width = 69;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 22F);
@@ -771,7 +790,8 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.DataGridView stockGridView;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Price;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Total;
         private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
         private System.Windows.Forms.DataGridViewButtonColumn Add;
         private System.Windows.Forms.DataGridViewButtonColumn Subtract;
