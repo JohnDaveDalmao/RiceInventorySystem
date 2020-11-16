@@ -119,6 +119,7 @@
     <None Include="Resources\gold.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\square.png" />
     <Content Include="SystemDB.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

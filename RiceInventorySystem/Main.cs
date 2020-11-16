@@ -34,11 +34,27 @@ namespace RiceInventorySystem {
 
         private void Main_Load(object sender, EventArgs e) {
             dropdownRefresh();
-            populateDataGridView();
+            populateStockDataGridView();
+            populateSummarykDataGridView();
 
             foreach (DataGridViewColumn column in stockGridView.Columns) {
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
             }
+
+            foreach (DataGridViewColumn column in summaryGridView.Columns) {
+                column.SortMode = DataGridViewColumnSortMode.NotSortable;
+            }
+
+            foreach (DataGridViewRow row in stockGridView.Rows) {
+                row.Height = 32;
+            }
+
+            foreach (DataGridViewRow row in summaryGridView.Rows) {
+                row.Height = 32;
+            }
+            //DateTime.Now.ToString("yyyy-MM-dd h:mm tt");
+            //label11.Text = Convert.ToDateTime(DateTime.Now.ToLongTimeString()).ToString();
+
         }
 
 
@@ -62,7 +78,7 @@ namespace RiceInventorySystem {
             con.Close();
         }
 
-        private void populateDataGridView() {
+        private void populateStockDataGridView() {
             con.Open();
             SqlCommand cm = new SqlCommand("SELECT * FROM Stock");
             cm.Connection = con;
@@ -71,7 +87,6 @@ namespace RiceInventorySystem {
             DataTable dt = new DataTable();
             da.Fill(dt);
             stockGridView.AutoGenerateColumns = false;
-            //stockGridView.ColumnCount = 3;
             stockGridView.Columns[0].DataPropertyName = "Name";
             stockGridView.Columns[1].DataPropertyName = "Price";
             stockGridView.Columns[2].DataPropertyName = "Total";
@@ -80,10 +95,31 @@ namespace RiceInventorySystem {
             con.Close();
         }
 
+        private void populateSummarykDataGridView() {
+            con.Open();
+            SqlCommand cm = new SqlCommand("SELECT * FROM FullSummary");
+            cm.Connection = con;
+
+            SqlDataAdapter da = new SqlDataAdapter(cm);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            summaryGridView.AutoGenerateColumns = false;
+            summaryGridView.Columns[0].DataPropertyName = "Name";
+            summaryGridView.Columns[1].DataPropertyName = "Type";
+            summaryGridView.Columns[2].DataPropertyName = "Price";
+            summaryGridView.Columns[3].DataPropertyName = "Quantity";
+            summaryGridView.Columns[4].DataPropertyName = "Total";
+            summaryGridView.Columns[5].DataPropertyName = "DateAndTime";
+            summaryGridView.Columns[5].DefaultCellStyle.Format = "dddd, MMMM dd, yyyy hh:mm tt";
+
+            summaryGridView.DataSource = dt;
+            con.Close();
+        }
+
         void quantity_change(int n) {
             var row = stockGridView.CurrentRow;
             var quantity = Convert.ToInt32(row.Cells["Quantity"].Value) + n;
-            row.Cells["Quantity"].Value = quantity;
+            row.Cells["Quantity"].Value = quantity; //The ["Quantity"] here is found in -> right click datagridview -> edit columns -> column property (Name). This is used to select the quantity of the selected row.
 
             var price = Convert.ToDouble(row.Cells["Price"].Value);
             row.Cells["Total"].Value = quantity * price;
@@ -123,6 +159,13 @@ namespace RiceInventorySystem {
 
         private void Main_MouseUp(object sender, MouseEventArgs e) {
             mov = 0;
+        }
+        private void minimize_Click(object sender, EventArgs e) {
+            this.WindowState = FormWindowState.Minimized;
+        }
+
+        private void maximize_Click(object sender, EventArgs e) {
+            this.WindowState = FormWindowState.Maximized;
         }
 
         private void close_Click(object sender, EventArgs e) {
@@ -172,8 +215,7 @@ namespace RiceInventorySystem {
         }
 
         private void stockPanel_Click(object sender, EventArgs e) {
-            //populateListView();
-            populateDataGridView();
+            populateStockDataGridView();
             mainStockPanel.Location = new Point(223, 37);
             mainStockPanel.Size = new Size(778, 616);
 
@@ -374,9 +416,9 @@ namespace RiceInventorySystem {
         }
 
         private void quantityTextBox_KeyUp(object sender, KeyEventArgs e) {
-            int num1, num2, sum;
-            num1 = String.IsNullOrEmpty(priceValue.Text) ? 0 : Int32.Parse(priceValue.Text);
-            num2 = String.IsNullOrEmpty(quantityTextBox.Text) ? 0 : Int32.Parse(quantityTextBox.Text);
+            float num1, num2, sum;
+            num1 = String.IsNullOrEmpty(priceValue.Text) ? 0 : float.Parse(priceValue.Text);
+            num2 = String.IsNullOrEmpty(quantityTextBox.Text) ? 0 : float.Parse(quantityTextBox.Text);
             sum = num1 * num2;
             totalValue.Text = sum.ToString();
         }
@@ -470,6 +512,15 @@ namespace RiceInventorySystem {
             }
         }
 
+        /*  void quantity_change(int n) {
+            var row = stockGridView.CurrentRow;
+            var quantity = Convert.ToInt32(row.Cells["Quantity"].Value) + n;
+            row.Cells["Quantity"].Value = quantity;
+
+            var price = Convert.ToDouble(row.Cells["Price"].Value);
+            row.Cells["Total"].Value = quantity * price;
+        }
+         */
         private void stockGridView_CellContentClick(object sender, DataGridViewCellEventArgs e) {
             if (stockGridView.Columns[e.ColumnIndex].Name == "Add" && e.RowIndex >= 0) {
                 quantity_change(1);
@@ -481,9 +532,30 @@ namespace RiceInventorySystem {
             }
 
             if (stockGridView.Columns[e.ColumnIndex].Name == "Save" && e.RowIndex >= 0) {
-                MessageBox.Show("Save", "!");
-                populateDataGridView();
+                //save changes for price and quantity
+
+                var row = stockGridView.CurrentRow;
+                SqlCommand cmd = con.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                DialogResult dialog = MessageBox.Show("Do you want to update " + row.Cells["RiceClass"].Value + " ?", "Continue Process?", MessageBoxButtons.YesNo);
+                if (dialog == DialogResult.Yes) {
+                    //for the Stock
+                    con.Open();
+                    cmd.CommandText = "UPDATE Stock SET Quantity='" + Convert.ToDouble(row.Cells["Quantity"].Value) + "', Total='" + Convert.ToInt32(row.Cells["Total"].Value) + "' WHERE Name='" + row.Cells["RiceClass"].Value + "'";
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                }
+                populateStockDataGridView();
             }
         }
+
+        private void stockGridView_CellClick(object sender, DataGridViewCellEventArgs e) {
+            if (e.RowIndex >= 0) {
+                DataGridViewRow roww = this.stockGridView.Rows[e.RowIndex];
+                stockHEHE.Text = roww.Cells["Quantity"].Value.ToString();
+            }
+        }
+
+
     }
 }
