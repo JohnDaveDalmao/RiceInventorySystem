@@ -18,9 +18,9 @@ namespace RiceInventorySystem {
         private const int cGrip = 16;
         private const int cCaption = 32;
 
-        int mov;
-        int movX;
-        int movY;
+        int mov, movX, movY;
+        int panelWidth = 1134, panelHeight = 615;
+        int locationX = 166, locationY = 39;
 
         public Main() {
             InitializeComponent();
@@ -35,7 +35,7 @@ namespace RiceInventorySystem {
         private void Main_Load(object sender, EventArgs e) {
             dropdownRefresh();
             populateStockDataGridView();
-            populateSummarykDataGridView();
+            populateSummaryDataGridView();
 
             foreach (DataGridViewColumn column in stockGridView.Columns) {
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -95,7 +95,7 @@ namespace RiceInventorySystem {
             con.Close();
         }
 
-        private void populateSummarykDataGridView() {
+        private void populateSummaryDataGridView() {
             con.Open();
             SqlCommand cm = new SqlCommand("SELECT * FROM FullSummary");
             cm.Connection = con;
@@ -198,8 +198,8 @@ namespace RiceInventorySystem {
         }
 
         private void addPanel_Click(object sender, EventArgs e) {
-            mainAddPanel.Location = new Point(223, 37);
-            mainAddPanel.Size = new Size(778, 616);
+            mainAddPanel.Location = new Point(locationX, locationY);
+            mainAddPanel.Size = new Size(panelWidth, panelHeight);
 
             mainStockPanel.Location = new Point(279, 12);
             mainStockPanel.Size = new Size(50, 50);
@@ -216,8 +216,8 @@ namespace RiceInventorySystem {
 
         private void stockPanel_Click(object sender, EventArgs e) {
             populateStockDataGridView();
-            mainStockPanel.Location = new Point(223, 37);
-            mainStockPanel.Size = new Size(778, 616);
+            mainStockPanel.Location = new Point(locationX, locationY);
+            mainStockPanel.Size = new Size(panelWidth, panelHeight);
 
             mainAddPanel.Location = new Point(448, 12);
             mainAddPanel.Size = new Size(50, 50);
@@ -233,8 +233,9 @@ namespace RiceInventorySystem {
         }
 
         private void summaryPanel_Click(object sender, EventArgs e) {
-            mainSummaryPanel.Location = new Point(223, 37);
-            mainSummaryPanel.Size = new Size(778, 616);
+            //populateSummaryDataGridView();
+            mainSummaryPanel.Location = new Point(locationX, locationY);
+            mainSummaryPanel.Size = new Size(panelWidth, panelHeight);
 
             mainStockPanel.Location = new Point(279, 12);
             mainStockPanel.Size = new Size(50, 50);
@@ -250,8 +251,8 @@ namespace RiceInventorySystem {
         }
 
         private void addRicePanelbtn_Click(object sender, EventArgs e) {
-            addRicePanel.Location = new Point(223, 37);
-            addRicePanel.Size = new Size(778, 616);
+            addRicePanel.Location = new Point(locationX, locationY);
+            addRicePanel.Size = new Size(panelWidth, panelHeight);
 
             mainSummaryPanel.Location = new Point(337, 12);
             mainSummaryPanel.Size = new Size(50, 50);
@@ -267,6 +268,9 @@ namespace RiceInventorySystem {
         }
 
         private void addItemPanelbtn_Click(object sender, EventArgs e) {
+            addItemPanel.Location = new Point(locationX, locationY);
+            addItemPanel.Size = new Size(panelWidth, panelHeight);
+
             mainSummaryPanel.Location = new Point(337, 12);
             mainSummaryPanel.Size = new Size(50, 50);
 
@@ -278,9 +282,6 @@ namespace RiceInventorySystem {
 
             addRicePanel.Location = new Point(393, 12);
             addRicePanel.Size = new Size(50, 50);
-
-            addItemPanel.Location = new Point(223, 37);
-            addItemPanel.Size = new Size(778, 616);
         }
 
         private void addRiceClassBtn_Click(object sender, EventArgs e) {
