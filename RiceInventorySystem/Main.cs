@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-
+//STOCK size: 870, 503
 namespace RiceInventorySystem {
     public partial class Main : Form {
 
@@ -30,6 +30,12 @@ namespace RiceInventorySystem {
             addPanel.BackColor = Color.FromArgb(69, 90, 100);
             stockPanel.BackColor = Color.FromArgb(69, 90, 100);
             summaryPanel.BackColor = Color.FromArgb(69, 90, 100);
+
+            DataTable dt = new DataTable();
+
+            DataColumn newColumn = new DataColumn("addOrSubtractItem", typeof(System.String));
+            newColumn.DefaultValue = "Your DropDownList value";
+            dt.Columns.Add(newColumn);
         }
 
         private void Main_Load(object sender, EventArgs e) {
@@ -46,15 +52,25 @@ namespace RiceInventorySystem {
             }
 
             foreach (DataGridViewRow row in stockGridView.Rows) {
-                row.Height = 32;
+                row.Height = 35;
             }
 
             foreach (DataGridViewRow row in summaryGridView.Rows) {
                 row.Height = 32;
             }
-            //DateTime.Now.ToString("yyyy-MM-dd h:mm tt");
-            //label11.Text = Convert.ToDateTime(DateTime.Now.ToLongTimeString()).ToString();
 
+            /*
+            DataTable dt = new DataTable();
+            dt.Columns.Add(new DataColumn("addOrSubtractItem", typeof(string)));
+            string sessionIDValue = Convert.ToString(Guid.NewGuid());
+            foreach (DataRow row in dt.Rows) {
+                row["addOrSubtractItem"] = sessionIDValue;
+            }*/
+
+            /*DataTable dt = new DataTable();
+            DataColumn newColumn = new DataColumn("addOrSubtractItem", typeof(String));
+            newColumn.DefaultValue = "Your DropDownList value";
+            dt.Columns.Add(newColumn);*/
         }
 
 
@@ -79,20 +95,54 @@ namespace RiceInventorySystem {
         }
 
         private void populateStockDataGridView() {
+
+            /* "tried" for stackoverflow
+             * foreach (DataRow row in dt.Rows) {
+                row["addOrSubtractItem"] = 0;
+            }*/
+
+            /* con.Open();
+             DataTable dt = new DataTable();
+             SqlCommand cm = new SqlCommand("SELECT * FROM Stock");
+             cm.Connection = con;
+
+             SqlDataAdapter da = new SqlDataAdapter(cm);
+             da.Fill(dt);
+             stockGridView.AutoGenerateColumns = false;
+             stockGridView.Columns[0].DataPropertyName = "Name";
+             stockGridView.Columns[1].DataPropertyName = "Price";
+             stockGridView.Columns[2].DataPropertyName = "Total";
+             stockGridView.Columns[3].DataPropertyName = "Quantity";
+             stockGridView.DataSource = dt;
+             con.Close();*/
+
+            /*DataGridViewTextBoxColumn buttonColumn = new DataGridViewTextBoxColumn();
+             buttonColumn.Name = "Item/s Added or Subtracted";
+             buttonColumn.HeaderText = "Item/s Added or Subtracted";
+             stockGridView.Columns.Insert(4, buttonColumn);*/
+
             con.Open();
+            DataTable dt = new DataTable();
             SqlCommand cm = new SqlCommand("SELECT * FROM Stock");
             cm.Connection = con;
 
             SqlDataAdapter da = new SqlDataAdapter(cm);
-            DataTable dt = new DataTable();
             da.Fill(dt);
+            con.Close();
+
             stockGridView.AutoGenerateColumns = false;
             stockGridView.Columns[0].DataPropertyName = "Name";
             stockGridView.Columns[1].DataPropertyName = "Price";
             stockGridView.Columns[2].DataPropertyName = "Total";
             stockGridView.Columns[3].DataPropertyName = "Quantity";
+            stockGridView.Columns[4].DataPropertyName = "addOrSubtractItem";
             stockGridView.DataSource = dt;
-            con.Close();
+
+            //add new column to Datatable
+            dt.Columns.Add("addOrSubtractItem", typeof(int));
+            foreach (DataRow dr in dt.Rows) {
+                dr["addOrSubtractItem"] = 0;
+            }
         }
 
         private void populateSummaryDataGridView() {
@@ -118,11 +168,15 @@ namespace RiceInventorySystem {
 
         void quantity_change(int n) {
             var row = stockGridView.CurrentRow;
-            var quantity = Convert.ToInt32(row.Cells["Quantity"].Value) + n;
-            row.Cells["Quantity"].Value = quantity; //The ["Quantity"] here is found in -> right click datagridview -> edit columns -> column property (Name). This is used to select the quantity of the selected row.
+            var itemsAddedOrSubtracted = Convert.ToInt32(row.Cells["addOrSubtractItem"].Value) + n;
+            row.Cells["addOrSubtractItem"].Value = itemsAddedOrSubtracted; //The ["Quantity"] here is found in -> right click datagridview -> edit columns -> column property (Name). This is used to select the quantity of the selected row.
 
-            var price = Convert.ToDouble(row.Cells["Price"].Value);
-            row.Cells["Total"].Value = quantity * price;
+            //var price = Convert.ToDouble(row.Cells["Price"].Value);
+            //row.Cells["Total"].Value = quantity * price;
+
+            var newQty = (Convert.ToInt32(row.Cells["Quantity"].Value) + Convert.ToInt32(row.Cells["addOrSubtractItem"].Value));
+            newQuantity.Text = newQty.ToString();
+            newTotal.Text = (Convert.ToDouble(row.Cells["Price"].Value) * newQty).ToString();
         }
 
         protected override void WndProc(ref Message m) {
@@ -542,6 +596,8 @@ namespace RiceInventorySystem {
                 if (dialog == DialogResult.Yes) {
                     //for the Stock
                     con.Open();
+
+                    //"UPDATE Stock SET Quantity='" + Convert.ToDouble(newQuantity.Text) + "', Total='" + Convert.ToInt32(newTotal.Text) + "' WHERE Name='" + row.Cells["RiceClass"].Value + "'"
                     cmd.CommandText = "UPDATE Stock SET Quantity='" + Convert.ToDouble(row.Cells["Quantity"].Value) + "', Total='" + Convert.ToInt32(row.Cells["Total"].Value) + "' WHERE Name='" + row.Cells["RiceClass"].Value + "'";
                     cmd.ExecuteNonQuery();
                     con.Close();
@@ -551,10 +607,7 @@ namespace RiceInventorySystem {
         }
 
         private void stockGridView_CellClick(object sender, DataGridViewCellEventArgs e) {
-            if (e.RowIndex >= 0) {
-                DataGridViewRow roww = this.stockGridView.Rows[e.RowIndex];
-                stockHEHE.Text = roww.Cells["Quantity"].Value.ToString();
-            }
+
         }
 
 

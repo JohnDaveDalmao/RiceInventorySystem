@@ -38,10 +38,14 @@
             this.saveBtn = new System.Windows.Forms.Button();
             this.mainPanel = new System.Windows.Forms.Panel();
             this.summaryPanel = new System.Windows.Forms.Panel();
+            this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.label12 = new System.Windows.Forms.Label();
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.stockPanel = new System.Windows.Forms.Panel();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.label6 = new System.Windows.Forms.Label();
             this.addPanel = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label5 = new System.Windows.Forms.Label();
             this.addItemPanel = new System.Windows.Forms.Panel();
             this.priceValue = new System.Windows.Forms.Label();
@@ -57,14 +61,9 @@
             this.DateAndTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.label11 = new System.Windows.Forms.Label();
             this.mainStockPanel = new System.Windows.Forms.Panel();
+            this.newQuantity = new System.Windows.Forms.Label();
+            this.newTotal = new System.Windows.Forms.Label();
             this.stockGridView = new System.Windows.Forms.DataGridView();
-            this.RiceClass = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Add = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.Subtract = new System.Windows.Forms.DataGridViewButtonColumn();
-            this.Save = new System.Windows.Forms.DataGridViewButtonColumn();
             this.stockHEHE = new System.Windows.Forms.Label();
             this.addRicePanel = new System.Windows.Forms.Panel();
             this.label19 = new System.Windows.Forms.Label();
@@ -86,14 +85,24 @@
             this.maximize = new System.Windows.Forms.PictureBox();
             this.close = new System.Windows.Forms.PictureBox();
             this.minimize = new System.Windows.Forms.PictureBox();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.pictureBox5 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.RiceClass = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Price = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Total = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.addOrSubtractItem = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Add = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.Subtract = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.Save = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
             this.mainPanel.SuspendLayout();
             this.summaryPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             this.stockPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.addPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.addItemPanel.SuspendLayout();
             this.mainSummaryPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.summaryGridView)).BeginInit();
@@ -106,10 +115,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.maximize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.close)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.minimize)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // riceComboBox
@@ -209,6 +214,16 @@
             this.summaryPanel.MouseLeave += new System.EventHandler(this.summaryPanel_MouseLeave);
             this.summaryPanel.MouseHover += new System.EventHandler(this.summaryPanel_MouseHover);
             // 
+            // pictureBox3
+            // 
+            this.pictureBox3.Image = global::RiceInventorySystem.Properties.Resources.newspaper;
+            this.pictureBox3.Location = new System.Drawing.Point(49, 30);
+            this.pictureBox3.Name = "pictureBox3";
+            this.pictureBox3.Size = new System.Drawing.Size(68, 67);
+            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox3.TabIndex = 11;
+            this.pictureBox3.TabStop = false;
+            // 
             // label12
             // 
             this.label12.AutoSize = true;
@@ -219,6 +234,18 @@
             this.label12.Size = new System.Drawing.Size(143, 23);
             this.label12.TabIndex = 11;
             this.label12.Text = "S U M M A R Y";
+            // 
+            // pictureBox5
+            // 
+            this.pictureBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox5.Image = global::RiceInventorySystem.Properties.Resources.rice;
+            this.pictureBox5.Location = new System.Drawing.Point(24, 50);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Padding = new System.Windows.Forms.Padding(10);
+            this.pictureBox5.Size = new System.Drawing.Size(119, 116);
+            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox5.TabIndex = 11;
+            this.pictureBox5.TabStop = false;
             // 
             // stockPanel
             // 
@@ -232,6 +259,16 @@
             this.stockPanel.Click += new System.EventHandler(this.stockPanel_Click);
             this.stockPanel.MouseLeave += new System.EventHandler(this.stockPanel_MouseLeave);
             this.stockPanel.MouseHover += new System.EventHandler(this.stockPanel_MouseHover);
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.Image = global::RiceInventorySystem.Properties.Resources.gold;
+            this.pictureBox2.Location = new System.Drawing.Point(49, 23);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(68, 67);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox2.TabIndex = 11;
+            this.pictureBox2.TabStop = false;
             // 
             // label6
             // 
@@ -257,6 +294,16 @@
             this.addPanel.MouseLeave += new System.EventHandler(this.addPanel_MouseLeave);
             this.addPanel.MouseHover += new System.EventHandler(this.addPanel_MouseHover);
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::RiceInventorySystem.Properties.Resources.file_plus_alt;
+            this.pictureBox1.Location = new System.Drawing.Point(52, 26);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(63, 67);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 10;
+            this.pictureBox1.TabStop = false;
+            // 
             // label5
             // 
             this.label5.AutoSize = true;
@@ -281,7 +328,7 @@
             this.addItemPanel.Controls.Add(this.label4);
             this.addItemPanel.Controls.Add(this.label3);
             this.addItemPanel.Controls.Add(this.quantityTextBox);
-            this.addItemPanel.Location = new System.Drawing.Point(223, 12);
+            this.addItemPanel.Location = new System.Drawing.Point(223, 43);
             this.addItemPanel.Name = "addItemPanel";
             this.addItemPanel.Size = new System.Drawing.Size(52, 50);
             this.addItemPanel.TabIndex = 10;
@@ -319,9 +366,9 @@
             this.mainSummaryPanel.BackColor = System.Drawing.SystemColors.Control;
             this.mainSummaryPanel.Controls.Add(this.summaryGridView);
             this.mainSummaryPanel.Controls.Add(this.label11);
-            this.mainSummaryPanel.Location = new System.Drawing.Point(166, 39);
+            this.mainSummaryPanel.Location = new System.Drawing.Point(336, 44);
             this.mainSummaryPanel.Name = "mainSummaryPanel";
-            this.mainSummaryPanel.Size = new System.Drawing.Size(1134, 615);
+            this.mainSummaryPanel.Size = new System.Drawing.Size(51, 49);
             this.mainSummaryPanel.TabIndex = 11;
             // 
             // summaryGridView
@@ -428,12 +475,35 @@
             // mainStockPanel
             // 
             this.mainStockPanel.BackColor = System.Drawing.SystemColors.Control;
+            this.mainStockPanel.Controls.Add(this.newQuantity);
+            this.mainStockPanel.Controls.Add(this.newTotal);
             this.mainStockPanel.Controls.Add(this.stockGridView);
             this.mainStockPanel.Controls.Add(this.stockHEHE);
-            this.mainStockPanel.Location = new System.Drawing.Point(281, 12);
+            this.mainStockPanel.Controls.Add(this.textBox1);
+            this.mainStockPanel.Controls.Add(this.textBox2);
+            this.mainStockPanel.Location = new System.Drawing.Point(166, 39);
             this.mainStockPanel.Name = "mainStockPanel";
-            this.mainStockPanel.Size = new System.Drawing.Size(49, 50);
+            this.mainStockPanel.Size = new System.Drawing.Size(1134, 615);
             this.mainStockPanel.TabIndex = 12;
+            // 
+            // newQuantity
+            // 
+            this.newQuantity.AutoSize = true;
+            this.newQuantity.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.newQuantity.Location = new System.Drawing.Point(678, 72);
+            this.newQuantity.Name = "newQuantity";
+            this.newQuantity.Size = new System.Drawing.Size(21, 22);
+            this.newQuantity.TabIndex = 15;
+            this.newQuantity.Text = "0";
+            // 
+            // newTotal
+            // 
+            this.newTotal.AutoSize = true;
+            this.newTotal.Location = new System.Drawing.Point(917, 72);
+            this.newTotal.Name = "newTotal";
+            this.newTotal.Size = new System.Drawing.Size(21, 22);
+            this.newTotal.TabIndex = 14;
+            this.newTotal.Text = "0";
             // 
             // stockGridView
             // 
@@ -456,10 +526,11 @@
             this.Price,
             this.Total,
             this.Quantity,
+            this.addOrSubtractItem,
             this.Add,
             this.Subtract,
             this.Save});
-            this.stockGridView.Location = new System.Drawing.Point(13, 66);
+            this.stockGridView.Location = new System.Drawing.Point(130, 105);
             this.stockGridView.MultiSelect = false;
             this.stockGridView.Name = "stockGridView";
             this.stockGridView.ReadOnly = true;
@@ -475,86 +546,22 @@
             dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.stockGridView.RowsDefaultCellStyle = dataGridViewCellStyle6;
             this.stockGridView.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.stockGridView.RowTemplate.Height = 28;
+            this.stockGridView.RowTemplate.Height = 35;
             this.stockGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.stockGridView.Size = new System.Drawing.Size(740, 503);
+            this.stockGridView.Size = new System.Drawing.Size(870, 503);
             this.stockGridView.TabIndex = 13;
             this.stockGridView.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.stockGridView_CellClick);
             this.stockGridView.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.stockGridView_CellContentClick);
             // 
-            // RiceClass
-            // 
-            this.RiceClass.HeaderText = "Name";
-            this.RiceClass.MinimumWidth = 202;
-            this.RiceClass.Name = "RiceClass";
-            this.RiceClass.ReadOnly = true;
-            this.RiceClass.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.RiceClass.Width = 202;
-            // 
-            // Price
-            // 
-            this.Price.HeaderText = "Price";
-            this.Price.MinimumWidth = 135;
-            this.Price.Name = "Price";
-            this.Price.ReadOnly = true;
-            this.Price.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Price.Width = 135;
-            // 
-            // Total
-            // 
-            this.Total.HeaderText = "Total";
-            this.Total.MinimumWidth = 135;
-            this.Total.Name = "Total";
-            this.Total.ReadOnly = true;
-            this.Total.Width = 135;
-            // 
-            // Quantity
-            // 
-            this.Quantity.HeaderText = "Quantity";
-            this.Quantity.MinimumWidth = 135;
-            this.Quantity.Name = "Quantity";
-            this.Quantity.ReadOnly = true;
-            this.Quantity.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.Quantity.Width = 135;
-            // 
-            // Add
-            // 
-            this.Add.HeaderText = "+";
-            this.Add.MinimumWidth = 30;
-            this.Add.Name = "Add";
-            this.Add.ReadOnly = true;
-            this.Add.Text = "▲";
-            this.Add.UseColumnTextForButtonValue = true;
-            this.Add.Width = 30;
-            // 
-            // Subtract
-            // 
-            this.Subtract.HeaderText = "-";
-            this.Subtract.MinimumWidth = 30;
-            this.Subtract.Name = "Subtract";
-            this.Subtract.ReadOnly = true;
-            this.Subtract.Text = "▼";
-            this.Subtract.UseColumnTextForButtonValue = true;
-            this.Subtract.Width = 30;
-            // 
-            // Save
-            // 
-            this.Save.HeaderText = "Save";
-            this.Save.MinimumWidth = 69;
-            this.Save.Name = "Save";
-            this.Save.ReadOnly = true;
-            this.Save.Text = "✔";
-            this.Save.UseColumnTextForButtonValue = true;
-            this.Save.Width = 69;
-            // 
             // stockHEHE
             // 
             this.stockHEHE.AutoSize = true;
-            this.stockHEHE.Location = new System.Drawing.Point(374, 27);
+            this.stockHEHE.Font = new System.Drawing.Font("Arial Rounded MT Bold", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.stockHEHE.Location = new System.Drawing.Point(117, 18);
             this.stockHEHE.Name = "stockHEHE";
-            this.stockHEHE.Size = new System.Drawing.Size(78, 22);
+            this.stockHEHE.Size = new System.Drawing.Size(324, 75);
             this.stockHEHE.TabIndex = 11;
-            this.stockHEHE.Text = "STOCK";
+            this.stockHEHE.Text = "S T O C K";
             // 
             // addRicePanel
             // 
@@ -563,7 +570,7 @@
             this.addRicePanel.Controls.Add(this.panel1);
             this.addRicePanel.Controls.Add(this.riceComboBoxPreview);
             this.addRicePanel.Controls.Add(this.label18);
-            this.addRicePanel.Location = new System.Drawing.Point(393, 12);
+            this.addRicePanel.Location = new System.Drawing.Point(393, 43);
             this.addRicePanel.Name = "addRicePanel";
             this.addRicePanel.Size = new System.Drawing.Size(50, 50);
             this.addRicePanel.TabIndex = 16;
@@ -693,7 +700,7 @@
             this.mainAddPanel.BackColor = System.Drawing.SystemColors.Control;
             this.mainAddPanel.Controls.Add(this.addRicePanelbtn);
             this.mainAddPanel.Controls.Add(this.addItemPanelbtn);
-            this.mainAddPanel.Location = new System.Drawing.Point(448, 12);
+            this.mainAddPanel.Location = new System.Drawing.Point(448, 43);
             this.mainAddPanel.Name = "mainAddPanel";
             this.mainAddPanel.Size = new System.Drawing.Size(50, 50);
             this.mainAddPanel.TabIndex = 12;
@@ -764,47 +771,101 @@
             this.minimize.TabStop = false;
             this.minimize.Click += new System.EventHandler(this.minimize_Click);
             // 
-            // pictureBox3
+            // RiceClass
             // 
-            this.pictureBox3.Image = global::RiceInventorySystem.Properties.Resources.newspaper;
-            this.pictureBox3.Location = new System.Drawing.Point(49, 30);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(68, 67);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox3.TabIndex = 11;
-            this.pictureBox3.TabStop = false;
+            this.RiceClass.HeaderText = "Name";
+            this.RiceClass.MinimumWidth = 202;
+            this.RiceClass.Name = "RiceClass";
+            this.RiceClass.ReadOnly = true;
+            this.RiceClass.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.RiceClass.Width = 202;
             // 
-            // pictureBox5
+            // Price
             // 
-            this.pictureBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox5.Image = global::RiceInventorySystem.Properties.Resources.rice;
-            this.pictureBox5.Location = new System.Drawing.Point(24, 50);
-            this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Padding = new System.Windows.Forms.Padding(10);
-            this.pictureBox5.Size = new System.Drawing.Size(119, 116);
-            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox5.TabIndex = 11;
-            this.pictureBox5.TabStop = false;
+            this.Price.HeaderText = "Price";
+            this.Price.MinimumWidth = 135;
+            this.Price.Name = "Price";
+            this.Price.ReadOnly = true;
+            this.Price.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Price.Width = 135;
             // 
-            // pictureBox2
+            // Total
             // 
-            this.pictureBox2.Image = global::RiceInventorySystem.Properties.Resources.gold;
-            this.pictureBox2.Location = new System.Drawing.Point(49, 23);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(68, 67);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox2.TabIndex = 11;
-            this.pictureBox2.TabStop = false;
+            this.Total.HeaderText = "Total";
+            this.Total.MinimumWidth = 135;
+            this.Total.Name = "Total";
+            this.Total.ReadOnly = true;
+            this.Total.Width = 135;
             // 
-            // pictureBox1
+            // Quantity
             // 
-            this.pictureBox1.Image = global::RiceInventorySystem.Properties.Resources.file_plus_alt;
-            this.pictureBox1.Location = new System.Drawing.Point(52, 26);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(63, 67);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 10;
-            this.pictureBox1.TabStop = false;
+            this.Quantity.HeaderText = "Quantity";
+            this.Quantity.MinimumWidth = 135;
+            this.Quantity.Name = "Quantity";
+            this.Quantity.ReadOnly = true;
+            this.Quantity.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+            this.Quantity.Width = 135;
+            // 
+            // addOrSubtractItem
+            // 
+            this.addOrSubtractItem.HeaderText = "Item/s Added or Subtracted";
+            this.addOrSubtractItem.Name = "addOrSubtractItem";
+            this.addOrSubtractItem.ReadOnly = true;
+            this.addOrSubtractItem.Width = 130;
+            // 
+            // Add
+            // 
+            this.Add.HeaderText = "+";
+            this.Add.MinimumWidth = 30;
+            this.Add.Name = "Add";
+            this.Add.ReadOnly = true;
+            this.Add.Text = "▲";
+            this.Add.UseColumnTextForButtonValue = true;
+            this.Add.Width = 30;
+            // 
+            // Subtract
+            // 
+            this.Subtract.HeaderText = "-";
+            this.Subtract.MinimumWidth = 30;
+            this.Subtract.Name = "Subtract";
+            this.Subtract.ReadOnly = true;
+            this.Subtract.Text = "▼";
+            this.Subtract.UseColumnTextForButtonValue = true;
+            this.Subtract.Width = 30;
+            // 
+            // Save
+            // 
+            this.Save.HeaderText = "Save";
+            this.Save.MinimumWidth = 69;
+            this.Save.Name = "Save";
+            this.Save.ReadOnly = true;
+            this.Save.Text = "✔";
+            this.Save.UseColumnTextForButtonValue = true;
+            this.Save.Width = 69;
+            // 
+            // textBox1
+            // 
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox1.Location = new System.Drawing.Point(604, 28);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.Size = new System.Drawing.Size(210, 74);
+            this.textBox1.TabIndex = 18;
+            this.textBox1.Text = "New Quantity (if the item selected is saved):";
+            // 
+            // textBox2
+            // 
+            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBox2.Location = new System.Drawing.Point(832, 28);
+            this.textBox2.Multiline = true;
+            this.textBox2.Name = "textBox2";
+            this.textBox2.ReadOnly = true;
+            this.textBox2.Size = new System.Drawing.Size(198, 74);
+            this.textBox2.TabIndex = 19;
+            this.textBox2.Text = "New Price (if the item selected is saved): ₱";
             // 
             // Main
             // 
@@ -812,10 +873,10 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1300, 690);
             this.Controls.Add(this.mainStockPanel);
+            this.Controls.Add(this.mainSummaryPanel);
             this.Controls.Add(this.addItemPanel);
             this.Controls.Add(this.mainAddPanel);
             this.Controls.Add(this.addRicePanel);
-            this.Controls.Add(this.mainSummaryPanel);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.mainPanel);
             this.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -832,10 +893,14 @@
             this.mainPanel.ResumeLayout(false);
             this.summaryPanel.ResumeLayout(false);
             this.summaryPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             this.stockPanel.ResumeLayout(false);
             this.stockPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.addPanel.ResumeLayout(false);
             this.addPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.addItemPanel.ResumeLayout(false);
             this.addItemPanel.PerformLayout();
             this.mainSummaryPanel.ResumeLayout(false);
@@ -853,10 +918,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.maximize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.close)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.minimize)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -909,13 +970,6 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.DataGridView stockGridView;
         private System.Windows.Forms.DataGridView summaryGridView;
-        private System.Windows.Forms.DataGridViewTextBoxColumn RiceClass;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Price;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Total;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
-        private System.Windows.Forms.DataGridViewButtonColumn Add;
-        private System.Windows.Forms.DataGridViewButtonColumn Subtract;
-        private System.Windows.Forms.DataGridViewButtonColumn Save;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.DataGridViewTextBoxColumn summaryName;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
@@ -924,6 +978,18 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column5;
         private System.Windows.Forms.DataGridViewTextBoxColumn DateAndTime;
         private System.Windows.Forms.PictureBox maximize;
+        private System.Windows.Forms.Label newQuantity;
+        private System.Windows.Forms.Label newTotal;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RiceClass;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Price;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Total;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
+        private System.Windows.Forms.DataGridViewTextBoxColumn addOrSubtractItem;
+        private System.Windows.Forms.DataGridViewButtonColumn Add;
+        private System.Windows.Forms.DataGridViewButtonColumn Subtract;
+        private System.Windows.Forms.DataGridViewButtonColumn Save;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBox2;
     }
 }
 
