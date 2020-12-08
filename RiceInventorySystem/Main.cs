@@ -8,7 +8,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-//STOCK size: 870, 503
+//STOCK size: 1134, 615 // Location: 166, 39
+//Stock dgv: 870, 503
+/*riceComboBox
+ * quantityTextBox
+ * riceComboBoxPreview
+ * addRiceTextBox
+ * addPriceTextBox
+ */
 namespace RiceInventorySystem {
     public partial class Main : Form {
 
@@ -58,19 +65,6 @@ namespace RiceInventorySystem {
             foreach (DataGridViewRow row in summaryGridView.Rows) {
                 row.Height = 32;
             }
-
-            /*
-            DataTable dt = new DataTable();
-            dt.Columns.Add(new DataColumn("addOrSubtractItem", typeof(string)));
-            string sessionIDValue = Convert.ToString(Guid.NewGuid());
-            foreach (DataRow row in dt.Rows) {
-                row["addOrSubtractItem"] = sessionIDValue;
-            }*/
-
-            /*DataTable dt = new DataTable();
-            DataColumn newColumn = new DataColumn("addOrSubtractItem", typeof(String));
-            newColumn.DefaultValue = "Your DropDownList value";
-            dt.Columns.Add(newColumn);*/
         }
 
 
@@ -147,7 +141,7 @@ namespace RiceInventorySystem {
 
         private void populateSummaryDataGridView() {
             con.Open();
-            SqlCommand cm = new SqlCommand("SELECT * FROM FullSummary");
+            SqlCommand cm = new SqlCommand("SELECT * FROM FullSummary ORDER BY DateAndTime DESC");
             cm.Connection = con;
 
             SqlDataAdapter da = new SqlDataAdapter(cm);
@@ -155,10 +149,10 @@ namespace RiceInventorySystem {
             da.Fill(dt);
             summaryGridView.AutoGenerateColumns = false;
             summaryGridView.Columns[0].DataPropertyName = "Name";
-            summaryGridView.Columns[1].DataPropertyName = "Type";
-            summaryGridView.Columns[2].DataPropertyName = "Price";
-            summaryGridView.Columns[3].DataPropertyName = "Quantity";
-            summaryGridView.Columns[4].DataPropertyName = "Total";
+            summaryGridView.Columns[1].DataPropertyName = "Price";
+            summaryGridView.Columns[2].DataPropertyName = "Quantity";
+            summaryGridView.Columns[3].DataPropertyName = "Total";
+            summaryGridView.Columns[4].DataPropertyName = "Type";
             summaryGridView.Columns[5].DataPropertyName = "DateAndTime";
             summaryGridView.Columns[5].DefaultCellStyle.Format = "dddd, MMMM dd, yyyy hh:mm tt";
 
@@ -177,6 +171,17 @@ namespace RiceInventorySystem {
             var newQty = (Convert.ToInt32(row.Cells["Quantity"].Value) + Convert.ToInt32(row.Cells["addOrSubtractItem"].Value));
             newQuantity.Text = newQty.ToString();
             newTotal.Text = (Convert.ToDouble(row.Cells["Price"].Value) * newQty).ToString();
+        }
+
+        private void resetTextBoxes() {
+            riceComboBox.Text = "";
+            quantityTextBox.Text = "";
+            riceComboBoxPreview.Text = "";
+            addRiceTextBox.Text = "";
+            addPriceTextBox.Text = "";
+
+            newQuantity.Text = "0";
+            newTotal.Text = "0";
         }
 
         protected override void WndProc(ref Message m) {
@@ -252,12 +257,19 @@ namespace RiceInventorySystem {
         }
 
         private void addPanel_Click(object sender, EventArgs e) {
+            resetTextBoxes();
             mainAddPanel.Location = new Point(locationX, locationY);
             mainAddPanel.Size = new Size(panelWidth, panelHeight);
 
-            mainStockPanel.Location = new Point(279, 12);
-            mainStockPanel.Size = new Size(50, 50);
+            mainAddPanel.Visible = true;
+            mainStockPanel.Visible = false;
+            mainSummaryPanel.Visible = false;
+            addRicePanel.Visible = false;
+            addItemPanel.Visible = false;
 
+            /*mainStockPanel.Location = new Point(279, 12);
+            mainStockPanel.Size = new Size(50, 50);
+                                           
             mainSummaryPanel.Location = new Point(337, 12);
             mainSummaryPanel.Size = new Size(50, 50);
 
@@ -265,15 +277,21 @@ namespace RiceInventorySystem {
             addRicePanel.Size = new Size(50, 50);
 
             addItemPanel.Location = new Point(223, 12);
-            addItemPanel.Size = new Size(50, 50);
+            addItemPanel.Size = new Size(50, 50);*/
         }
 
         private void stockPanel_Click(object sender, EventArgs e) {
             populateStockDataGridView();
+            resetTextBoxes();
             mainStockPanel.Location = new Point(locationX, locationY);
             mainStockPanel.Size = new Size(panelWidth, panelHeight);
 
-            mainAddPanel.Location = new Point(448, 12);
+            mainStockPanel.Visible = true;
+            mainAddPanel.Visible = false;
+            mainSummaryPanel.Visible = false;
+            addRicePanel.Visible = false;
+            addItemPanel.Visible = false;
+            /*mainAddPanel.Location = new Point(448, 12);
             mainAddPanel.Size = new Size(50, 50);
 
             mainSummaryPanel.Location = new Point(337, 12);
@@ -283,15 +301,21 @@ namespace RiceInventorySystem {
             addRicePanel.Size = new Size(50, 50);
 
             addItemPanel.Location = new Point(223, 12);
-            addItemPanel.Size = new Size(50, 50);
+            addItemPanel.Size = new Size(50, 50);*/
         }
 
         private void summaryPanel_Click(object sender, EventArgs e) {
-            //populateSummaryDataGridView();
+            populateSummaryDataGridView();
+            resetTextBoxes();
             mainSummaryPanel.Location = new Point(locationX, locationY);
             mainSummaryPanel.Size = new Size(panelWidth, panelHeight);
 
-            mainStockPanel.Location = new Point(279, 12);
+            mainSummaryPanel.Visible = true;
+            mainAddPanel.Visible = false;
+            mainStockPanel.Visible = false;
+            addRicePanel.Visible = false;
+            addItemPanel.Visible = false;
+            /*mainStockPanel.Location = new Point(279, 12);
             mainStockPanel.Size = new Size(50, 50);
 
             mainAddPanel.Location = new Point(448, 12);
@@ -301,14 +325,20 @@ namespace RiceInventorySystem {
             addRicePanel.Size = new Size(50, 50);
 
             addItemPanel.Location = new Point(223, 12);
-            addItemPanel.Size = new Size(50, 50);
+            addItemPanel.Size = new Size(50, 50);*/
         }
 
         private void addRicePanelbtn_Click(object sender, EventArgs e) {
             addRicePanel.Location = new Point(locationX, locationY);
             addRicePanel.Size = new Size(panelWidth, panelHeight);
 
-            mainSummaryPanel.Location = new Point(337, 12);
+            addRicePanel.Visible = true;
+            mainAddPanel.Visible = false;
+            mainStockPanel.Visible = false;
+            mainSummaryPanel.Visible = false;
+            addItemPanel.Visible = false;
+
+            /*mainSummaryPanel.Location = new Point(337, 12);
             mainSummaryPanel.Size = new Size(50, 50);
 
             mainStockPanel.Location = new Point(279, 12);
@@ -318,14 +348,20 @@ namespace RiceInventorySystem {
             mainAddPanel.Size = new Size(50, 50);
 
             addItemPanel.Location = new Point(223, 12);
-            addItemPanel.Size = new Size(50, 50);
+            addItemPanel.Size = new Size(50, 50);*/
         }
 
         private void addItemPanelbtn_Click(object sender, EventArgs e) {
             addItemPanel.Location = new Point(locationX, locationY);
             addItemPanel.Size = new Size(panelWidth, panelHeight);
 
-            mainSummaryPanel.Location = new Point(337, 12);
+            addItemPanel.Visible = true;
+            mainAddPanel.Visible = false;
+            mainStockPanel.Visible = false;
+            mainSummaryPanel.Visible = false;
+            addRicePanel.Visible = false;
+
+            /*mainSummaryPanel.Location = new Point(337, 12);
             mainSummaryPanel.Size = new Size(50, 50);
 
             mainStockPanel.Location = new Point(279, 12);
@@ -335,7 +371,7 @@ namespace RiceInventorySystem {
             mainAddPanel.Size = new Size(50, 50);
 
             addRicePanel.Location = new Point(393, 12);
-            addRicePanel.Size = new Size(50, 50);
+            addRicePanel.Size = new Size(50, 50);*/
         }
 
         private void addRiceClassBtn_Click(object sender, EventArgs e) {
@@ -434,10 +470,10 @@ namespace RiceInventorySystem {
                         con.Open();
                         // Auto increment Id to avoid error (Id properties -> Identity Specification (set to TRUE))
                         cmd.Parameters.AddWithValue("@Name1", riceComboBox.Text);
-                        cmd.Parameters.AddWithValue("@Price1", priceValue.Text);
-                        cmd.Parameters.AddWithValue("@Quantity1", quantityTextBox.Text);
+                        cmd.Parameters.AddWithValue("@Price1", Convert.ToDouble(priceValue.Text));
+                        cmd.Parameters.AddWithValue("@Quantity1", Convert.ToInt32(quantityTextBox.Text));
                         cmd.Parameters.AddWithValue("@Type1", "Added");
-                        cmd.Parameters.AddWithValue("@Total1", totalValue.Text);
+                        cmd.Parameters.AddWithValue("@Total1", Convert.ToDouble(totalValue.Text));
                         cmd.Parameters.AddWithValue("@DateAndTime1", Convert.ToDateTime(DateTime.Now.ToLongTimeString()));
                         cmd.ExecuteNonQuery();
                         con.Close();
@@ -452,7 +488,7 @@ namespace RiceInventorySystem {
                         con.Close();
 
                         dropdownRefresh();
-                        MessageBox.Show(quantityTextBox.Text + " " + riceComboBox.Text + "/s Addded!", ":)");
+                        MessageBox.Show(quantityTextBox.Text + " " + riceComboBox.Text + "/s Added!", ":)");
                     }
                 }
             }
@@ -471,11 +507,11 @@ namespace RiceInventorySystem {
         }
 
         private void quantityTextBox_KeyUp(object sender, KeyEventArgs e) {
-            float num1, num2, sum;
+            float num1, num2, product;
             num1 = String.IsNullOrEmpty(priceValue.Text) ? 0 : float.Parse(priceValue.Text);
             num2 = String.IsNullOrEmpty(quantityTextBox.Text) ? 0 : float.Parse(quantityTextBox.Text);
-            sum = num1 * num2;
-            totalValue.Text = sum.ToString();
+            product = num1 * num2;
+            totalValue.Text = product.ToString();
         }
 
         private void riceComboBox_SelectedIndexChanged(object sender, EventArgs e) {
@@ -514,6 +550,17 @@ namespace RiceInventorySystem {
             }
         }
 
+        private void addPriceTextBox_KeyUp(object sender, KeyEventArgs e) {
+            float num1, num2, product;
+            num1 = String.IsNullOrEmpty(recentQuantity.Text) ? 0 : float.Parse(recentQuantity.Text);
+            num2 = String.IsNullOrEmpty(addPriceTextBox.Text) ? 0 : float.Parse(addPriceTextBox.Text);
+            product = num1 * num2;
+            newTotalEdit.Text = product.ToString();
+        }
+
+        private void AddedData_Click(object sender, EventArgs e) {
+        }
+
         private void editRiceClassBtn_Click(object sender, EventArgs e) {
             if (String.IsNullOrEmpty(addRiceTextBox.Text) || String.IsNullOrEmpty(addPriceTextBox.Text)) {
                 MessageBox.Show("Can't add empty string!", "!");
@@ -521,25 +568,42 @@ namespace RiceInventorySystem {
             else {
                 DialogResult dialog = MessageBox.Show("Do you want to Update " + riceComboBoxPreview.Text + " ?", "Continue Process?", MessageBoxButtons.YesNo);
                 if (dialog == DialogResult.Yes) {
+
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    //for the Dropdown
-                    con.Open();
-                    cmd.CommandText = "UPDATE RiceClassPreview SET RiceClass='" + addRiceTextBox.Text + "', Price='" + addPriceTextBox.Text + "' WHERE RiceClass='" + riceComboBoxPreview.Text + "'";
-                    cmd.ExecuteNonQuery();
-                    con.Close();
 
-                    //for the Full Summary
-                    con.Open();
-                    cmd.CommandText = "UPDATE FullSummary SET Name='" + addRiceTextBox.Text + "', Price='" + addPriceTextBox.Text + "' WHERE Name='" + riceComboBoxPreview.Text + "'";
-                    cmd.ExecuteNonQuery();
-                    con.Close();
+                    SqlDataAdapter sda = new SqlDataAdapter("SELECT Name FROM Stock WHERE Name = '" + riceComboBoxPreview.Text + "'", con);
+                    DataTable dt = new DataTable();
+                    sda.Fill(dt);
 
-                    //for the Stock
-                    con.Open();
-                    cmd.CommandText = "UPDATE Stock SET Name='" + addRiceTextBox.Text + "', Price='" + addPriceTextBox.Text + "' WHERE Name='" + riceComboBoxPreview.Text + "'";
-                    cmd.ExecuteNonQuery();
-                    con.Close();
+                    //if riceComboBoxPreview.Text exists in the database:
+                    if (dt.Rows.Count >= 1) {
+                        //for the Dropdown
+                        con.Open();
+                        cmd.CommandText = "UPDATE RiceClassPreview SET RiceClass='" + addRiceTextBox.Text + "', Price='" + addPriceTextBox.Text + "' WHERE RiceClass='" + riceComboBoxPreview.Text + "'";
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+
+                        //for the Stock
+                        con.Open();
+                        //cmd.CommandText = "UPDATE Stock SET Name='" + addRiceTextBox.Text + "', Price='" + addPriceTextBox.Text + "', Total='" + Convert.ToInt32(addPriceTextBox.Text)*////// + "' WHERE Name='" + riceComboBoxPreview.Text + "'";
+                        cmd.CommandText = "UPDATE Stock SET Name='" + addRiceTextBox.Text + "', Price='" + addPriceTextBox.Text + "', Total='" + newTotalEdit.Text + "' WHERE Name='" + riceComboBoxPreview.Text + "'";
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+
+                        //for the Full Summary
+                        con.Open();
+                        cmd.CommandText = "UPDATE FullSummary SET Name='" + addRiceTextBox.Text + "', Price='" + addPriceTextBox.Text + "', Total='" + newTotalEdit.Text + "' WHERE Id = (SELECT MAX(Id) FROM FullSummary WHERE Name='" + addRiceTextBox.Text + "')";
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+                    }
+                    else {
+                        //for the Dropdown
+                        con.Open();
+                        cmd.CommandText = "UPDATE RiceClassPreview SET RiceClass='" + addRiceTextBox.Text + "', Price='" + addPriceTextBox.Text + "' WHERE RiceClass='" + riceComboBoxPreview.Text + "'";
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+                    }
                     dropdownRefresh();
                     MessageBox.Show(riceComboBoxPreview.Text + " Updated to " + addRiceTextBox.Text, "!");
                     riceComboBoxPreview.Text = addRiceTextBox.Text;
@@ -548,11 +612,11 @@ namespace RiceInventorySystem {
         }
 
         private void riceComboBoxPreview_SelectedIndexChanged(object sender, EventArgs e) {
-            SqlDataAdapter sda = new SqlDataAdapter("SELECT RiceClass FROM RiceClassPreview WHERE RiceClass = '" + riceComboBoxPreview.Text + "'", con);
-            DataTable dt = new DataTable();
-            sda.Fill(dt);
+            SqlDataAdapter sda1 = new SqlDataAdapter("SELECT RiceClass FROM RiceClassPreview WHERE RiceClass = '" + riceComboBoxPreview.Text + "'", con);
+            DataTable dt1 = new DataTable();
+            sda1.Fill(dt1);
 
-            if (dt.Rows.Count >= 1) {
+            if (dt1.Rows.Count >= 1) {
                 con.Open();
                 SqlCommand cmd = new SqlCommand("SELECT Price FROM RiceClassPreview WHERE RiceClass = '" + riceComboBoxPreview.Text + "'", con);
                 SqlDataReader dr = cmd.ExecuteReader();
@@ -564,6 +628,23 @@ namespace RiceInventorySystem {
             }
             else {
                 addPriceTextBox.Text = "0";
+            }
+
+            SqlDataAdapter sda2 = new SqlDataAdapter("SELECT Name FROM Stock WHERE Name = '" + riceComboBoxPreview.Text + "'", con);
+            DataTable dt2 = new DataTable();
+            sda2.Fill(dt2);
+            if (dt2.Rows.Count >= 1) {
+                con.Open();
+                SqlCommand cmd = new SqlCommand("SELECT Quantity FROM Stock WHERE Name = '" + riceComboBoxPreview.Text + "'", con);
+                SqlDataReader dr = cmd.ExecuteReader();
+                if (dr.Read()) {
+                    recentQuantity.Text = dr.GetValue(dr.GetOrdinal("Quantity")).ToString();
+                    newTotalEdit.Text = (Convert.ToInt32(recentQuantity.Text) * Convert.ToInt32(addPriceTextBox.Text)).ToString();
+                }
+                con.Close();
+            }
+            else {
+                recentQuantity.Text = "0";
             }
         }
 
@@ -588,21 +669,43 @@ namespace RiceInventorySystem {
 
             if (stockGridView.Columns[e.ColumnIndex].Name == "Save" && e.RowIndex >= 0) {
                 //save changes for price and quantity
-
                 var row = stockGridView.CurrentRow;
-                SqlCommand cmd = con.CreateCommand();
-                cmd.CommandType = CommandType.Text;
-                DialogResult dialog = MessageBox.Show("Do you want to update " + row.Cells["RiceClass"].Value + " ?", "Continue Process?", MessageBoxButtons.YesNo);
-                if (dialog == DialogResult.Yes) {
-                    //for the Stock
-                    con.Open();
-
-                    //"UPDATE Stock SET Quantity='" + Convert.ToDouble(newQuantity.Text) + "', Total='" + Convert.ToInt32(newTotal.Text) + "' WHERE Name='" + row.Cells["RiceClass"].Value + "'"
-                    cmd.CommandText = "UPDATE Stock SET Quantity='" + Convert.ToDouble(row.Cells["Quantity"].Value) + "', Total='" + Convert.ToInt32(row.Cells["Total"].Value) + "' WHERE Name='" + row.Cells["RiceClass"].Value + "'";
-                    cmd.ExecuteNonQuery();
-                    con.Close();
+                if (Convert.ToInt32(row.Cells["addOrSubtractItem"].Value) == 0) {
+                    notChanged.Text = "Selected Item is Not Added/Subtracted";
                 }
-                populateStockDataGridView();
+                else {
+                    SqlCommand cmd = con.CreateCommand();
+                    cmd.CommandType = CommandType.Text;
+                    DialogResult dialog = MessageBox.Show("Do you want to update " + row.Cells["RiceClass"].Value + " ?", "Continue Process?", MessageBoxButtons.YesNo);
+                    if (dialog == DialogResult.Yes) {
+
+                        //for Stock
+                        con.Open();
+                        cmd.CommandText = "UPDATE Stock SET Quantity='" + Convert.ToInt32(newQuantity.Text) + "', Total='" + Convert.ToDouble(newTotal.Text) + "' WHERE Name='" + row.Cells["RiceClass"].Value + "'";
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+
+                        //for summary
+                        con.Open();
+                        var Type = (Convert.ToInt32(row.Cells["addOrSubtractItem"].Value) < 0) ? "Subtracted" : "Added";
+                        //var Type = (Convert.ToInt32(row.Cells["addOrSubtractItem"].Value) == 0) ? notChanged.Text = "Selected Item is Not Added/Subtracted" : UpdateType;
+
+                        SqlCommand cmd2 = new SqlCommand("INSERT INTO FullSummary VALUES (@Name1, @Price1, @Quantity1, @Type1, @Total1, @DateAndTime1)", con);
+                        cmd2.Parameters.AddWithValue("@Name1", row.Cells["RiceClass"].Value.ToString());
+                        cmd2.Parameters.AddWithValue("@Price1", Convert.ToDouble(row.Cells["Price"].Value));
+                        cmd2.Parameters.AddWithValue("@Quantity1", Convert.ToInt32(newQuantity.Text));
+                        cmd2.Parameters.AddWithValue("@Type1", Type);
+                        cmd2.Parameters.AddWithValue("@Total1", Convert.ToDouble(newTotal.Text));
+                        cmd2.Parameters.AddWithValue("@DateAndTime1", Convert.ToDateTime(DateTime.Now.ToLongTimeString()));
+                        cmd2.ExecuteNonQuery();
+                        con.Close();
+
+                        newQuantity.Text = "0";
+                        newTotal.Text = "0";
+                        MessageBox.Show(row.Cells["RiceClass"].Value.ToString() + " Saved!", "!");
+                        populateStockDataGridView();
+                    }
+                }
             }
         }
 
