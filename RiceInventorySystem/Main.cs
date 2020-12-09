@@ -576,31 +576,40 @@ namespace RiceInventorySystem {
                     DataTable dt = new DataTable();
                     sda.Fill(dt);
 
-                    //if riceComboBoxPreview.Text exists in the database:
+                    //Parameters
+                    cmd.Parameters.AddWithValue("@initialName", riceComboBoxPreview.Text);
+                    cmd.Parameters.AddWithValue("@name", addRiceTextBox.Text);
+                    cmd.Parameters.AddWithValue("@price", addPriceTextBox.Text);
+                    cmd.Parameters.AddWithValue("@total", newTotalEdit.Text);
+
+                    //if riceComboBoxPreview.Text exists in Stock database:
                     if (dt.Rows.Count >= 1) {
+
                         //for the Dropdown
                         con.Open();
-                        cmd.CommandText = "UPDATE RiceClassPreview SET RiceClass='" + addRiceTextBox.Text + "', Price='" + addPriceTextBox.Text + "' WHERE RiceClass='" + riceComboBoxPreview.Text + "'";
+                        //UPDATE with Parameters
+                        cmd.CommandText = "UPDATE RiceClassPreview SET RiceClass = @name, Price = @price WHERE RiceClass = @initialName";
                         cmd.ExecuteNonQuery();
                         con.Close();
 
                         //for the Stock
                         con.Open();
-                        //cmd.CommandText = "UPDATE Stock SET Name='" + addRiceTextBox.Text + "', Price='" + addPriceTextBox.Text + "', Total='" + Convert.ToInt32(addPriceTextBox.Text)*////// + "' WHERE Name='" + riceComboBoxPreview.Text + "'";
-                        cmd.CommandText = "UPDATE Stock SET Name='" + addRiceTextBox.Text + "', Price='" + addPriceTextBox.Text + "', Total='" + newTotalEdit.Text + "' WHERE Name='" + riceComboBoxPreview.Text + "'";
+                        cmd.CommandText = "UPDATE Stock SET Name = @name, Price = @price, Total = @total WHERE Name = @initialName";
                         cmd.ExecuteNonQuery();
                         con.Close();
 
                         //for the Full Summary
                         con.Open();
-                        cmd.CommandText = "UPDATE FullSummary SET Name='" + addRiceTextBox.Text + "', Price='" + addPriceTextBox.Text + "', Total='" + newTotalEdit.Text + "' WHERE Id = (SELECT MAX(Id) FROM FullSummary WHERE Name='" + addRiceTextBox.Text + "')";
+                        //UPDATE with Parameters
+                        cmd.CommandText = "UPDATE FullSummary SET Name = @name, Price = @price, Total = @total WHERE Id = (select max(ID) from FullSummary where Name = @initialName)";
                         cmd.ExecuteNonQuery();
                         con.Close();
+
                     }
                     else {
                         //for the Dropdown
                         con.Open();
-                        cmd.CommandText = "UPDATE RiceClassPreview SET RiceClass='" + addRiceTextBox.Text + "', Price='" + addPriceTextBox.Text + "' WHERE RiceClass='" + riceComboBoxPreview.Text + "'";
+                        cmd.CommandText = "UPDATE RiceClassPreview SET RiceClass = @name, Price = @price WHERE RiceClass = @initialName";
                         cmd.ExecuteNonQuery();
                         con.Close();
                     }
