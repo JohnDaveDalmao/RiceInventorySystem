@@ -28,6 +28,7 @@ namespace RiceInventorySystem {
         int mov, movX, movY;
         int panelWidth = 1134, panelHeight = 615;
         int locationX = 166, locationY = 39;
+        string loadAllSummaryData = "SELECT * FROM FullSummary ORDER BY DateAndTime DESC";
 
         public Main() {
             InitializeComponent();
@@ -48,7 +49,7 @@ namespace RiceInventorySystem {
         private void Main_Load(object sender, EventArgs e) {
             dropdownRefresh();
             populateStockDataGridView();
-            populateSummaryDataGridView();
+            populateSummaryDataGridView(loadAllSummaryData);
 
             foreach (DataGridViewColumn column in stockGridView.Columns) {
                 column.SortMode = DataGridViewColumnSortMode.NotSortable;
@@ -68,7 +69,7 @@ namespace RiceInventorySystem {
         }
 
 
-        // F U N C T I O N S //
+        // FUNCTIONS //
         private void dropdownRefresh() {
             riceComboBoxPreview.Items.Clear();
             riceComboBox.Items.Clear();
@@ -139,9 +140,9 @@ namespace RiceInventorySystem {
             }
         }
 
-        private void populateSummaryDataGridView() {
+        private void populateSummaryDataGridView(string sqlCommandString) {
             con.Open();
-            SqlCommand cm = new SqlCommand("SELECT * FROM FullSummary ORDER BY DateAndTime DESC");
+            SqlCommand cm = new SqlCommand(sqlCommandString);
             cm.Connection = con;
 
             SqlDataAdapter da = new SqlDataAdapter(cm);
@@ -305,7 +306,7 @@ namespace RiceInventorySystem {
         }
 
         private void summaryPanel_Click(object sender, EventArgs e) {
-            populateSummaryDataGridView();
+            populateSummaryDataGridView(loadAllSummaryData);
             resetTextBoxes();
             mainSummaryPanel.Location = new Point(locationX, locationY);
             mainSummaryPanel.Size = new Size(panelWidth, panelHeight);
@@ -559,6 +560,16 @@ namespace RiceInventorySystem {
         }
 
         private void AddedData_Click(object sender, EventArgs e) {
+            populateSummaryDataGridView("SELECT * FROM FullSummary WHERE Type LIKE 'Added' ORDER BY DateAndTime DESC ");
+
+        }
+
+        private void LoadAllData_Click(object sender, EventArgs e) {
+            populateSummaryDataGridView(loadAllSummaryData);
+        }
+
+        private void SubtractedData_Click(object sender, EventArgs e) {
+            populateSummaryDataGridView("SELECT * FROM FullSummary WHERE Type LIKE 'Subtracted' ORDER BY DateAndTime DESC ");
         }
 
         private void editRiceClassBtn_Click(object sender, EventArgs e) {
@@ -717,11 +728,5 @@ namespace RiceInventorySystem {
                 }
             }
         }
-
-        private void stockGridView_CellClick(object sender, DataGridViewCellEventArgs e) {
-
-        }
-
-
     }
 }
