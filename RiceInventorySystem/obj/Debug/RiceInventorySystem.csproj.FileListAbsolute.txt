@@ -10,3 +10,13 @@ D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\obj\Debug\RiceInventory
 D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\bin\Debug\SystemDB.mdf
 D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\bin\Debug\SystemDB_log.ldf
 D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\obj\Debug\RiceInventorySystem.csprojAssemblyReference.cache
+D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\bin\Debug\BouncyCastle.Crypto.dll
+D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\bin\Debug\Common.Logging.Core.dll
+D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\bin\Debug\Common.Logging.dll
+D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\bin\Debug\itextsharp.dll
+D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\bin\Debug\Common.Logging.pdb
+D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\bin\Debug\Common.Logging.xml
+D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\bin\Debug\Common.Logging.Core.pdb
+D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\bin\Debug\Common.Logging.Core.xml
+D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\bin\Debug\itextsharp.xml
+D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\obj\Debug\RiceInventorySystem.csproj.CopyComplete

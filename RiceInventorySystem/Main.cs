@@ -1,9 +1,12 @@
-﻿using System;
+﻿using iTextSharp.text;
+using iTextSharp.text.pdf;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,10 +37,10 @@ namespace RiceInventorySystem {
             InitializeComponent();
             this.SetStyle(ControlStyles.ResizeRedraw, true);
 
-            mainPanel.BackColor = Color.FromArgb(55, 71, 79);
-            addPanel.BackColor = Color.FromArgb(69, 90, 100);
-            stockPanel.BackColor = Color.FromArgb(69, 90, 100);
-            summaryPanel.BackColor = Color.FromArgb(69, 90, 100);
+            mainPanel.BackColor = System.Drawing.Color.FromArgb(55, 71, 79);
+            addPanel.BackColor = System.Drawing.Color.FromArgb(69, 90, 100);
+            stockPanel.BackColor = System.Drawing.Color.FromArgb(69, 90, 100);
+            summaryPanel.BackColor = System.Drawing.Color.FromArgb(69, 90, 100);
 
             DataTable dt = new DataTable();
 
@@ -69,7 +72,8 @@ namespace RiceInventorySystem {
         }
 
 
-        // FUNCTIONS //
+        #region functions
+        // F U N C T I O N S //
         private void dropdownRefresh() {
             riceComboBoxPreview.Items.Clear();
             riceComboBox.Items.Clear();
@@ -203,7 +207,12 @@ namespace RiceInventorySystem {
             base.WndProc(ref m);
         }
 
+
+
+
+
         //////////////////////////////////////////////////////////////////////
+        #endregion
 
         private void Main_MouseMove(object sender, MouseEventArgs e) {
             if (mov == 1) {
@@ -233,28 +242,28 @@ namespace RiceInventorySystem {
         }
 
         private void addPanel_MouseHover(object sender, EventArgs e) {
-            addPanel.BackColor = Color.FromArgb(99, 125, 130);
+            addPanel.BackColor = System.Drawing.Color.FromArgb(99, 125, 130);
         }
 
         private void addPanel_MouseLeave(object sender, EventArgs e) {
-            addPanel.BackColor = Color.FromArgb(69, 90, 100);
+            addPanel.BackColor = System.Drawing.Color.FromArgb(69, 90, 100);
         }
 
         private void stockPanel_MouseHover(object sender, EventArgs e) {
-            stockPanel.BackColor = Color.FromArgb(99, 125, 130);
+            stockPanel.BackColor = System.Drawing.Color.FromArgb(99, 125, 130);
         }
 
         private void stockPanel_MouseLeave(object sender, EventArgs e) {
-            stockPanel.BackColor = Color.FromArgb(69, 90, 100);
+            stockPanel.BackColor = System.Drawing.Color.FromArgb(69, 90, 100);
         }
 
         private void summaryPanel_MouseHover(object sender, EventArgs e) {
-            summaryPanel.BackColor = Color.FromArgb(99, 125, 130);
+            summaryPanel.BackColor = System.Drawing.Color.FromArgb(99, 125, 130);
         }
 
 
         private void summaryPanel_MouseLeave(object sender, EventArgs e) {
-            summaryPanel.BackColor = Color.FromArgb(69, 90, 100);
+            summaryPanel.BackColor = System.Drawing.Color.FromArgb(69, 90, 100);
         }
 
         private void addPanel_Click(object sender, EventArgs e) {
@@ -566,6 +575,84 @@ namespace RiceInventorySystem {
 
         private void LoadAllData_Click(object sender, EventArgs e) {
             populateSummaryDataGridView(loadAllSummaryData);
+        }
+
+        /*        private void populateSummaryDataGridView(string sqlCommandString) {
+            con.Open();
+            SqlCommand cm = new SqlCommand(sqlCommandString);
+            cm.Connection = con;
+
+            SqlDataAdapter da = new SqlDataAdapter(cm);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            summaryGridView.AutoGenerateColumns = false;
+            summaryGridView.Columns[0].DataPropertyName = "Name";
+            summaryGridView.Columns[1].DataPropertyName = "Price";
+            summaryGridView.Columns[2].DataPropertyName = "Quantity";
+            summaryGridView.Columns[3].DataPropertyName = "Total";
+            summaryGridView.Columns[4].DataPropertyName = "Type";
+            summaryGridView.Columns[5].DataPropertyName = "DateAndTime";
+            summaryGridView.Columns[5].DefaultCellStyle.Format = "dddd, MMMM dd, yyyy hh:mm tt";
+
+            summaryGridView.DataSource = dt;
+            con.Close();
+        }
+         */
+
+        private void printSummaryData_Click(object sender, EventArgs e) {
+            if (summaryGridView.Rows.Count > 0) {
+                SaveFileDialog sfd = new SaveFileDialog();
+                sfd.Filter = "PDF (*.pdf)|*.pdf";
+                sfd.FileName = "Full Summary.pdf";
+                bool fileError = false;
+                if (sfd.ShowDialog() == DialogResult.OK) {
+                    if (File.Exists(sfd.FileName)) {
+                        try {
+                            File.Delete(sfd.FileName);
+                        }
+                        catch (IOException ex) {
+                            fileError = true;
+                            MessageBox.Show("It wasn't possible to write the data to the disk." + ex.Message);
+                        }
+                    }
+                    if (!fileError) {
+                        try {
+                            PdfPTable pdfTable = new PdfPTable(summaryGridView.Columns.Count);
+                            pdfTable.DefaultCell.Padding = 3;
+                            pdfTable.WidthPercentage = 100;
+                            pdfTable.HorizontalAlignment = Element.ALIGN_CENTER;
+
+                            foreach (DataGridViewColumn column in summaryGridView.Columns) {
+                                PdfPCell cell = new PdfPCell(new Phrase(column.HeaderText));
+                                pdfTable.AddCell(cell);
+                            }
+
+                            foreach (DataGridViewRow row in summaryGridView.Rows) {
+                                foreach (DataGridViewCell cell in row.Cells) {
+                                    pdfTable.AddCell(cell.Value.ToString());
+                                }
+                            }
+
+                            using (FileStream stream = new FileStream(sfd.FileName, FileMode.Create)) {
+                                Document pdfDoc = new Document(PageSize.A4, 10f, 20f, 20f, 10f);
+                                PdfWriter.GetInstance(pdfDoc, stream);
+                                pdfDoc.Open();
+                                pdfDoc.Add(pdfTable);
+                                pdfDoc.Close();
+                                stream.Close();
+                            }
+
+                            MessageBox.Show("Data Exported Successfully !!!", "Info");
+                        }
+                        catch (Exception ex) {
+                            MessageBox.Show("Error :" + ex.Message);
+                        }
+                    }
+                }
+            }
+            else {
+                MessageBox.Show("No Record To Export !!!", "Info");
+            }
         }
 
         private void SubtractedData_Click(object sender, EventArgs e) {
