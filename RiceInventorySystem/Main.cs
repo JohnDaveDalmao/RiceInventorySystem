@@ -237,6 +237,7 @@ namespace RiceInventorySystem {
 
         #endregion
 
+        #region main panels click event
         private void addPanel_Click(object sender, EventArgs e) {
             resetTextBoxes();
             mainAddPanel.Location = new Point(locationX, locationY);
@@ -296,14 +297,15 @@ namespace RiceInventorySystem {
             mainSummaryPanel.Visible = false;
             addRicePanel.Visible = false;
         }
+        #endregion
 
         private void addRiceClassBtn_Click(object sender, EventArgs e) {
             if (String.IsNullOrEmpty(addRiceTextBox.Text) || String.IsNullOrEmpty(addPriceTextBox.Text)) {
-                MessageBox.Show("Can't add empty string!", "!");
+                MessageBox.Show("Can't add empty strinsssssssssssg!", "!");
             }
             else {
-
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT RiceClass FROM RiceClassPreview WHERE RiceClass = '" + addRiceTextBox.Text + "'", con);
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT RiceClass FROM RiceClassPreview WHERE RiceClass = @RiceClass", con);
+                sda.SelectCommand.Parameters.AddWithValue("@riceClass", addRiceTextBox.Text);
                 DataTable dt = new DataTable();
                 sda.Fill(dt);
 
@@ -320,7 +322,6 @@ namespace RiceInventorySystem {
                         cmd.Parameters.AddWithValue("@Price", addPriceTextBox.Text);
                         cmd.ExecuteNonQuery();
                         con.Close();
-
                         dropdownRefresh();
 
                         MessageBox.Show(addRiceTextBox.Text + " Added! Check the dropdown.", "!");
@@ -329,8 +330,8 @@ namespace RiceInventorySystem {
             }
         }
 
-
         private void removeRiceClassBtn_Click(object sender, EventArgs e) {
+            //remove from dropdown and remove from stock db if deleted
             if (riceComboBoxPreview.Items.Count > 0 && !(String.IsNullOrEmpty(riceComboBoxPreview.Text))) {
                 DialogResult dialog = MessageBox.Show("Do you want to delete " + riceComboBoxPreview.Text + " ?", "Continue Process?", MessageBoxButtons.YesNo);
                 if (dialog == DialogResult.Yes) {
