@@ -94,32 +94,6 @@ namespace RiceInventorySystem {
         }
 
         private void populateStockDataGridView() {
-
-            /* "tried" for stackoverflow
-             * foreach (DataRow row in dt.Rows) {
-                row["addOrSubtractItem"] = 0;
-            }*/
-
-            /* con.Open();
-             DataTable dt = new DataTable();
-             SqlCommand cm = new SqlCommand("SELECT * FROM Stock");
-             cm.Connection = con;
-
-             SqlDataAdapter da = new SqlDataAdapter(cm);
-             da.Fill(dt);
-             stockGridView.AutoGenerateColumns = false;
-             stockGridView.Columns[0].DataPropertyName = "Name";
-             stockGridView.Columns[1].DataPropertyName = "Price";
-             stockGridView.Columns[2].DataPropertyName = "Total";
-             stockGridView.Columns[3].DataPropertyName = "Quantity";
-             stockGridView.DataSource = dt;
-             con.Close();*/
-
-            /*DataGridViewTextBoxColumn buttonColumn = new DataGridViewTextBoxColumn();
-             buttonColumn.Name = "Item/s Added or Subtracted";
-             buttonColumn.HeaderText = "Item/s Added or Subtracted";
-             stockGridView.Columns.Insert(4, buttonColumn);*/
-
             con.Open();
             DataTable dt = new DataTable();
             SqlCommand cm = new SqlCommand("SELECT * FROM Stock");
@@ -137,7 +111,7 @@ namespace RiceInventorySystem {
             stockGridView.Columns[4].DataPropertyName = "addOrSubtractItem";
             stockGridView.DataSource = dt;
 
-            //add new column to Datatable
+            //add new column to DataGridView
             dt.Columns.Add("addOrSubtractItem", typeof(int));
             foreach (DataRow dr in dt.Rows) {
                 dr["addOrSubtractItem"] = 0;
@@ -168,11 +142,8 @@ namespace RiceInventorySystem {
         void quantity_change(int n) {
             var row = stockGridView.CurrentRow;
             var itemsAddedOrSubtracted = Convert.ToInt32(row.Cells["addOrSubtractItem"].Value) + n;
+
             row.Cells["addOrSubtractItem"].Value = itemsAddedOrSubtracted; //The ["Quantity"] here is found in -> right click datagridview -> edit columns -> column property (Name). This is used to select the quantity of the selected row.
-
-            //var price = Convert.ToDouble(row.Cells["Price"].Value);
-            //row.Cells["Total"].Value = quantity * price;
-
             var newQty = (Convert.ToInt32(row.Cells["Quantity"].Value) + Convert.ToInt32(row.Cells["addOrSubtractItem"].Value));
             newQuantity.Text = newQty.ToString();
             newTotal.Text = (Convert.ToDouble(row.Cells["Price"].Value) * newQty).ToString();
@@ -206,10 +177,6 @@ namespace RiceInventorySystem {
             }
             base.WndProc(ref m);
         }
-
-
-
-
 
         //////////////////////////////////////////////////////////////////////
         #endregion
@@ -276,18 +243,6 @@ namespace RiceInventorySystem {
             mainSummaryPanel.Visible = false;
             addRicePanel.Visible = false;
             addItemPanel.Visible = false;
-
-            /*mainStockPanel.Location = new Point(279, 12);
-            mainStockPanel.Size = new Size(50, 50);
-                                           
-            mainSummaryPanel.Location = new Point(337, 12);
-            mainSummaryPanel.Size = new Size(50, 50);
-
-            addRicePanel.Location = new Point(393, 12);
-            addRicePanel.Size = new Size(50, 50);
-
-            addItemPanel.Location = new Point(223, 12);
-            addItemPanel.Size = new Size(50, 50);*/
         }
 
         private void stockPanel_Click(object sender, EventArgs e) {
@@ -301,17 +256,6 @@ namespace RiceInventorySystem {
             mainSummaryPanel.Visible = false;
             addRicePanel.Visible = false;
             addItemPanel.Visible = false;
-            /*mainAddPanel.Location = new Point(448, 12);
-            mainAddPanel.Size = new Size(50, 50);
-
-            mainSummaryPanel.Location = new Point(337, 12);
-            mainSummaryPanel.Size = new Size(50, 50);
-
-            addRicePanel.Location = new Point(393, 12);
-            addRicePanel.Size = new Size(50, 50);
-
-            addItemPanel.Location = new Point(223, 12);
-            addItemPanel.Size = new Size(50, 50);*/
         }
 
         private void summaryPanel_Click(object sender, EventArgs e) {
@@ -325,17 +269,6 @@ namespace RiceInventorySystem {
             mainStockPanel.Visible = false;
             addRicePanel.Visible = false;
             addItemPanel.Visible = false;
-            /*mainStockPanel.Location = new Point(279, 12);
-            mainStockPanel.Size = new Size(50, 50);
-
-            mainAddPanel.Location = new Point(448, 12);
-            mainAddPanel.Size = new Size(50, 50);
-
-            addRicePanel.Location = new Point(393, 12);
-            addRicePanel.Size = new Size(50, 50);
-
-            addItemPanel.Location = new Point(223, 12);
-            addItemPanel.Size = new Size(50, 50);*/
         }
 
         private void addRicePanelbtn_Click(object sender, EventArgs e) {
@@ -347,18 +280,6 @@ namespace RiceInventorySystem {
             mainStockPanel.Visible = false;
             mainSummaryPanel.Visible = false;
             addItemPanel.Visible = false;
-
-            /*mainSummaryPanel.Location = new Point(337, 12);
-            mainSummaryPanel.Size = new Size(50, 50);
-
-            mainStockPanel.Location = new Point(279, 12);
-            mainStockPanel.Size = new Size(50, 50);
-
-            mainAddPanel.Location = new Point(448, 12);
-            mainAddPanel.Size = new Size(50, 50);
-
-            addItemPanel.Location = new Point(223, 12);
-            addItemPanel.Size = new Size(50, 50);*/
         }
 
         private void addItemPanelbtn_Click(object sender, EventArgs e) {
@@ -370,18 +291,6 @@ namespace RiceInventorySystem {
             mainStockPanel.Visible = false;
             mainSummaryPanel.Visible = false;
             addRicePanel.Visible = false;
-
-            /*mainSummaryPanel.Location = new Point(337, 12);
-            mainSummaryPanel.Size = new Size(50, 50);
-
-            mainStockPanel.Location = new Point(279, 12);
-            mainStockPanel.Size = new Size(50, 50);
-
-            mainAddPanel.Location = new Point(448, 12);
-            mainAddPanel.Size = new Size(50, 50);
-
-            addRicePanel.Location = new Point(393, 12);
-            addRicePanel.Size = new Size(50, 50);*/
         }
 
         private void addRiceClassBtn_Click(object sender, EventArgs e) {
@@ -600,6 +509,9 @@ namespace RiceInventorySystem {
          */
 
         private void printSummaryData_Click(object sender, EventArgs e) {
+            //increase cell size for headers
+            //forecolor for header
+            //add header and footer for pdf
             if (summaryGridView.Rows.Count > 0) {
                 SaveFileDialog sfd = new SaveFileDialog();
                 sfd.Filter = "PDF (*.pdf)|*.pdf";
@@ -617,24 +529,41 @@ namespace RiceInventorySystem {
                     }
                     if (!fileError) {
                         try {
-                            PdfPTable pdfTable = new PdfPTable(summaryGridView.Columns.Count);
-                            pdfTable.DefaultCell.Padding = 3;
-                            pdfTable.WidthPercentage = 100;
-                            pdfTable.HorizontalAlignment = Element.ALIGN_CENTER;
 
-                            foreach (DataGridViewColumn column in summaryGridView.Columns) {
-                                PdfPCell cell = new PdfPCell(new Phrase(column.HeaderText));
+                            PdfPTable pdfTable = new PdfPTable(summaryGridView.Columns.Count);
+                            //pdfTable.DefaultCell.Padding = 12;
+                            pdfTable.DefaultCell.PaddingTop = 8;
+                            pdfTable.DefaultCell.PaddingRight = 4;
+                            pdfTable.DefaultCell.PaddingBottom = 8;
+                            pdfTable.DefaultCell.PaddingLeft = 4;
+
+                            pdfTable.WidthPercentage = 100;
+                            pdfTable.DefaultCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                            pdfTable.DefaultCell.VerticalAlignment = Element.ALIGN_MIDDLE;
+
+                            foreach (DataGridViewColumn column in summaryGridView.Columns) { // HEADER
+                                //(new Chunk(column.HeaderText, FontFactory.GetFont("Arial Rounded MT", 12, iTextSharp.text.Font.BOLD, iTextSharp.text.Color.GREEN))) //ask stack
+                                // PdfPCell cell = new PdfPCell(new Phrase(column.HeaderText));
+                                PdfPCell cell = new PdfPCell(new Phrase(new Chunk(column.HeaderText, FontFactory.GetFont("Arial Rounded MT", 12, iTextSharp.text.Font.BOLD))));
+                                cell.BackgroundColor = new BaseColor(55, 71, 79);
+                                cell.HorizontalAlignment = Element.ALIGN_CENTER;
+                                cell.VerticalAlignment = Element.ALIGN_MIDDLE;
                                 pdfTable.AddCell(cell);
                             }
 
                             foreach (DataGridViewRow row in summaryGridView.Rows) {
                                 foreach (DataGridViewCell cell in row.Cells) {
-                                    pdfTable.AddCell(cell.Value.ToString());
+
+                                    pdfTable.AddCell(cell.FormattedValue.ToString());
                                 }
                             }
 
                             using (FileStream stream = new FileStream(sfd.FileName, FileMode.Create)) {
-                                Document pdfDoc = new Document(PageSize.A4, 10f, 20f, 20f, 10f);
+                                /*Short Bondpaper size or size = LETTER
+                                 8.5 inch x 72 points = 612 user units
+                                 12 inch x 72 points = 861 user units*/
+                                iTextSharp.text.Rectangle pagesize = new iTextSharp.text.Rectangle(612, 861);
+                                Document pdfDoc = new Document(pagesize);
                                 PdfWriter.GetInstance(pdfDoc, stream);
                                 pdfDoc.Open();
                                 pdfDoc.Add(pdfTable);
