@@ -299,6 +299,7 @@ namespace RiceInventorySystem {
         }
         #endregion
 
+        #region addRicePanel: INSERT, UPDATE, DELETE btns
         private void addRiceClassBtn_Click(object sender, EventArgs e) {
             if (String.IsNullOrEmpty(addRiceTextBox.Text) || String.IsNullOrEmpty(addPriceTextBox.Text)) {
                 MessageBox.Show("Can't add empty strinsssssssssssg!", "!");
@@ -330,30 +331,109 @@ namespace RiceInventorySystem {
             }
         }
 
+        private void editRiceClassBtn_Click(object sender, EventArgs e) {
+            //if addRiceTextBox.Text is not in stock database, do not update
+            if (String.IsNullOrEmpty(addRiceTextBox.Text) || String.IsNullOrEmpty(addPriceTextBox.Text)) {
+                MessageBox.Show("Can't add empty string!", "!");
+            }
+            else {
+                DialogResult dialog = MessageBox.Show("Do you want to Update " + riceComboBoxPreview.Text + " ?", "Continue Process?", MessageBoxButtons.YesNo);
+                if (dialog == DialogResult.Yes) {
+
+                    SqlCommand cmd = con.CreateCommand();
+                    cmd.CommandType = CommandType.Text;
+
+                    SqlDataAdapter sda = new SqlDataAdapter("SELECT Name FROM Stock WHERE Name = '" + riceComboBoxPreview.Text + "'", con);
+                    DataTable dt = new DataTable();
+                    sda.Fill(dt);
+
+                    //Parameters
+                    cmd.Parameters.AddWithValue("@initialName", riceComboBoxPreview.Text);
+                    cmd.Parameters.AddWithValue("@name", addRiceTextBox.Text);
+                    cmd.Parameters.AddWithValue("@price", addPriceTextBox.Text);
+                    cmd.Parameters.AddWithValue("@total", newTotalEdit.Text);
+
+                    //if riceComboBoxPreview.Text exists in Stock database:
+                    if (dt.Rows.Count >= 1) {
+
+                        //for the Dropdown
+                        con.Open();
+                        //UPDATE with Parameters
+                        cmd.CommandText = "UPDATE RiceClassPreview SET RiceClass = @name, Price = @price WHERE RiceClass = @initialName";
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+
+                        //for the Stock
+                        con.Open();
+                        cmd.CommandText = "UPDATE Stock SET Name = @name, Price = @price, Total = @total WHERE Name = @initialName";
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+
+                        //for the Full Summary
+                        con.Open();
+                        //UPDATE with Parameters
+                        cmd.CommandText = "UPDATE FullSummary SET Name = @name, Price = @price, Total = @total WHERE Id = (select max(ID) from FullSummary where Name = @initialName)";
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+
+                    }
+                    else {
+                        //for the Dropdown
+                        con.Open();
+                        cmd.CommandText = "UPDATE RiceClassPreview SET RiceClass = @name, Price = @price WHERE RiceClass = @initialName";
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+                    }
+                    dropdownRefresh();
+                    MessageBox.Show(riceComboBoxPreview.Text + " Updated to " + addRiceTextBox.Text, "!");
+                    riceComboBoxPreview.Text = addRiceTextBox.Text;
+                }
+            }
+        }
+
         private void removeRiceClassBtn_Click(object sender, EventArgs e) {
-            //remove from dropdown and remove from stock db if deleted
             if (riceComboBoxPreview.Items.Count > 0 && !(String.IsNullOrEmpty(riceComboBoxPreview.Text))) {
                 DialogResult dialog = MessageBox.Show("Do you want to delete " + riceComboBoxPreview.Text + " ?", "Continue Process?", MessageBoxButtons.YesNo);
                 if (dialog == DialogResult.Yes) {
-                    con.Open();
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
-                    cmd.CommandText = "DELETE FROM RiceClassPreview WHERE RiceClass='" + riceComboBoxPreview.Text + "'";
+
+                    SqlDataAdapter sda = new SqlDataAdapter("SELECT Name FROM Stock WHERE Name = @Name", con);
+                    sda.SelectCommand.Parameters.AddWithValue("@Name", addRiceTextBox.Text); //Parameterized query for SqlDataAdapter
+                    DataTable dt = new DataTable();
+                    sda.Fill(dt);
+
+                    //Parameters
+                    cmd.Parameters.AddWithValue("@RiceClass", riceComboBoxPreview.Text);
+                    cmd.Parameters.AddWithValue("@Name", addRiceTextBox.Text);
+
+                    //for stock
+                    if (dt.Rows.Count >= 1) {
+                        con.Open();
+                        cmd.CommandText = "DELETE FROM Stock WHERE Name = @Name";
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+                    }
+
+                    //for the Dropdown
+                    con.Open();
+                    cmd.CommandText = "DELETE FROM RiceClassPreview WHERE RiceClass = @RiceClass";
                     cmd.ExecuteNonQuery();
                     con.Close();
+
                     dropdownRefresh();
-
-                    MessageBox.Show(riceComboBoxPreview.Text + " Deleted!", "!");
-
                     riceComboBoxPreview.Text = "";
                     addRiceTextBox.Text = "";
                     addPriceTextBox.Text = "";
+                    MessageBox.Show(riceComboBoxPreview.Text + " Deleted!", "!");
                 }
             }
+
             else {
                 MessageBox.Show("No item selected!");
             }
         }
+        #endregion
 
         private void riceComboBox_TextChanged(object sender, EventArgs e) {
             //Check if Rice (from the dropdown is in the database)
@@ -593,64 +673,7 @@ namespace RiceInventorySystem {
             populateSummaryDataGridView("SELECT * FROM FullSummary WHERE Type LIKE 'Subtracted' ORDER BY DateAndTime DESC ");
         }
 
-        private void editRiceClassBtn_Click(object sender, EventArgs e) {
-            if (String.IsNullOrEmpty(addRiceTextBox.Text) || String.IsNullOrEmpty(addPriceTextBox.Text)) {
-                MessageBox.Show("Can't add empty string!", "!");
-            }
-            else {
-                DialogResult dialog = MessageBox.Show("Do you want to Update " + riceComboBoxPreview.Text + " ?", "Continue Process?", MessageBoxButtons.YesNo);
-                if (dialog == DialogResult.Yes) {
 
-                    SqlCommand cmd = con.CreateCommand();
-                    cmd.CommandType = CommandType.Text;
-
-                    SqlDataAdapter sda = new SqlDataAdapter("SELECT Name FROM Stock WHERE Name = '" + riceComboBoxPreview.Text + "'", con);
-                    DataTable dt = new DataTable();
-                    sda.Fill(dt);
-
-                    //Parameters
-                    cmd.Parameters.AddWithValue("@initialName", riceComboBoxPreview.Text);
-                    cmd.Parameters.AddWithValue("@name", addRiceTextBox.Text);
-                    cmd.Parameters.AddWithValue("@price", addPriceTextBox.Text);
-                    cmd.Parameters.AddWithValue("@total", newTotalEdit.Text);
-
-                    //if riceComboBoxPreview.Text exists in Stock database:
-                    if (dt.Rows.Count >= 1) {
-
-                        //for the Dropdown
-                        con.Open();
-                        //UPDATE with Parameters
-                        cmd.CommandText = "UPDATE RiceClassPreview SET RiceClass = @name, Price = @price WHERE RiceClass = @initialName";
-                        cmd.ExecuteNonQuery();
-                        con.Close();
-
-                        //for the Stock
-                        con.Open();
-                        cmd.CommandText = "UPDATE Stock SET Name = @name, Price = @price, Total = @total WHERE Name = @initialName";
-                        cmd.ExecuteNonQuery();
-                        con.Close();
-
-                        //for the Full Summary
-                        con.Open();
-                        //UPDATE with Parameters
-                        cmd.CommandText = "UPDATE FullSummary SET Name = @name, Price = @price, Total = @total WHERE Id = (select max(ID) from FullSummary where Name = @initialName)";
-                        cmd.ExecuteNonQuery();
-                        con.Close();
-
-                    }
-                    else {
-                        //for the Dropdown
-                        con.Open();
-                        cmd.CommandText = "UPDATE RiceClassPreview SET RiceClass = @name, Price = @price WHERE RiceClass = @initialName";
-                        cmd.ExecuteNonQuery();
-                        con.Close();
-                    }
-                    dropdownRefresh();
-                    MessageBox.Show(riceComboBoxPreview.Text + " Updated to " + addRiceTextBox.Text, "!");
-                    riceComboBoxPreview.Text = addRiceTextBox.Text;
-                }
-            }
-        }
 
         private void riceComboBoxPreview_SelectedIndexChanged(object sender, EventArgs e) {
             SqlDataAdapter sda1 = new SqlDataAdapter("SELECT RiceClass FROM RiceClassPreview WHERE RiceClass = '" + riceComboBoxPreview.Text + "'", con);
