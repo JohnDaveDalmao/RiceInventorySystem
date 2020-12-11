@@ -306,7 +306,7 @@ namespace RiceInventorySystem {
             }
             else {
                 SqlDataAdapter sda = new SqlDataAdapter("SELECT RiceClass FROM RiceClassPreview WHERE RiceClass = @RiceClass", con);
-                sda.SelectCommand.Parameters.AddWithValue("@riceClass", addRiceTextBox.Text);
+                sda.SelectCommand.Parameters.AddWithValue("@riceClass", addRiceTextBox.Text); //Parameterized query for SqlDataAdapter
                 DataTable dt = new DataTable();
                 sda.Fill(dt);
 
@@ -332,8 +332,7 @@ namespace RiceInventorySystem {
         }
 
         private void editRiceClassBtn_Click(object sender, EventArgs e) {
-            //if addRiceTextBox.Text is not in stock database, do not update
-            if (String.IsNullOrEmpty(addRiceTextBox.Text) || String.IsNullOrEmpty(addPriceTextBox.Text)) {
+            if (String.IsNullOrEmpty(addRiceTextBox.Text) || String.IsNullOrEmpty(addPriceTextBox.Text) || String.IsNullOrEmpty(riceComboBoxPreview.Text)) {
                 MessageBox.Show("Can't add empty string!", "!");
             }
             else {
@@ -343,7 +342,8 @@ namespace RiceInventorySystem {
                     SqlCommand cmd = con.CreateCommand();
                     cmd.CommandType = CommandType.Text;
 
-                    SqlDataAdapter sda = new SqlDataAdapter("SELECT Name FROM Stock WHERE Name = '" + riceComboBoxPreview.Text + "'", con);
+                    SqlDataAdapter sda = new SqlDataAdapter("SELECT Name FROM Stock WHERE Name = @Name", con);
+                    sda.SelectCommand.Parameters.AddWithValue("@Name", riceComboBoxPreview.Text); //Parameterized query for SqlDataAdapter
                     DataTable dt = new DataTable();
                     sda.Fill(dt);
 
