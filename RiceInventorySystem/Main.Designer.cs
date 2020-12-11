@@ -38,15 +38,8 @@
             this.saveBtn = new System.Windows.Forms.Button();
             this.mainPanel = new System.Windows.Forms.Panel();
             this.summaryPanel = new System.Windows.Forms.Panel();
-            this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.label12 = new System.Windows.Forms.Label();
-            this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.stockPanel = new System.Windows.Forms.Panel();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.label6 = new System.Windows.Forms.Label();
             this.addPanel = new System.Windows.Forms.Panel();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.label5 = new System.Windows.Forms.Label();
             this.addItemPanel = new System.Windows.Forms.Panel();
             this.priceValue = new System.Windows.Forms.Label();
             this.riceClassIndicator = new System.Windows.Forms.Label();
@@ -102,14 +95,17 @@
             this.maximize = new System.Windows.Forms.PictureBox();
             this.close = new System.Windows.Forms.PictureBox();
             this.minimize = new System.Windows.Forms.PictureBox();
+            this.summaryPictureBox = new System.Windows.Forms.PictureBox();
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
+            this.stockPictureBox = new System.Windows.Forms.PictureBox();
+            this.addPictureBox = new System.Windows.Forms.PictureBox();
+            this.summaryLabel = new RiceInventorySystem.CustomLabel();
+            this.stockLabel = new RiceInventorySystem.CustomLabel();
+            this.addLabel = new RiceInventorySystem.CustomLabel();
             this.mainPanel.SuspendLayout();
             this.summaryPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             this.stockPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             this.addPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.addItemPanel.SuspendLayout();
             this.mainSummaryPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.summaryGridView)).BeginInit();
@@ -122,6 +118,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.maximize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.close)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.minimize)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.summaryPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.stockPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.addPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // riceComboBox
@@ -197,7 +197,7 @@
             // 
             // mainPanel
             // 
-            this.mainPanel.BackColor = System.Drawing.SystemColors.ControlDarkDark;
+            this.mainPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(55)))), ((int)(((byte)(71)))), ((int)(((byte)(79)))));
             this.mainPanel.Controls.Add(this.summaryPanel);
             this.mainPanel.Controls.Add(this.pictureBox5);
             this.mainPanel.Controls.Add(this.stockPanel);
@@ -210,9 +210,9 @@
             // 
             // summaryPanel
             // 
-            this.summaryPanel.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.summaryPanel.Controls.Add(this.pictureBox3);
-            this.summaryPanel.Controls.Add(this.label12);
+            this.summaryPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(90)))), ((int)(((byte)(100)))));
+            this.summaryPanel.Controls.Add(this.summaryLabel);
+            this.summaryPanel.Controls.Add(this.summaryPictureBox);
             this.summaryPanel.Location = new System.Drawing.Point(0, 499);
             this.summaryPanel.Name = "summaryPanel";
             this.summaryPanel.Size = new System.Drawing.Size(166, 138);
@@ -221,44 +221,11 @@
             this.summaryPanel.MouseLeave += new System.EventHandler(this.summaryPanel_MouseLeave);
             this.summaryPanel.MouseHover += new System.EventHandler(this.summaryPanel_MouseHover);
             // 
-            // pictureBox3
-            // 
-            this.pictureBox3.Image = global::RiceInventorySystem.Properties.Resources.newspaper;
-            this.pictureBox3.Location = new System.Drawing.Point(49, 30);
-            this.pictureBox3.Name = "pictureBox3";
-            this.pictureBox3.Size = new System.Drawing.Size(68, 67);
-            this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox3.TabIndex = 11;
-            this.pictureBox3.TabStop = false;
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.label12.Location = new System.Drawing.Point(12, 100);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(143, 23);
-            this.label12.TabIndex = 11;
-            this.label12.Text = "S U M M A R Y";
-            // 
-            // pictureBox5
-            // 
-            this.pictureBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox5.Image = global::RiceInventorySystem.Properties.Resources.rice;
-            this.pictureBox5.Location = new System.Drawing.Point(24, 50);
-            this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Padding = new System.Windows.Forms.Padding(10);
-            this.pictureBox5.Size = new System.Drawing.Size(119, 116);
-            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox5.TabIndex = 11;
-            this.pictureBox5.TabStop = false;
-            // 
             // stockPanel
             // 
-            this.stockPanel.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.stockPanel.Controls.Add(this.pictureBox2);
-            this.stockPanel.Controls.Add(this.label6);
+            this.stockPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(90)))), ((int)(((byte)(100)))));
+            this.stockPanel.Controls.Add(this.stockLabel);
+            this.stockPanel.Controls.Add(this.stockPictureBox);
             this.stockPanel.Location = new System.Drawing.Point(0, 361);
             this.stockPanel.Name = "stockPanel";
             this.stockPanel.Size = new System.Drawing.Size(166, 138);
@@ -267,32 +234,11 @@
             this.stockPanel.MouseLeave += new System.EventHandler(this.stockPanel_MouseLeave);
             this.stockPanel.MouseHover += new System.EventHandler(this.stockPanel_MouseHover);
             // 
-            // pictureBox2
-            // 
-            this.pictureBox2.Image = global::RiceInventorySystem.Properties.Resources.gold;
-            this.pictureBox2.Location = new System.Drawing.Point(49, 23);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(68, 67);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox2.TabIndex = 11;
-            this.pictureBox2.TabStop = false;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.label6.Location = new System.Drawing.Point(36, 93);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(102, 23);
-            this.label6.TabIndex = 11;
-            this.label6.Text = "S T O C K";
-            // 
             // addPanel
             // 
-            this.addPanel.BackColor = System.Drawing.SystemColors.ControlDark;
-            this.addPanel.Controls.Add(this.pictureBox1);
-            this.addPanel.Controls.Add(this.label5);
+            this.addPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(90)))), ((int)(((byte)(100)))));
+            this.addPanel.Controls.Add(this.addPictureBox);
+            this.addPanel.Controls.Add(this.addLabel);
             this.addPanel.Location = new System.Drawing.Point(0, 223);
             this.addPanel.Name = "addPanel";
             this.addPanel.Size = new System.Drawing.Size(166, 138);
@@ -300,27 +246,6 @@
             this.addPanel.Click += new System.EventHandler(this.addPanel_Click);
             this.addPanel.MouseLeave += new System.EventHandler(this.addPanel_MouseLeave);
             this.addPanel.MouseHover += new System.EventHandler(this.addPanel_MouseHover);
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Image = global::RiceInventorySystem.Properties.Resources.file_plus_alt;
-            this.pictureBox1.Location = new System.Drawing.Point(52, 26);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(63, 67);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 10;
-            this.pictureBox1.TabStop = false;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Arial Rounded MT Bold", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.label5.Location = new System.Drawing.Point(52, 96);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(64, 23);
-            this.label5.TabIndex = 10;
-            this.label5.Text = "A D D";
             // 
             // addItemPanel
             // 
@@ -959,6 +884,84 @@
             this.minimize.TabStop = false;
             this.minimize.Click += new System.EventHandler(this.minimize_Click);
             // 
+            // summaryPictureBox
+            // 
+            this.summaryPictureBox.Enabled = false;
+            this.summaryPictureBox.Image = global::RiceInventorySystem.Properties.Resources.newspaper;
+            this.summaryPictureBox.Location = new System.Drawing.Point(49, 30);
+            this.summaryPictureBox.Name = "summaryPictureBox";
+            this.summaryPictureBox.Size = new System.Drawing.Size(68, 67);
+            this.summaryPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.summaryPictureBox.TabIndex = 11;
+            this.summaryPictureBox.TabStop = false;
+            // 
+            // pictureBox5
+            // 
+            this.pictureBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox5.Image = global::RiceInventorySystem.Properties.Resources.rice;
+            this.pictureBox5.Location = new System.Drawing.Point(24, 50);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Padding = new System.Windows.Forms.Padding(10);
+            this.pictureBox5.Size = new System.Drawing.Size(119, 116);
+            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox5.TabIndex = 11;
+            this.pictureBox5.TabStop = false;
+            // 
+            // stockPictureBox
+            // 
+            this.stockPictureBox.Enabled = false;
+            this.stockPictureBox.Image = global::RiceInventorySystem.Properties.Resources.gold;
+            this.stockPictureBox.Location = new System.Drawing.Point(51, 23);
+            this.stockPictureBox.Name = "stockPictureBox";
+            this.stockPictureBox.Size = new System.Drawing.Size(68, 67);
+            this.stockPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.stockPictureBox.TabIndex = 11;
+            this.stockPictureBox.TabStop = false;
+            // 
+            // addPictureBox
+            // 
+            this.addPictureBox.Enabled = false;
+            this.addPictureBox.Image = global::RiceInventorySystem.Properties.Resources.file_plus_alt;
+            this.addPictureBox.Location = new System.Drawing.Point(53, 26);
+            this.addPictureBox.Name = "addPictureBox";
+            this.addPictureBox.Size = new System.Drawing.Size(63, 67);
+            this.addPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.addPictureBox.TabIndex = 10;
+            this.addPictureBox.TabStop = false;
+            // 
+            // summaryLabel
+            // 
+            this.summaryLabel.AutoSize = true;
+            this.summaryLabel.Enabled = false;
+            this.summaryLabel.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.summaryLabel.Location = new System.Drawing.Point(14, 100);
+            this.summaryLabel.Name = "summaryLabel";
+            this.summaryLabel.Size = new System.Drawing.Size(139, 22);
+            this.summaryLabel.TabIndex = 19;
+            this.summaryLabel.Text = "S U M M A R Y";
+            // 
+            // stockLabel
+            // 
+            this.stockLabel.AutoSize = true;
+            this.stockLabel.Enabled = false;
+            this.stockLabel.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.stockLabel.Location = new System.Drawing.Point(36, 93);
+            this.stockLabel.Name = "stockLabel";
+            this.stockLabel.Size = new System.Drawing.Size(98, 22);
+            this.stockLabel.TabIndex = 18;
+            this.stockLabel.Text = "S T O C K";
+            // 
+            // addLabel
+            // 
+            this.addLabel.AutoSize = true;
+            this.addLabel.Enabled = false;
+            this.addLabel.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.addLabel.Location = new System.Drawing.Point(53, 96);
+            this.addLabel.Name = "addLabel";
+            this.addLabel.Size = new System.Drawing.Size(62, 22);
+            this.addLabel.TabIndex = 17;
+            this.addLabel.Text = "A D D";
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 22F);
@@ -985,14 +988,10 @@
             this.mainPanel.ResumeLayout(false);
             this.summaryPanel.ResumeLayout(false);
             this.summaryPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             this.stockPanel.ResumeLayout(false);
             this.stockPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
             this.addPanel.ResumeLayout(false);
             this.addPanel.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.addItemPanel.ResumeLayout(false);
             this.addItemPanel.PerformLayout();
             this.mainSummaryPanel.ResumeLayout(false);
@@ -1010,6 +1009,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.maximize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.close)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.minimize)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.summaryPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.stockPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.addPictureBox)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1026,10 +1029,8 @@
         private System.Windows.Forms.Panel mainPanel;
         private System.Windows.Forms.Panel addPanel;
         private System.Windows.Forms.Panel stockPanel;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox stockPictureBox;
+        private System.Windows.Forms.PictureBox addPictureBox;
         private System.Windows.Forms.Panel addItemPanel;
         private System.Windows.Forms.PictureBox minimize;
         private System.Windows.Forms.PictureBox close;
@@ -1037,8 +1038,7 @@
         private System.Windows.Forms.Panel mainSummaryPanel;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Panel summaryPanel;
-        private System.Windows.Forms.PictureBox pictureBox3;
-        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.PictureBox summaryPictureBox;
         private System.Windows.Forms.Panel mainStockPanel;
         private System.Windows.Forms.Label stockHEHE;
         private System.Windows.Forms.Label totalValue;
@@ -1089,6 +1089,9 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.DataGridViewTextBoxColumn Type;
         private System.Windows.Forms.DataGridViewTextBoxColumn DateAndTime;
+        private CustomLabel addLabel;
+        private CustomLabel summaryLabel;
+        private CustomLabel stockLabel;
     }
 }
 

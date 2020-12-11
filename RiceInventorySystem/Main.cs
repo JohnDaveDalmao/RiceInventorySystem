@@ -32,18 +32,14 @@ namespace RiceInventorySystem {
         int panelWidth = 1134, panelHeight = 615;
         int locationX = 166, locationY = 39;
         string loadAllSummaryData = "SELECT * FROM FullSummary ORDER BY DateAndTime DESC";
+        string primarySidePanelBtn = "#455A64";
+        string secondarySidePanelBtn = "#637D82";
 
+        #region Main
         public Main() {
             InitializeComponent();
             this.SetStyle(ControlStyles.ResizeRedraw, true);
-
-            mainPanel.BackColor = System.Drawing.Color.FromArgb(55, 71, 79);
-            addPanel.BackColor = System.Drawing.Color.FromArgb(69, 90, 100);
-            stockPanel.BackColor = System.Drawing.Color.FromArgb(69, 90, 100);
-            summaryPanel.BackColor = System.Drawing.Color.FromArgb(69, 90, 100);
-
             DataTable dt = new DataTable();
-
             DataColumn newColumn = new DataColumn("addOrSubtractItem", typeof(System.String));
             newColumn.DefaultValue = "Your DropDownList value";
             dt.Columns.Add(newColumn);
@@ -70,7 +66,7 @@ namespace RiceInventorySystem {
                 row.Height = 32;
             }
         }
-
+        #endregion
 
         #region functions
         // F U N C T I O N S //
@@ -181,6 +177,8 @@ namespace RiceInventorySystem {
         //////////////////////////////////////////////////////////////////////
         #endregion
 
+
+        #region move form
         private void Main_MouseMove(object sender, MouseEventArgs e) {
             if (mov == 1) {
                 this.SetDesktopLocation(MousePosition.X - movX, MousePosition.Y - movY);
@@ -196,6 +194,9 @@ namespace RiceInventorySystem {
         private void Main_MouseUp(object sender, MouseEventArgs e) {
             mov = 0;
         }
+        #endregion
+
+        #region min, max, close btns
         private void minimize_Click(object sender, EventArgs e) {
             this.WindowState = FormWindowState.Minimized;
         }
@@ -207,31 +208,34 @@ namespace RiceInventorySystem {
         private void close_Click(object sender, EventArgs e) {
             Application.Exit();
         }
+        #endregion
 
+        #region side panel colors
         private void addPanel_MouseHover(object sender, EventArgs e) {
-            addPanel.BackColor = System.Drawing.Color.FromArgb(99, 125, 130);
+            addPanel.BackColor = ColorTranslator.FromHtml(secondarySidePanelBtn);
         }
 
         private void addPanel_MouseLeave(object sender, EventArgs e) {
-            addPanel.BackColor = System.Drawing.Color.FromArgb(69, 90, 100);
+            addPanel.BackColor = ColorTranslator.FromHtml(primarySidePanelBtn);
         }
 
         private void stockPanel_MouseHover(object sender, EventArgs e) {
-            stockPanel.BackColor = System.Drawing.Color.FromArgb(99, 125, 130);
+            stockPanel.BackColor = ColorTranslator.FromHtml(secondarySidePanelBtn);
         }
 
         private void stockPanel_MouseLeave(object sender, EventArgs e) {
-            stockPanel.BackColor = System.Drawing.Color.FromArgb(69, 90, 100);
+            stockPanel.BackColor = ColorTranslator.FromHtml(primarySidePanelBtn);
         }
 
         private void summaryPanel_MouseHover(object sender, EventArgs e) {
-            summaryPanel.BackColor = System.Drawing.Color.FromArgb(99, 125, 130);
+            summaryPanel.BackColor = ColorTranslator.FromHtml(secondarySidePanelBtn);
         }
-
 
         private void summaryPanel_MouseLeave(object sender, EventArgs e) {
-            summaryPanel.BackColor = System.Drawing.Color.FromArgb(69, 90, 100);
+            summaryPanel.BackColor = ColorTranslator.FromHtml(primarySidePanelBtn);
         }
+
+        #endregion
 
         private void addPanel_Click(object sender, EventArgs e) {
             resetTextBoxes();
@@ -553,7 +557,6 @@ namespace RiceInventorySystem {
 
                             foreach (DataGridViewRow row in summaryGridView.Rows) {
                                 foreach (DataGridViewCell cell in row.Cells) {
-
                                     pdfTable.AddCell(cell.FormattedValue.ToString());
                                 }
                             }
@@ -583,6 +586,7 @@ namespace RiceInventorySystem {
                 MessageBox.Show("No Record To Export !!!", "Info");
             }
         }
+
 
         private void SubtractedData_Click(object sender, EventArgs e) {
             populateSummaryDataGridView("SELECT * FROM FullSummary WHERE Type LIKE 'Subtracted' ORDER BY DateAndTime DESC ");
