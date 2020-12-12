@@ -24,7 +24,6 @@ namespace RiceInventorySystem {
 
         SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["SystemDatabaseConnection"].ConnectionString);
 
-
         private const int cGrip = 16;
         private const int cCaption = 32;
 
@@ -355,10 +354,10 @@ namespace RiceInventorySystem {
 
                     //if riceComboBoxPreview.Text exists in Stock database:
                     if (dt.Rows.Count >= 1) {
+                        //Parameterized UPDATE
 
                         //for the Dropdown
                         con.Open();
-                        //UPDATE with Parameters
                         cmd.CommandText = "UPDATE RiceClassPreview SET RiceClass = @name, Price = @price WHERE RiceClass = @initialName";
                         cmd.ExecuteNonQuery();
                         con.Close();
@@ -371,7 +370,6 @@ namespace RiceInventorySystem {
 
                         //for the Full Summary
                         con.Open();
-                        //UPDATE with Parameters
                         cmd.CommandText = "UPDATE FullSummary SET Name = @name, Price = @price, Total = @total WHERE Id = (select max(ID) from FullSummary where Name = @initialName)";
                         cmd.ExecuteNonQuery();
                         con.Close();
@@ -435,22 +433,22 @@ namespace RiceInventorySystem {
         }
         #endregion
 
+        #region addItemPanel Textboxes and Button
+
         private void riceComboBox_TextChanged(object sender, EventArgs e) {
+            //This is needed so thee user can only input valid rice class
             //Check if Rice (from the dropdown is in the database)
+            //This is located in addItemPanel
+            riceClassIndicator.Visible = true;
             if (String.IsNullOrEmpty(riceComboBox.Text)) {
                 riceClassIndicator.Text = "0";
             }
             else {
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT RiceClass FROM RiceClassPreview WHERE RiceClass = '" + riceComboBox.Text + "'", con);
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT RiceClass FROM RiceClassPreview WHERE RiceClass = @RiceClass", con);
+                sda.SelectCommand.Parameters.AddWithValue("@RiceClass", riceComboBox.Text); //Parameterized query for SqlDataAdapter
                 DataTable dt = new DataTable();
                 sda.Fill(dt);
-
-                if (dt.Rows.Count >= 1) {
-                    riceClassIndicator.Text = "1";
-                }
-                else {
-                    riceClassIndicator.Text = "0";
-                }
+                _ = (dt.Rows.Count >= 1) ? riceClassIndicator.Text = "1" : riceClassIndicator.Text = "0";
             }
         }
 
@@ -459,7 +457,8 @@ namespace RiceInventorySystem {
                 MessageBox.Show("Fill up all fields correctly!", "!");
             }
             else {
-                SqlDataAdapter sda = new SqlDataAdapter("SELECT Name FROM Stock WHERE Name = '" + riceComboBox.Text + "'", con);
+                SqlDataAdapter sda = new SqlDataAdapter("SELECT Name FROM Stock WHERE Name = @Name", con);
+                sda.SelectCommand.Parameters.AddWithValue("@Name", riceComboBox.Text); //Parameterized query for SqlDataAdapter
                 DataTable dt = new DataTable();
                 sda.Fill(dt);
 
@@ -469,25 +468,27 @@ namespace RiceInventorySystem {
                 else {
                     DialogResult dialog = MessageBox.Show("Do you want to add " + quantityTextBox.Text + " " + riceComboBox.Text + "/s ?", "Continue Process?", MessageBoxButtons.YesNo);
                     if (dialog == DialogResult.Yes) {
-                        //(@Name1, @Price1, @Total1, @Quantity1) and (@Name2, @Price2, @Total2, @Quantity2) because variable names must be unique within a query batch or stored procedure
-                        SqlCommand cmd = new SqlCommand("INSERT INTO FullSummary VALUES (@Name1, @Price1, @Quantity1, @Type1, @Total1, @DateAndTime1)", con);
-                        con.Open();
+                        SqlCommand cmd = con.CreateCommand();
+                        cmd.CommandType = CommandType.Text;
+
+                        // Parameters
                         // Auto increment Id to avoid error (Id properties -> Identity Specification (set to TRUE))
-                        cmd.Parameters.AddWithValue("@Name1", riceComboBox.Text);
-                        cmd.Parameters.AddWithValue("@Price1", Convert.ToDouble(priceValue.Text));
-                        cmd.Parameters.AddWithValue("@Quantity1", Convert.ToInt32(quantityTextBox.Text));
-                        cmd.Parameters.AddWithValue("@Type1", "Added");
-                        cmd.Parameters.AddWithValue("@Total1", Convert.ToDouble(totalValue.Text));
-                        cmd.Parameters.AddWithValue("@DateAndTime1", Convert.ToDateTime(DateTime.Now.ToLongTimeString()));
+                        cmd.Parameters.AddWithValue("@Name", riceComboBox.Text);
+                        cmd.Parameters.AddWithValue("@Price", Convert.ToDouble(priceValue.Text));
+                        cmd.Parameters.AddWithValue("@Quantity", Convert.ToInt32(quantityTextBox.Text));
+                        cmd.Parameters.AddWithValue("@Type", "Added");
+                        cmd.Parameters.AddWithValue("@Total", Convert.ToDouble(totalValue.Text));
+                        cmd.Parameters.AddWithValue("@DateAndTime", Convert.ToDateTime(DateTime.Now.ToLongTimeString()));
+
+                        //For FullSummary
+                        con.Open();
+                        cmd.CommandText = "INSERT INTO FullSummary VALUES (@Name, @Price, @Quantity, @Type, @Total, @DateAndTime)";
                         cmd.ExecuteNonQuery();
                         con.Close();
 
+                        //For Stock
                         con.Open();
-                        cmd.CommandText = "INSERT INTO Stock VALUES (@Name2, @Price2, @Total2, @Quantity2)";
-                        cmd.Parameters.AddWithValue("@Name2", riceComboBox.Text);
-                        cmd.Parameters.AddWithValue("@Price2", priceValue.Text);
-                        cmd.Parameters.AddWithValue("@Total2", totalValue.Text);
-                        cmd.Parameters.AddWithValue("@Quantity2", quantityTextBox.Text);
+                        cmd.CommandText = "INSERT INTO Stock VALUES (@Name, @Price, @Total, @Quantity)";
                         cmd.ExecuteNonQuery();
                         con.Close();
 
@@ -498,6 +499,7 @@ namespace RiceInventorySystem {
             }
         }
 
+        //Start Here Later
         private void quantityTextBox_KeyPress(object sender, KeyPressEventArgs e) {
             char ch = e.KeyChar;
             if (ch == 46 && quantityTextBox.Text.IndexOf(".") != -1) {
@@ -520,16 +522,18 @@ namespace RiceInventorySystem {
 
         private void riceComboBox_SelectedIndexChanged(object sender, EventArgs e) {
             //priceValue.Text = "0";
-            quantityTextBox.Text = "";
+            //quantityTextBox.Text = "";
 
             //Check If RiceClass exists then Display its PRICE
-            SqlDataAdapter sda = new SqlDataAdapter("SELECT RiceClass FROM RiceClassPreview WHERE RiceClass = '" + riceComboBox.Text + "'", con);
+            SqlDataAdapter sda = new SqlDataAdapter("SELECT RiceClass FROM RiceClassPreview WHERE RiceClass = @RiceClass", con);
+            sda.SelectCommand.Parameters.AddWithValue("@RiceClass", riceComboBox.Text); //Parameterized query for SqlDataAdapter
             DataTable dt = new DataTable();
             sda.Fill(dt);
 
             if (dt.Rows.Count >= 1) {
                 con.Open();
-                SqlCommand cmd = new SqlCommand("SELECT Price FROM RiceClassPreview WHERE RiceClass = '" + riceComboBox.Text + "'", con);
+                SqlCommand cmd = new SqlCommand("SELECT Price FROM RiceClassPreview WHERE RiceClass = @RiceClass", con);
+                cmd.Parameters.AddWithValue("@RiceClass", riceComboBox.Text);
                 SqlDataReader dr = cmd.ExecuteReader();
                 if (dr.Read()) {
                     priceValue.Text = dr.GetValue(dr.GetOrdinal("Price")).ToString();
@@ -539,27 +543,13 @@ namespace RiceInventorySystem {
             else {
                 priceValue.Text = "0";
             }
-            ///////////////////////////////////////////////////
         }
+        #endregion
 
-        private void addPriceTextBox_KeyPress(object sender, KeyPressEventArgs e) {
-            char ch = e.KeyChar;
-            if (ch == 46 && addPriceTextBox.Text.IndexOf(".") != -1) {
-                e.Handled = true;
-                return;
-            }
-
-            if (!Char.IsDigit(ch) && ch != 8 && ch != 46) {
-                e.Handled = true;
-            }
-        }
-
-        private void addPriceTextBox_KeyUp(object sender, KeyEventArgs e) {
-            float num1, num2, product;
-            num1 = String.IsNullOrEmpty(recentQuantity.Text) ? 0 : float.Parse(recentQuantity.Text);
-            num2 = String.IsNullOrEmpty(addPriceTextBox.Text) ? 0 : float.Parse(addPriceTextBox.Text);
-            product = num1 * num2;
-            newTotalEdit.Text = product.ToString();
+        //Start here
+        #region mainSummaryPanel btns
+        private void LoadAllData_Click(object sender, EventArgs e) {
+            populateSummaryDataGridView(loadAllSummaryData);
         }
 
         private void AddedData_Click(object sender, EventArgs e) {
@@ -567,31 +557,9 @@ namespace RiceInventorySystem {
 
         }
 
-        private void LoadAllData_Click(object sender, EventArgs e) {
-            populateSummaryDataGridView(loadAllSummaryData);
+        private void SubtractedData_Click(object sender, EventArgs e) {
+            populateSummaryDataGridView("SELECT * FROM FullSummary WHERE Type LIKE 'Subtracted' ORDER BY DateAndTime DESC ");
         }
-
-        /*        private void populateSummaryDataGridView(string sqlCommandString) {
-            con.Open();
-            SqlCommand cm = new SqlCommand(sqlCommandString);
-            cm.Connection = con;
-
-            SqlDataAdapter da = new SqlDataAdapter(cm);
-            DataTable dt = new DataTable();
-            da.Fill(dt);
-            summaryGridView.AutoGenerateColumns = false;
-            summaryGridView.Columns[0].DataPropertyName = "Name";
-            summaryGridView.Columns[1].DataPropertyName = "Price";
-            summaryGridView.Columns[2].DataPropertyName = "Quantity";
-            summaryGridView.Columns[3].DataPropertyName = "Total";
-            summaryGridView.Columns[4].DataPropertyName = "Type";
-            summaryGridView.Columns[5].DataPropertyName = "DateAndTime";
-            summaryGridView.Columns[5].DefaultCellStyle.Format = "dddd, MMMM dd, yyyy hh:mm tt";
-
-            summaryGridView.DataSource = dt;
-            con.Close();
-        }
-         */
 
         private void printSummaryData_Click(object sender, EventArgs e) {
             //increase cell size for headers
@@ -669,11 +637,28 @@ namespace RiceInventorySystem {
         }
 
 
-        private void SubtractedData_Click(object sender, EventArgs e) {
-            populateSummaryDataGridView("SELECT * FROM FullSummary WHERE Type LIKE 'Subtracted' ORDER BY DateAndTime DESC ");
+
+        #endregion
+
+        private void addPriceTextBox_KeyPress(object sender, KeyPressEventArgs e) {
+            char ch = e.KeyChar;
+            if (ch == 46 && addPriceTextBox.Text.IndexOf(".") != -1) {
+                e.Handled = true;
+                return;
+            }
+
+            if (!Char.IsDigit(ch) && ch != 8 && ch != 46) {
+                e.Handled = true;
+            }
         }
 
-
+        private void addPriceTextBox_KeyUp(object sender, KeyEventArgs e) {
+            float num1, num2, product;
+            num1 = String.IsNullOrEmpty(recentQuantity.Text) ? 0 : float.Parse(recentQuantity.Text);
+            num2 = String.IsNullOrEmpty(addPriceTextBox.Text) ? 0 : float.Parse(addPriceTextBox.Text);
+            product = num1 * num2;
+            newTotalEdit.Text = product.ToString();
+        }
 
         private void riceComboBoxPreview_SelectedIndexChanged(object sender, EventArgs e) {
             SqlDataAdapter sda1 = new SqlDataAdapter("SELECT RiceClass FROM RiceClassPreview WHERE RiceClass = '" + riceComboBoxPreview.Text + "'", con);
