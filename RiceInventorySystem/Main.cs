@@ -433,7 +433,70 @@ namespace RiceInventorySystem {
         }
         #endregion
 
-        #region addItemPanel Textboxes and Button
+        #region addRicePanel
+        private void addPriceTextBox_KeyPress(object sender, KeyPressEventArgs e) {
+            char ch = e.KeyChar;
+            if (ch == 46 && addPriceTextBox.Text.IndexOf(".") != -1) {
+                e.Handled = true;
+                return;
+            }
+
+            if (!Char.IsDigit(ch) && ch != 8 && ch != 46) {
+                e.Handled = true;
+            }
+        }
+
+        private void addPriceTextBox_KeyUp(object sender, KeyEventArgs e) {
+            float num1, num2, product;
+            num1 = String.IsNullOrEmpty(recentQuantity.Text) ? 0 : float.Parse(recentQuantity.Text);
+            num2 = String.IsNullOrEmpty(addPriceTextBox.Text) ? 0 : float.Parse(addPriceTextBox.Text);
+            product = num1 * num2;
+            newTotalEdit.Text = product.ToString();
+        }
+
+        private void riceComboBoxPreview_SelectedIndexChanged(object sender, EventArgs e) {
+            SqlDataAdapter sda1 = new SqlDataAdapter("SELECT RiceClass FROM RiceClassPreview WHERE RiceClass = @RiceClass", con);
+            sda1.SelectCommand.Parameters.AddWithValue("@RiceClass", riceComboBoxPreview.Text); //Parameterized query for SqlDataAdapter
+            DataTable dt1 = new DataTable();
+            sda1.Fill(dt1);
+
+            if (dt1.Rows.Count >= 1) {
+                con.Open();
+                SqlCommand cmd = new SqlCommand("SELECT Price FROM RiceClassPreview WHERE RiceClass = @RiceClass", con);
+                cmd.Parameters.AddWithValue("@RiceClass", riceComboBoxPreview.Text);
+                SqlDataReader dr = cmd.ExecuteReader();
+                if (dr.Read()) {
+                    addRiceTextBox.Text = riceComboBoxPreview.Text;
+                    addPriceTextBox.Text = dr.GetValue(dr.GetOrdinal("Price")).ToString();
+                }
+                con.Close();
+            }
+            else {
+                addPriceTextBox.Text = "0";
+            }
+
+            SqlDataAdapter sda2 = new SqlDataAdapter("SELECT Name FROM Stock WHERE Name = @Name", con);
+            sda2.SelectCommand.Parameters.AddWithValue("@Name", riceComboBoxPreview.Text); //Parameterized query for SqlDataAdapter
+            DataTable dt2 = new DataTable();
+            sda2.Fill(dt2);
+            if (dt2.Rows.Count >= 1) {
+                con.Open();
+                SqlCommand cmd = new SqlCommand("SELECT Quantity FROM Stock WHERE Name = @Name", con);
+                cmd.Parameters.AddWithValue("@Name", riceComboBoxPreview.Text);
+                SqlDataReader dr = cmd.ExecuteReader();
+                if (dr.Read()) {
+                    recentQuantity.Text = dr.GetValue(dr.GetOrdinal("Quantity")).ToString();
+                }
+                con.Close();
+            }
+            else {
+                recentQuantity.Text = "0";
+            }
+            newTotalEdit.Text = (Convert.ToInt32(recentQuantity.Text) * Convert.ToInt32(addPriceTextBox.Text)).ToString();
+        }
+        #endregion
+
+        #region addItemPanel Textboxes and btn
 
         private void riceComboBox_TextChanged(object sender, EventArgs e) {
             //This is needed so thee user can only input valid rice class
@@ -546,7 +609,6 @@ namespace RiceInventorySystem {
         }
         #endregion
 
-        //Start here
         #region mainSummaryPanel btns
         private void LoadAllData_Click(object sender, EventArgs e) {
             populateSummaryDataGridView(loadAllSummaryData);
@@ -635,77 +697,8 @@ namespace RiceInventorySystem {
                 MessageBox.Show("No Record To Export !!!", "Info");
             }
         }
-
-
-
         #endregion
 
-        private void addPriceTextBox_KeyPress(object sender, KeyPressEventArgs e) {
-            char ch = e.KeyChar;
-            if (ch == 46 && addPriceTextBox.Text.IndexOf(".") != -1) {
-                e.Handled = true;
-                return;
-            }
-
-            if (!Char.IsDigit(ch) && ch != 8 && ch != 46) {
-                e.Handled = true;
-            }
-        }
-
-        private void addPriceTextBox_KeyUp(object sender, KeyEventArgs e) {
-            float num1, num2, product;
-            num1 = String.IsNullOrEmpty(recentQuantity.Text) ? 0 : float.Parse(recentQuantity.Text);
-            num2 = String.IsNullOrEmpty(addPriceTextBox.Text) ? 0 : float.Parse(addPriceTextBox.Text);
-            product = num1 * num2;
-            newTotalEdit.Text = product.ToString();
-        }
-
-        private void riceComboBoxPreview_SelectedIndexChanged(object sender, EventArgs e) {
-            SqlDataAdapter sda1 = new SqlDataAdapter("SELECT RiceClass FROM RiceClassPreview WHERE RiceClass = '" + riceComboBoxPreview.Text + "'", con);
-            DataTable dt1 = new DataTable();
-            sda1.Fill(dt1);
-
-            if (dt1.Rows.Count >= 1) {
-                con.Open();
-                SqlCommand cmd = new SqlCommand("SELECT Price FROM RiceClassPreview WHERE RiceClass = '" + riceComboBoxPreview.Text + "'", con);
-                SqlDataReader dr = cmd.ExecuteReader();
-                if (dr.Read()) {
-                    addRiceTextBox.Text = riceComboBoxPreview.Text;
-                    addPriceTextBox.Text = dr.GetValue(dr.GetOrdinal("Price")).ToString();
-                }
-                con.Close();
-            }
-            else {
-                addPriceTextBox.Text = "0";
-            }
-
-            SqlDataAdapter sda2 = new SqlDataAdapter("SELECT Name FROM Stock WHERE Name = '" + riceComboBoxPreview.Text + "'", con);
-            DataTable dt2 = new DataTable();
-            sda2.Fill(dt2);
-            if (dt2.Rows.Count >= 1) {
-                con.Open();
-                SqlCommand cmd = new SqlCommand("SELECT Quantity FROM Stock WHERE Name = '" + riceComboBoxPreview.Text + "'", con);
-                SqlDataReader dr = cmd.ExecuteReader();
-                if (dr.Read()) {
-                    recentQuantity.Text = dr.GetValue(dr.GetOrdinal("Quantity")).ToString();
-                    newTotalEdit.Text = (Convert.ToInt32(recentQuantity.Text) * Convert.ToInt32(addPriceTextBox.Text)).ToString();
-                }
-                con.Close();
-            }
-            else {
-                recentQuantity.Text = "0";
-            }
-        }
-
-        /*  void quantity_change(int n) {
-            var row = stockGridView.CurrentRow;
-            var quantity = Convert.ToInt32(row.Cells["Quantity"].Value) + n;
-            row.Cells["Quantity"].Value = quantity;
-
-            var price = Convert.ToDouble(row.Cells["Price"].Value);
-            row.Cells["Total"].Value = quantity * price;
-        }
-         */
         private void stockGridView_CellContentClick(object sender, DataGridViewCellEventArgs e) {
             if (stockGridView.Columns[e.ColumnIndex].Name == "Add" && e.RowIndex >= 0) {
                 quantity_change(1);

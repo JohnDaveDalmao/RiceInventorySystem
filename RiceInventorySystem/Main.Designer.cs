@@ -23,12 +23,12 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle43 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle44 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle45 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle46 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle47 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle48 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
             this.riceComboBox = new System.Windows.Forms.ComboBox();
             this.quantityTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -38,8 +38,12 @@
             this.saveBtn = new System.Windows.Forms.Button();
             this.mainPanel = new System.Windows.Forms.Panel();
             this.summaryPanel = new System.Windows.Forms.Panel();
+            this.summaryPictureBox = new System.Windows.Forms.PictureBox();
+            this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.stockPanel = new System.Windows.Forms.Panel();
+            this.stockPictureBox = new System.Windows.Forms.PictureBox();
             this.addPanel = new System.Windows.Forms.Panel();
+            this.addPictureBox = new System.Windows.Forms.PictureBox();
             this.addItemPanel = new System.Windows.Forms.Panel();
             this.priceValue = new System.Windows.Forms.Label();
             this.riceClassIndicator = new System.Windows.Forms.Label();
@@ -95,17 +99,17 @@
             this.maximize = new System.Windows.Forms.PictureBox();
             this.close = new System.Windows.Forms.PictureBox();
             this.minimize = new System.Windows.Forms.PictureBox();
-            this.summaryPictureBox = new System.Windows.Forms.PictureBox();
-            this.pictureBox5 = new System.Windows.Forms.PictureBox();
-            this.stockPictureBox = new System.Windows.Forms.PictureBox();
-            this.addPictureBox = new System.Windows.Forms.PictureBox();
             this.summaryLabel = new RiceInventorySystem.CustomLabel();
             this.stockLabel = new RiceInventorySystem.CustomLabel();
             this.addLabel = new RiceInventorySystem.CustomLabel();
             this.mainPanel.SuspendLayout();
             this.summaryPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.summaryPictureBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
             this.stockPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.stockPictureBox)).BeginInit();
             this.addPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.addPictureBox)).BeginInit();
             this.addItemPanel.SuspendLayout();
             this.mainSummaryPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.summaryGridView)).BeginInit();
@@ -118,10 +122,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.maximize)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.close)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.minimize)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.summaryPictureBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.stockPictureBox)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.addPictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // riceComboBox
@@ -221,6 +221,29 @@
             this.summaryPanel.MouseLeave += new System.EventHandler(this.summaryPanel_MouseLeave);
             this.summaryPanel.MouseHover += new System.EventHandler(this.summaryPanel_MouseHover);
             // 
+            // summaryPictureBox
+            // 
+            this.summaryPictureBox.Enabled = false;
+            this.summaryPictureBox.Image = global::RiceInventorySystem.Properties.Resources.newspaper;
+            this.summaryPictureBox.Location = new System.Drawing.Point(49, 30);
+            this.summaryPictureBox.Name = "summaryPictureBox";
+            this.summaryPictureBox.Size = new System.Drawing.Size(68, 67);
+            this.summaryPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.summaryPictureBox.TabIndex = 11;
+            this.summaryPictureBox.TabStop = false;
+            // 
+            // pictureBox5
+            // 
+            this.pictureBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox5.Image = global::RiceInventorySystem.Properties.Resources.rice;
+            this.pictureBox5.Location = new System.Drawing.Point(24, 50);
+            this.pictureBox5.Name = "pictureBox5";
+            this.pictureBox5.Padding = new System.Windows.Forms.Padding(10);
+            this.pictureBox5.Size = new System.Drawing.Size(119, 116);
+            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox5.TabIndex = 11;
+            this.pictureBox5.TabStop = false;
+            // 
             // stockPanel
             // 
             this.stockPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(90)))), ((int)(((byte)(100)))));
@@ -234,6 +257,17 @@
             this.stockPanel.MouseLeave += new System.EventHandler(this.stockPanel_MouseLeave);
             this.stockPanel.MouseHover += new System.EventHandler(this.stockPanel_MouseHover);
             // 
+            // stockPictureBox
+            // 
+            this.stockPictureBox.Enabled = false;
+            this.stockPictureBox.Image = global::RiceInventorySystem.Properties.Resources.gold;
+            this.stockPictureBox.Location = new System.Drawing.Point(51, 23);
+            this.stockPictureBox.Name = "stockPictureBox";
+            this.stockPictureBox.Size = new System.Drawing.Size(68, 67);
+            this.stockPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.stockPictureBox.TabIndex = 11;
+            this.stockPictureBox.TabStop = false;
+            // 
             // addPanel
             // 
             this.addPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(69)))), ((int)(((byte)(90)))), ((int)(((byte)(100)))));
@@ -246,6 +280,17 @@
             this.addPanel.Click += new System.EventHandler(this.addPanel_Click);
             this.addPanel.MouseLeave += new System.EventHandler(this.addPanel_MouseLeave);
             this.addPanel.MouseHover += new System.EventHandler(this.addPanel_MouseHover);
+            // 
+            // addPictureBox
+            // 
+            this.addPictureBox.Enabled = false;
+            this.addPictureBox.Image = global::RiceInventorySystem.Properties.Resources.file_plus_alt;
+            this.addPictureBox.Location = new System.Drawing.Point(53, 26);
+            this.addPictureBox.Name = "addPictureBox";
+            this.addPictureBox.Size = new System.Drawing.Size(63, 67);
+            this.addPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.addPictureBox.TabIndex = 10;
+            this.addPictureBox.TabStop = false;
             // 
             // addItemPanel
             // 
@@ -314,14 +359,14 @@
             this.summaryGridView.AllowUserToDeleteRows = false;
             this.summaryGridView.AllowUserToResizeRows = false;
             this.summaryGridView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            dataGridViewCellStyle43.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle43.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle43.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle43.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle43.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle43.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle43.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.summaryGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle43;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.summaryGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.summaryGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.summaryGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.summaryName,
@@ -334,17 +379,17 @@
             this.summaryGridView.MultiSelect = false;
             this.summaryGridView.Name = "summaryGridView";
             this.summaryGridView.ReadOnly = true;
-            dataGridViewCellStyle44.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle44.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle44.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle44.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle44.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle44.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle44.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.summaryGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle44;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.summaryGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.summaryGridView.RowHeadersVisible = false;
-            dataGridViewCellStyle45.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.summaryGridView.RowsDefaultCellStyle = dataGridViewCellStyle45;
+            dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.summaryGridView.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.summaryGridView.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.summaryGridView.RowTemplate.Height = 28;
             this.summaryGridView.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -504,14 +549,14 @@
             this.stockGridView.AllowUserToResizeRows = false;
             this.stockGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.stockGridView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            dataGridViewCellStyle46.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle46.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle46.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle46.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle46.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle46.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle46.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.stockGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle46;
+            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle4.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle4.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle4.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle4.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle4.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle4.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.stockGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle4;
             this.stockGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.stockGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.RiceClass,
@@ -526,17 +571,17 @@
             this.stockGridView.MultiSelect = false;
             this.stockGridView.Name = "stockGridView";
             this.stockGridView.ReadOnly = true;
-            dataGridViewCellStyle47.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle47.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle47.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle47.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle47.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle47.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle47.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.stockGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle47;
+            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle5.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.stockGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle5;
             this.stockGridView.RowHeadersVisible = false;
-            dataGridViewCellStyle48.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.stockGridView.RowsDefaultCellStyle = dataGridViewCellStyle48;
+            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.stockGridView.RowsDefaultCellStyle = dataGridViewCellStyle6;
             this.stockGridView.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.stockGridView.RowTemplate.Height = 35;
             this.stockGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -659,9 +704,9 @@
             this.addRicePanel.Controls.Add(this.panel1);
             this.addRicePanel.Controls.Add(this.riceComboBoxPreview);
             this.addRicePanel.Controls.Add(this.label18);
-            this.addRicePanel.Location = new System.Drawing.Point(819, 275);
+            this.addRicePanel.Location = new System.Drawing.Point(416, 275);
             this.addRicePanel.Name = "addRicePanel";
-            this.addRicePanel.Size = new System.Drawing.Size(50, 50);
+            this.addRicePanel.Size = new System.Drawing.Size(453, 337);
             this.addRicePanel.TabIndex = 16;
             this.addRicePanel.Visible = false;
             // 
@@ -673,7 +718,6 @@
             this.newTotalEdit.Size = new System.Drawing.Size(21, 22);
             this.newTotalEdit.TabIndex = 23;
             this.newTotalEdit.Text = "0";
-            this.newTotalEdit.Visible = false;
             // 
             // recentQuantity
             // 
@@ -683,7 +727,6 @@
             this.recentQuantity.Size = new System.Drawing.Size(21, 22);
             this.recentQuantity.TabIndex = 22;
             this.recentQuantity.Text = "0";
-            this.recentQuantity.Visible = false;
             // 
             // label19
             // 
@@ -884,51 +927,6 @@
             this.minimize.TabStop = false;
             this.minimize.Click += new System.EventHandler(this.minimize_Click);
             // 
-            // summaryPictureBox
-            // 
-            this.summaryPictureBox.Enabled = false;
-            this.summaryPictureBox.Image = global::RiceInventorySystem.Properties.Resources.newspaper;
-            this.summaryPictureBox.Location = new System.Drawing.Point(49, 30);
-            this.summaryPictureBox.Name = "summaryPictureBox";
-            this.summaryPictureBox.Size = new System.Drawing.Size(68, 67);
-            this.summaryPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.summaryPictureBox.TabIndex = 11;
-            this.summaryPictureBox.TabStop = false;
-            // 
-            // pictureBox5
-            // 
-            this.pictureBox5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox5.Image = global::RiceInventorySystem.Properties.Resources.rice;
-            this.pictureBox5.Location = new System.Drawing.Point(24, 50);
-            this.pictureBox5.Name = "pictureBox5";
-            this.pictureBox5.Padding = new System.Windows.Forms.Padding(10);
-            this.pictureBox5.Size = new System.Drawing.Size(119, 116);
-            this.pictureBox5.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox5.TabIndex = 11;
-            this.pictureBox5.TabStop = false;
-            // 
-            // stockPictureBox
-            // 
-            this.stockPictureBox.Enabled = false;
-            this.stockPictureBox.Image = global::RiceInventorySystem.Properties.Resources.gold;
-            this.stockPictureBox.Location = new System.Drawing.Point(51, 23);
-            this.stockPictureBox.Name = "stockPictureBox";
-            this.stockPictureBox.Size = new System.Drawing.Size(68, 67);
-            this.stockPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.stockPictureBox.TabIndex = 11;
-            this.stockPictureBox.TabStop = false;
-            // 
-            // addPictureBox
-            // 
-            this.addPictureBox.Enabled = false;
-            this.addPictureBox.Image = global::RiceInventorySystem.Properties.Resources.file_plus_alt;
-            this.addPictureBox.Location = new System.Drawing.Point(53, 26);
-            this.addPictureBox.Name = "addPictureBox";
-            this.addPictureBox.Size = new System.Drawing.Size(63, 67);
-            this.addPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.addPictureBox.TabIndex = 10;
-            this.addPictureBox.TabStop = false;
-            // 
             // summaryLabel
             // 
             this.summaryLabel.AutoSize = true;
@@ -988,10 +986,14 @@
             this.mainPanel.ResumeLayout(false);
             this.summaryPanel.ResumeLayout(false);
             this.summaryPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.summaryPictureBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
             this.stockPanel.ResumeLayout(false);
             this.stockPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.stockPictureBox)).EndInit();
             this.addPanel.ResumeLayout(false);
             this.addPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.addPictureBox)).EndInit();
             this.addItemPanel.ResumeLayout(false);
             this.addItemPanel.PerformLayout();
             this.mainSummaryPanel.ResumeLayout(false);
@@ -1009,10 +1011,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.maximize)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.close)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.minimize)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.summaryPictureBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.stockPictureBox)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.addPictureBox)).EndInit();
             this.ResumeLayout(false);
 
         }
