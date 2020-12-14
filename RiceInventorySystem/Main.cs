@@ -718,7 +718,10 @@ namespace RiceInventorySystem {
                 //save changes for price and quantity
                 var row = stockGridView.CurrentRow;
                 if (Convert.ToInt32(row.Cells["addOrSubtractItem"].Value) == 0) {
-                    notChanged.Text = "Selected Item is Not Added/Subtracted";
+                    notChanged.Visible = true;
+                    Task.Delay(5000).ContinueWith(_ => {
+                        Invoke(new MethodInvoker(() => { notChanged.Visible = false; }));
+                    });
                 }
                 else {
                     SqlCommand cmd = con.CreateCommand();
@@ -735,7 +738,6 @@ namespace RiceInventorySystem {
                         //for summary
                         con.Open();
                         var Type = (Convert.ToInt32(row.Cells["addOrSubtractItem"].Value) < 0) ? "Subtracted" : "Added";
-                        //var Type = (Convert.ToInt32(row.Cells["addOrSubtractItem"].Value) == 0) ? notChanged.Text = "Selected Item is Not Added/Subtracted" : UpdateType;
 
                         SqlCommand cmd2 = new SqlCommand("INSERT INTO FullSummary VALUES (@Name1, @Price1, @Quantity1, @Type1, @Total1, @DateAndTime1)", con);
                         cmd2.Parameters.AddWithValue("@Name1", row.Cells["RiceClass"].Value.ToString());
