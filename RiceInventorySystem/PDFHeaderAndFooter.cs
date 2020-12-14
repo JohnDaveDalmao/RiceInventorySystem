@@ -10,13 +10,13 @@ namespace RiceInventorySystem {
     class HeaderAndFooter : PdfPageEventHelper {
         public override void OnEndPage(PdfWriter writer, Document document) {
             //base.OnEndPage(writer, document);
-            PdfPTable tbHeader = new PdfPTable(3);
+            PdfPTable tbHeader = new PdfPTable(1);
             tbHeader.TotalWidth = document.PageSize.Width - document.LeftMargin - document.RightMargin;
             tbHeader.WidthPercentage = 100;
             tbHeader.DefaultCell.Border = 0;
             tbHeader.AddCell(new Paragraph());
 
-            var FontStyle = FontFactory.GetFont("Arial Rounded MT", 14, new BaseColor(55, 71, 79));
+            var FontStyle = FontFactory.GetFont("Arial Rounded MT", 25, new BaseColor(55, 71, 79));
             FontStyle.SetStyle(1);
 
             PdfPCell cell = new PdfPCell(new Paragraph(new Chunk("F U L L  S U M M A R Y", FontStyle)));
@@ -26,7 +26,7 @@ namespace RiceInventorySystem {
             tbHeader.AddCell(cell);
             tbHeader.AddCell(new Paragraph());
 
-            tbHeader.WriteSelectedRows(0, -1, document.LeftMargin, writer.PageSize.GetTop(document.TopMargin) + 30, writer.DirectContent);
+            tbHeader.WriteSelectedRows(0, -1, document.LeftMargin, writer.PageSize.GetTop(document.TopMargin) + 40, writer.DirectContent);
 
             PdfPTable tbFooter = new PdfPTable(3);
             tbFooter.TotalWidth = document.PageSize.Width - document.LeftMargin - document.RightMargin;

@@ -20,4 +20,3 @@ D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\bin\Debug\Common.Loggin
 D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\bin\Debug\itextsharp.xml
 D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\obj\Debug\RiceInventorySystem.csproj.CopyComplete
 D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\obj\Debug\RiceInventorySystem.CustomLabel.resources
-D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\obj\Debug\RiceInventorySystem.csprojAssemblyReference.cache

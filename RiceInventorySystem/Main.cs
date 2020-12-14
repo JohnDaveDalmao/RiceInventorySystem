@@ -624,10 +624,7 @@ namespace RiceInventorySystem {
             populateSummaryDataGridView("SELECT * FROM FullSummary WHERE Type LIKE 'Subtracted' ORDER BY DateAndTime DESC ");
         }
 
-        private void PrintDataNew() {
-        }
-
-        private void PrintData() {
+        private void printSummaryData_Click(object sender, EventArgs e) {
             if (summaryGridView.Rows.Count > 0) {
                 SaveFileDialog sfd = new SaveFileDialog();
                 sfd.Filter = "PDF (*.pdf)|*.pdf";
@@ -657,6 +654,7 @@ namespace RiceInventorySystem {
                             pdfTable.DefaultCell.HorizontalAlignment = Element.ALIGN_CENTER;
                             pdfTable.DefaultCell.VerticalAlignment = Element.ALIGN_MIDDLE;
 
+                            pdfTable.HeaderRows = 1; // add datagridview header every new page in pdf
                             foreach (DataGridViewColumn column in summaryGridView.Columns) { // HEADER
                                 var FontStyle = FontFactory.GetFont("Arial Rounded MT", 15, new BaseColor(245, 245, 245));
                                 FontStyle.SetStyle(1); //Style "1" = BOLD
@@ -682,7 +680,7 @@ namespace RiceInventorySystem {
                                  12 inch x 72 points = 861 user units*/
                                 // iTextSharp.text.Rectangle pagesize = new iTextSharp.text.Rectangle(612, 861);
                                 //PdfWriter.GetInstance(pdfDoc, stream);
-                                Document pdfDoc = new Document(iTextSharp.text.PageSize.LETTER, 65f, 50f, 60f, 50f);
+                                Document pdfDoc = new Document(iTextSharp.text.PageSize.LETTER, 60f, 60f, 75f, 60f); //right, left, top, bot
                                 PdfWriter writer = PdfWriter.GetInstance(pdfDoc, stream);
                                 writer.PageEvent = new HeaderAndFooter();
                                 pdfDoc.Open();
@@ -702,10 +700,6 @@ namespace RiceInventorySystem {
             else {
                 MessageBox.Show("No Record To Export !!!", "Info");
             }
-        }
-        private void printSummaryData_Click(object sender, EventArgs e) {
-            //add datagridview header every new page in c#.net
-            PrintData();
         }
         #endregion
 
