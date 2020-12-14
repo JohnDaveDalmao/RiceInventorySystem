@@ -11,6 +11,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using RiceInventorySystem;
+
 //STOCK size: 1134, 615 // Location: 166, 39
 //Stock dgv: 870, 503
 /*riceComboBox
@@ -175,7 +177,6 @@ namespace RiceInventorySystem {
 
         //////////////////////////////////////////////////////////////////////
         #endregion
-
 
         #region move form
         private void Main_MouseMove(object sender, MouseEventArgs e) {
@@ -609,7 +610,7 @@ namespace RiceInventorySystem {
         }
         #endregion
 
-        #region mainSummaryPanel btns
+        #region mainSummaryPanel btns: LOAD ALL, ADDED, SUBTRACTED, and PRINT
         private void LoadAllData_Click(object sender, EventArgs e) {
             populateSummaryDataGridView(loadAllSummaryData);
         }
@@ -623,10 +624,10 @@ namespace RiceInventorySystem {
             populateSummaryDataGridView("SELECT * FROM FullSummary WHERE Type LIKE 'Subtracted' ORDER BY DateAndTime DESC ");
         }
 
-        private void printSummaryData_Click(object sender, EventArgs e) {
-            //increase cell size for headers
-            //forecolor for header
-            //add header and footer for pdf
+        private void PrintDataNew() {
+        }
+
+        private void PrintData() {
             if (summaryGridView.Rows.Count > 0) {
                 SaveFileDialog sfd = new SaveFileDialog();
                 sfd.Filter = "PDF (*.pdf)|*.pdf";
@@ -657,12 +658,15 @@ namespace RiceInventorySystem {
                             pdfTable.DefaultCell.VerticalAlignment = Element.ALIGN_MIDDLE;
 
                             foreach (DataGridViewColumn column in summaryGridView.Columns) { // HEADER
-                                //(new Chunk(column.HeaderText, FontFactory.GetFont("Arial Rounded MT", 12, iTextSharp.text.Font.BOLD, iTextSharp.text.Color.GREEN))) //ask stack
-                                // PdfPCell cell = new PdfPCell(new Phrase(column.HeaderText));
-                                PdfPCell cell = new PdfPCell(new Phrase(new Chunk(column.HeaderText, FontFactory.GetFont("Arial Rounded MT", 12, iTextSharp.text.Font.BOLD))));
-                                cell.BackgroundColor = new BaseColor(55, 71, 79);
-                                cell.HorizontalAlignment = Element.ALIGN_CENTER;
-                                cell.VerticalAlignment = Element.ALIGN_MIDDLE;
+                                var FontStyle = FontFactory.GetFont("Arial Rounded MT", 15, new BaseColor(245, 245, 245));
+                                FontStyle.SetStyle(1); //Style "1" = BOLD
+
+                                PdfPCell cell = new PdfPCell(new Paragraph(new Chunk(column.HeaderText, FontStyle))) {
+                                    BackgroundColor = new BaseColor(69, 90, 100),
+                                    HorizontalAlignment = Element.ALIGN_CENTER,
+                                    VerticalAlignment = Element.ALIGN_MIDDLE,
+                                    FixedHeight = 50f,
+                                };
                                 pdfTable.AddCell(cell);
                             }
 
@@ -676,9 +680,11 @@ namespace RiceInventorySystem {
                                 /*Short Bondpaper size or size = LETTER
                                  8.5 inch x 72 points = 612 user units
                                  12 inch x 72 points = 861 user units*/
-                                iTextSharp.text.Rectangle pagesize = new iTextSharp.text.Rectangle(612, 861);
-                                Document pdfDoc = new Document(pagesize);
-                                PdfWriter.GetInstance(pdfDoc, stream);
+                                // iTextSharp.text.Rectangle pagesize = new iTextSharp.text.Rectangle(612, 861);
+                                //PdfWriter.GetInstance(pdfDoc, stream);
+                                Document pdfDoc = new Document(iTextSharp.text.PageSize.LETTER, 65f, 50f, 60f, 50f);
+                                PdfWriter writer = PdfWriter.GetInstance(pdfDoc, stream);
+                                writer.PageEvent = new HeaderAndFooter();
                                 pdfDoc.Open();
                                 pdfDoc.Add(pdfTable);
                                 pdfDoc.Close();
@@ -697,8 +703,13 @@ namespace RiceInventorySystem {
                 MessageBox.Show("No Record To Export !!!", "Info");
             }
         }
+        private void printSummaryData_Click(object sender, EventArgs e) {
+            //add datagridview header every new page in c#.net
+            PrintData();
+        }
         #endregion
 
+        #region mainStockPanel
         private void stockGridView_CellContentClick(object sender, DataGridViewCellEventArgs e) {
             if (stockGridView.Columns[e.ColumnIndex].Name == "Add" && e.RowIndex >= 0) {
                 quantity_change(1);
@@ -750,5 +761,6 @@ namespace RiceInventorySystem {
                 }
             }
         }
+        #endregion
     }
 }
