@@ -36,6 +36,8 @@ namespace RiceInventorySystem {
         string primarySidePanelBtn = "#455A64";
         string secondarySidePanelBtn = "#637D82";
 
+        // If dropdown item (in add item to stock) is selected -> price * quantity.text
+
         #region Main
         public Main() {
             InitializeComponent();
@@ -690,6 +692,7 @@ namespace RiceInventorySystem {
             populateSummaryDataGridView(loadAllSummaryData);
         }
 
+
         private void AddedData_Click(object sender, EventArgs e) {
             populateSummaryDataGridView("SELECT * FROM FullSummary WHERE Type LIKE 'Added' ORDER BY DateAndTime DESC ");
 
@@ -719,12 +722,11 @@ namespace RiceInventorySystem {
         #endregion
 
         #region mainStockPanel
-        //how to remember last selected row in a datadridview after a datagridview refresh
+        //how to remember last selected row in a datagridview after a datagridview refresh
         private void stockGridView_CellContentClick(object sender, DataGridViewCellEventArgs e) {
             if (stockGridView.Columns[e.ColumnIndex].Name == "Add" && e.RowIndex >= 0) {
                 quantity_change(1);
             }
-
 
             if (stockGridView.Columns[e.ColumnIndex].Name == "Subtract" && e.RowIndex >= 0) {
                 quantity_change(-1);
@@ -733,6 +735,7 @@ namespace RiceInventorySystem {
             if (stockGridView.Columns[e.ColumnIndex].Name == "Save" && e.RowIndex >= 0) {
                 //save changes for price and quantity
                 var row = stockGridView.CurrentRow;
+
                 if (Convert.ToInt32(row.Cells["addOrSubtractItem"].Value) == 0) {
                     notChanged.Visible = true;
                     Task.Delay(5000).ContinueWith(_ => {
@@ -754,7 +757,6 @@ namespace RiceInventorySystem {
                         //for summary
                         con.Open();
                         var Type = (Convert.ToInt32(row.Cells["addOrSubtractItem"].Value) < 0) ? "Subtracted" : "Added";
-
                         SqlCommand cmd2 = new SqlCommand("INSERT INTO FullSummary VALUES (@Name1, @Price1, @Quantity1, @Type1, @Total1, @DateAndTime1)", con);
                         cmd2.Parameters.AddWithValue("@Name1", row.Cells["RiceClass"].Value.ToString());
                         cmd2.Parameters.AddWithValue("@Price1", Convert.ToDouble(row.Cells["Price"].Value));
@@ -768,7 +770,19 @@ namespace RiceInventorySystem {
                         newQuantity.Text = "0";
                         newTotal.Text = "0";
                         MessageBox.Show(row.Cells["RiceClass"].Value.ToString() + " Saved!", "!");
-                        populateStockDataGridView();
+
+                        int FirstDisplayedScrollingRowIndex = stockGridView.FirstDisplayedScrollingRowIndex; //Save Current Scroll Index
+                        int SelectedRowIndex = 0;
+                        if (stockGridView.SelectedRows.Count > 0) {
+                            SelectedRowIndex = stockGridView.SelectedRows[0].Index; //Save Current Selected Row Index
+                        }
+                        populateStockDataGridView(); // Refresh Stock DataGridView
+                        if ((FirstDisplayedScrollingRowIndex >= 0) && ((stockGridView.Rows.Count - 1) >= FirstDisplayedScrollingRowIndex)) {
+                            stockGridView.FirstDisplayedScrollingRowIndex = FirstDisplayedScrollingRowIndex; //Restore Scroll Index
+                        }
+                        if ((stockGridView.Rows.Count - 1) >= SelectedRowIndex) {
+                            stockGridView.Rows[SelectedRowIndex].Selected = true; //Restore Selected Row
+                        }
                     }
                 }
             }
