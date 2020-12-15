@@ -23,12 +23,12 @@
         /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent() {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle9 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle10 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle11 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle12 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle19 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle20 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle21 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle22 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle23 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle24 = new System.Windows.Forms.DataGridViewCellStyle();
             this.riceComboBox = new System.Windows.Forms.ComboBox();
             this.quantityTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -38,12 +38,15 @@
             this.saveBtn = new System.Windows.Forms.Button();
             this.mainPanel = new System.Windows.Forms.Panel();
             this.summaryPanel = new System.Windows.Forms.Panel();
+            this.summaryLabel = new RiceInventorySystem.CustomLabel();
             this.summaryPictureBox = new System.Windows.Forms.PictureBox();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.stockPanel = new System.Windows.Forms.Panel();
+            this.stockLabel = new RiceInventorySystem.CustomLabel();
             this.stockPictureBox = new System.Windows.Forms.PictureBox();
             this.addPanel = new System.Windows.Forms.Panel();
             this.addPictureBox = new System.Windows.Forms.PictureBox();
+            this.addLabel = new RiceInventorySystem.CustomLabel();
             this.addItemPanel = new System.Windows.Forms.Panel();
             this.priceValue = new System.Windows.Forms.Label();
             this.riceClassIndicator = new System.Windows.Forms.Label();
@@ -99,9 +102,7 @@
             this.maximize = new System.Windows.Forms.PictureBox();
             this.close = new System.Windows.Forms.PictureBox();
             this.minimize = new System.Windows.Forms.PictureBox();
-            this.summaryLabel = new RiceInventorySystem.CustomLabel();
-            this.stockLabel = new RiceInventorySystem.CustomLabel();
-            this.addLabel = new RiceInventorySystem.CustomLabel();
+            this.printLandscapeOrPortraitMessageBox = new System.Windows.Forms.Panel();
             this.mainPanel.SuspendLayout();
             this.summaryPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.summaryPictureBox)).BeginInit();
@@ -221,6 +222,17 @@
             this.summaryPanel.MouseLeave += new System.EventHandler(this.summaryPanel_MouseLeave);
             this.summaryPanel.MouseHover += new System.EventHandler(this.summaryPanel_MouseHover);
             // 
+            // summaryLabel
+            // 
+            this.summaryLabel.AutoSize = true;
+            this.summaryLabel.Enabled = false;
+            this.summaryLabel.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.summaryLabel.Location = new System.Drawing.Point(14, 100);
+            this.summaryLabel.Name = "summaryLabel";
+            this.summaryLabel.Size = new System.Drawing.Size(139, 22);
+            this.summaryLabel.TabIndex = 19;
+            this.summaryLabel.Text = "S U M M A R Y";
+            // 
             // summaryPictureBox
             // 
             this.summaryPictureBox.Enabled = false;
@@ -257,6 +269,17 @@
             this.stockPanel.MouseLeave += new System.EventHandler(this.stockPanel_MouseLeave);
             this.stockPanel.MouseHover += new System.EventHandler(this.stockPanel_MouseHover);
             // 
+            // stockLabel
+            // 
+            this.stockLabel.AutoSize = true;
+            this.stockLabel.Enabled = false;
+            this.stockLabel.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.stockLabel.Location = new System.Drawing.Point(36, 93);
+            this.stockLabel.Name = "stockLabel";
+            this.stockLabel.Size = new System.Drawing.Size(98, 22);
+            this.stockLabel.TabIndex = 18;
+            this.stockLabel.Text = "S T O C K";
+            // 
             // stockPictureBox
             // 
             this.stockPictureBox.Enabled = false;
@@ -291,6 +314,17 @@
             this.addPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.addPictureBox.TabIndex = 10;
             this.addPictureBox.TabStop = false;
+            // 
+            // addLabel
+            // 
+            this.addLabel.AutoSize = true;
+            this.addLabel.Enabled = false;
+            this.addLabel.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.addLabel.Location = new System.Drawing.Point(53, 96);
+            this.addLabel.Name = "addLabel";
+            this.addLabel.Size = new System.Drawing.Size(62, 22);
+            this.addLabel.TabIndex = 17;
+            this.addLabel.Text = "A D D";
             // 
             // addItemPanel
             // 
@@ -360,14 +394,14 @@
             this.summaryGridView.AllowUserToDeleteRows = false;
             this.summaryGridView.AllowUserToResizeRows = false;
             this.summaryGridView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle7.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.summaryGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle7;
+            dataGridViewCellStyle19.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle19.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle19.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle19.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle19.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle19.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle19.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.summaryGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle19;
             this.summaryGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.summaryGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.summaryName,
@@ -380,17 +414,17 @@
             this.summaryGridView.MultiSelect = false;
             this.summaryGridView.Name = "summaryGridView";
             this.summaryGridView.ReadOnly = true;
-            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle8.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.summaryGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle8;
+            dataGridViewCellStyle20.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle20.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle20.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle20.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle20.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle20.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle20.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.summaryGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle20;
             this.summaryGridView.RowHeadersVisible = false;
-            dataGridViewCellStyle9.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.summaryGridView.RowsDefaultCellStyle = dataGridViewCellStyle9;
+            dataGridViewCellStyle21.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.summaryGridView.RowsDefaultCellStyle = dataGridViewCellStyle21;
             this.summaryGridView.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.summaryGridView.RowTemplate.Height = 28;
             this.summaryGridView.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -551,14 +585,14 @@
             this.stockGridView.AllowUserToResizeRows = false;
             this.stockGridView.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.stockGridView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            dataGridViewCellStyle10.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle10.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle10.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle10.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle10.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle10.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle10.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.stockGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle10;
+            dataGridViewCellStyle22.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle22.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle22.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle22.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle22.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle22.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle22.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.stockGridView.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle22;
             this.stockGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.stockGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.RiceClass,
@@ -573,17 +607,17 @@
             this.stockGridView.MultiSelect = false;
             this.stockGridView.Name = "stockGridView";
             this.stockGridView.ReadOnly = true;
-            dataGridViewCellStyle11.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle11.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle11.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle11.ForeColor = System.Drawing.SystemColors.WindowText;
-            dataGridViewCellStyle11.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle11.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle11.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.stockGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle11;
+            dataGridViewCellStyle23.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle23.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle23.Font = new System.Drawing.Font("Arial Rounded MT Bold", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle23.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle23.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle23.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle23.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.stockGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle23;
             this.stockGridView.RowHeadersVisible = false;
-            dataGridViewCellStyle12.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            this.stockGridView.RowsDefaultCellStyle = dataGridViewCellStyle12;
+            dataGridViewCellStyle24.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            this.stockGridView.RowsDefaultCellStyle = dataGridViewCellStyle24;
             this.stockGridView.RowTemplate.DefaultCellStyle.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             this.stockGridView.RowTemplate.Height = 35;
             this.stockGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
@@ -931,44 +965,21 @@
             this.minimize.TabStop = false;
             this.minimize.Click += new System.EventHandler(this.minimize_Click);
             // 
-            // summaryLabel
+            // printLandscapeOrPortraitMessageBox
             // 
-            this.summaryLabel.AutoSize = true;
-            this.summaryLabel.Enabled = false;
-            this.summaryLabel.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.summaryLabel.Location = new System.Drawing.Point(14, 100);
-            this.summaryLabel.Name = "summaryLabel";
-            this.summaryLabel.Size = new System.Drawing.Size(139, 22);
-            this.summaryLabel.TabIndex = 19;
-            this.summaryLabel.Text = "S U M M A R Y";
-            // 
-            // stockLabel
-            // 
-            this.stockLabel.AutoSize = true;
-            this.stockLabel.Enabled = false;
-            this.stockLabel.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.stockLabel.Location = new System.Drawing.Point(36, 93);
-            this.stockLabel.Name = "stockLabel";
-            this.stockLabel.Size = new System.Drawing.Size(98, 22);
-            this.stockLabel.TabIndex = 18;
-            this.stockLabel.Text = "S T O C K";
-            // 
-            // addLabel
-            // 
-            this.addLabel.AutoSize = true;
-            this.addLabel.Enabled = false;
-            this.addLabel.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.addLabel.Location = new System.Drawing.Point(53, 96);
-            this.addLabel.Name = "addLabel";
-            this.addLabel.Size = new System.Drawing.Size(62, 22);
-            this.addLabel.TabIndex = 17;
-            this.addLabel.Text = "A D D";
+            this.printLandscapeOrPortraitMessageBox.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.printLandscapeOrPortraitMessageBox.Location = new System.Drawing.Point(614, 120);
+            this.printLandscapeOrPortraitMessageBox.Name = "printLandscapeOrPortraitMessageBox";
+            this.printLandscapeOrPortraitMessageBox.Size = new System.Drawing.Size(238, 128);
+            this.printLandscapeOrPortraitMessageBox.TabIndex = 18;
+            this.printLandscapeOrPortraitMessageBox.Visible = false;
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 22F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1300, 690);
+            this.Controls.Add(this.printLandscapeOrPortraitMessageBox);
             this.Controls.Add(this.addItemPanel);
             this.Controls.Add(this.addRicePanel);
             this.Controls.Add(this.mainAddPanel);
@@ -1094,6 +1105,7 @@
         private CustomLabel addLabel;
         private CustomLabel summaryLabel;
         private CustomLabel stockLabel;
+        private System.Windows.Forms.Panel printLandscapeOrPortraitMessageBox;
     }
 }
 

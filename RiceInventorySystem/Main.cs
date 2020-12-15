@@ -24,7 +24,7 @@ using RiceInventorySystem;
 namespace RiceInventorySystem {
     public partial class Main : Form {
 
-        SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["SystemDatabaseConnection"].ConnectionString);
+        SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["SystemDatabaseConnection"].ConnectionString); // This is set in App.config
 
         private const int cGrip = 16;
         private const int cCaption = 32;
@@ -144,6 +144,81 @@ namespace RiceInventorySystem {
             var newQty = (Convert.ToInt32(row.Cells["Quantity"].Value) + Convert.ToInt32(row.Cells["addOrSubtractItem"].Value));
             newQuantity.Text = newQty.ToString();
             newTotal.Text = (Convert.ToDouble(row.Cells["Price"].Value) * newQty).ToString();
+        }
+
+        public void ConvertDataToPDF(iTextSharp.text.Rectangle pageSize) {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "PDF (*.pdf)|*.pdf";
+            sfd.FileName = "Full Summary.pdf";
+            bool fileError = false;
+            if (sfd.ShowDialog() == DialogResult.OK) {
+                if (File.Exists(sfd.FileName)) {
+                    try {
+                        File.Delete(sfd.FileName);
+                    }
+                    catch (IOException ex) {
+                        fileError = true;
+                        MessageBox.Show("It wasn't possible to write the data to the disk." + ex.Message);
+                    }
+                }
+                if (!fileError) {
+                    try {
+
+                        PdfPTable pdfTable = new PdfPTable(summaryGridView.Columns.Count);
+                        //pdfTable.DefaultCell.Padding = 12;
+                        pdfTable.DefaultCell.PaddingTop = 8;
+                        pdfTable.DefaultCell.PaddingRight = 4;
+                        pdfTable.DefaultCell.PaddingBottom = 8;
+                        pdfTable.DefaultCell.PaddingLeft = 4;
+
+                        pdfTable.WidthPercentage = 100;
+                        pdfTable.DefaultCell.HorizontalAlignment = Element.ALIGN_CENTER;
+                        pdfTable.DefaultCell.VerticalAlignment = Element.ALIGN_MIDDLE;
+
+                        pdfTable.HeaderRows = 1; // add datagridview header every new page in pdf
+                        foreach (DataGridViewColumn column in summaryGridView.Columns) { // HEADER
+                            var FontStyle = FontFactory.GetFont("Arial Rounded MT", 15, new BaseColor(245, 245, 245));
+                            FontStyle.SetStyle(1); //Style "1" = BOLD
+
+                            PdfPCell cell = new PdfPCell(new Paragraph(new Chunk(column.HeaderText, FontStyle))) {
+                                BackgroundColor = new BaseColor(69, 90, 100),
+                                HorizontalAlignment = Element.ALIGN_CENTER,
+                                VerticalAlignment = Element.ALIGN_MIDDLE,
+                                FixedHeight = 50f,
+                            };
+                            pdfTable.AddCell(cell);
+                        }
+
+                        foreach (DataGridViewRow row in summaryGridView.Rows) {
+                            foreach (DataGridViewCell cell in row.Cells) {
+                                pdfTable.AddCell(cell.FormattedValue.ToString());
+                            }
+                        }
+
+                        using (FileStream stream = new FileStream(sfd.FileName, FileMode.Create)) {
+                            /*Short Bondpaper size or size = LETTER
+                             8.5 inch x 72 points = 612 user units
+                             12 inch x 72 points = 861 user units*/
+                            // iTextSharp.text.Rectangle pagesize = new iTextSharp.text.Rectangle(612, 861);
+                            //Document pdfDoc = new Document(PageSize.LETTER.Rotate(), 60f, 60f, 75f, 60f);
+                            //Document pdfDoc = new Document(iTextSharp.text.PageSize.LETTER, 60f, 60f, 75f, 60f); //right, left, top, bot
+                            Document pdfDoc = new Document(pageSize, 60f, 60f, 75f, 60f);
+
+                            PdfWriter writer = PdfWriter.GetInstance(pdfDoc, stream);
+                            writer.PageEvent = new HeaderAndFooter();
+                            pdfDoc.Open();
+                            pdfDoc.Add(pdfTable);
+                            pdfDoc.Close();
+                            stream.Close();
+                        }
+
+                        MessageBox.Show("Data Exported Successfully !!!", "Info");
+                    }
+                    catch (Exception ex) {
+                        MessageBox.Show("Error :" + ex.Message);
+                    }
+                }
+            }
         }
 
         private void resetTextBoxes() {
@@ -626,74 +701,14 @@ namespace RiceInventorySystem {
 
         private void printSummaryData_Click(object sender, EventArgs e) {
             if (summaryGridView.Rows.Count > 0) {
-                SaveFileDialog sfd = new SaveFileDialog();
-                sfd.Filter = "PDF (*.pdf)|*.pdf";
-                sfd.FileName = "Full Summary.pdf";
-                bool fileError = false;
-                if (sfd.ShowDialog() == DialogResult.OK) {
-                    if (File.Exists(sfd.FileName)) {
-                        try {
-                            File.Delete(sfd.FileName);
-                        }
-                        catch (IOException ex) {
-                            fileError = true;
-                            MessageBox.Show("It wasn't possible to write the data to the disk." + ex.Message);
-                        }
-                    }
-                    if (!fileError) {
-                        try {
-
-                            PdfPTable pdfTable = new PdfPTable(summaryGridView.Columns.Count);
-                            //pdfTable.DefaultCell.Padding = 12;
-                            pdfTable.DefaultCell.PaddingTop = 8;
-                            pdfTable.DefaultCell.PaddingRight = 4;
-                            pdfTable.DefaultCell.PaddingBottom = 8;
-                            pdfTable.DefaultCell.PaddingLeft = 4;
-
-                            pdfTable.WidthPercentage = 100;
-                            pdfTable.DefaultCell.HorizontalAlignment = Element.ALIGN_CENTER;
-                            pdfTable.DefaultCell.VerticalAlignment = Element.ALIGN_MIDDLE;
-
-                            pdfTable.HeaderRows = 1; // add datagridview header every new page in pdf
-                            foreach (DataGridViewColumn column in summaryGridView.Columns) { // HEADER
-                                var FontStyle = FontFactory.GetFont("Arial Rounded MT", 15, new BaseColor(245, 245, 245));
-                                FontStyle.SetStyle(1); //Style "1" = BOLD
-
-                                PdfPCell cell = new PdfPCell(new Paragraph(new Chunk(column.HeaderText, FontStyle))) {
-                                    BackgroundColor = new BaseColor(69, 90, 100),
-                                    HorizontalAlignment = Element.ALIGN_CENTER,
-                                    VerticalAlignment = Element.ALIGN_MIDDLE,
-                                    FixedHeight = 50f,
-                                };
-                                pdfTable.AddCell(cell);
-                            }
-
-                            foreach (DataGridViewRow row in summaryGridView.Rows) {
-                                foreach (DataGridViewCell cell in row.Cells) {
-                                    pdfTable.AddCell(cell.FormattedValue.ToString());
-                                }
-                            }
-
-                            using (FileStream stream = new FileStream(sfd.FileName, FileMode.Create)) {
-                                /*Short Bondpaper size or size = LETTER
-                                 8.5 inch x 72 points = 612 user units
-                                 12 inch x 72 points = 861 user units*/
-                                // iTextSharp.text.Rectangle pagesize = new iTextSharp.text.Rectangle(612, 861);
-                                //PdfWriter.GetInstance(pdfDoc, stream);
-                                Document pdfDoc = new Document(iTextSharp.text.PageSize.LETTER, 60f, 60f, 75f, 60f); //right, left, top, bot
-                                PdfWriter writer = PdfWriter.GetInstance(pdfDoc, stream);
-                                writer.PageEvent = new HeaderAndFooter();
-                                pdfDoc.Open();
-                                pdfDoc.Add(pdfTable);
-                                pdfDoc.Close();
-                                stream.Close();
-                            }
-
-                            MessageBox.Show("Data Exported Successfully !!!", "Info");
-                        }
-                        catch (Exception ex) {
-                            MessageBox.Show("Error :" + ex.Message);
-                        }
+                DialogResult dialog = MessageBox.Show("Do you want to print in PORTRAIT MODE?\nSelect no to print in LANDSCAPE MODE!", "PDF Mode", MessageBoxButtons.YesNo);
+                if (dialog == DialogResult.Yes) {
+                    ConvertDataToPDF(PageSize.LETTER);
+                }
+                else {
+                    DialogResult anotherdialog = MessageBox.Show("Print in LANDSCAPE MODE?", "PDF Mode", MessageBoxButtons.YesNo);
+                    if (anotherdialog == DialogResult.Yes) {
+                        ConvertDataToPDF(PageSize.LETTER.Rotate());
                     }
                 }
             }
@@ -704,6 +719,7 @@ namespace RiceInventorySystem {
         #endregion
 
         #region mainStockPanel
+        //how to remember last selected row in a datadridview after a datagridview refresh
         private void stockGridView_CellContentClick(object sender, DataGridViewCellEventArgs e) {
             if (stockGridView.Columns[e.ColumnIndex].Name == "Add" && e.RowIndex >= 0) {
                 quantity_change(1);
