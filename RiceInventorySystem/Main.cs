@@ -36,7 +36,6 @@ namespace RiceInventorySystem {
         string primarySidePanelBtn = "#455A64";
         string secondarySidePanelBtn = "#637D82";
 
-        // If dropdown item (in add item to stock) is selected -> price * quantity.text
 
         #region Main
         public Main() {
@@ -71,8 +70,7 @@ namespace RiceInventorySystem {
         }
         #endregion
 
-        #region functions
-        // F U N C T I O N S //
+        #region Functions
         private void dropdownRefresh() {
             riceComboBoxPreview.Items.Clear();
             riceComboBox.Items.Clear();
@@ -167,7 +165,6 @@ namespace RiceInventorySystem {
                     try {
 
                         PdfPTable pdfTable = new PdfPTable(summaryGridView.Columns.Count);
-                        //pdfTable.DefaultCell.Padding = 12;
                         pdfTable.DefaultCell.PaddingTop = 8;
                         pdfTable.DefaultCell.PaddingRight = 4;
                         pdfTable.DefaultCell.PaddingBottom = 8;
@@ -202,9 +199,7 @@ namespace RiceInventorySystem {
                              8.5 inch x 72 points = 612 user units
                              12 inch x 72 points = 861 user units*/
                             // iTextSharp.text.Rectangle pagesize = new iTextSharp.text.Rectangle(612, 861);
-                            //Document pdfDoc = new Document(PageSize.LETTER.Rotate(), 60f, 60f, 75f, 60f);
-                            //Document pdfDoc = new Document(iTextSharp.text.PageSize.LETTER, 60f, 60f, 75f, 60f); //right, left, top, bot
-                            Document pdfDoc = new Document(pageSize, 60f, 60f, 75f, 60f);
+                            Document pdfDoc = new Document(pageSize, 60f, 60f, 75f, 60f);//right, left, top, bottom
 
                             PdfWriter writer = PdfWriter.GetInstance(pdfDoc, stream);
                             writer.PageEvent = new HeaderAndFooter();
@@ -221,6 +216,16 @@ namespace RiceInventorySystem {
                     }
                 }
             }
+        }
+        private void riceComboBoxTextChangedForPrice() {
+            con.Open();
+            SqlCommand cmd = new SqlCommand("SELECT Price FROM RiceClassPreview WHERE RiceClass = @RiceClass", con);
+            cmd.Parameters.AddWithValue("@RiceClass", riceComboBox.Text);
+            SqlDataReader dr = cmd.ExecuteReader();
+            if (dr.Read()) {
+                priceValue.Text = dr.GetValue(dr.GetOrdinal("Price")).ToString();
+            }
+            con.Close();
         }
 
         private void resetTextBoxes() {
@@ -251,8 +256,6 @@ namespace RiceInventorySystem {
             }
             base.WndProc(ref m);
         }
-
-        //////////////////////////////////////////////////////////////////////
         #endregion
 
         #region move form
@@ -287,7 +290,7 @@ namespace RiceInventorySystem {
         }
         #endregion
 
-        #region side panel colors
+        #region Side Panel Colors
         private void addPanel_MouseHover(object sender, EventArgs e) {
             addPanel.BackColor = ColorTranslator.FromHtml(secondarySidePanelBtn);
         }
@@ -314,7 +317,7 @@ namespace RiceInventorySystem {
 
         #endregion
 
-        #region main panels click event
+        #region Main Panels Click Event
         private void addPanel_Click(object sender, EventArgs e) {
             resetTextBoxes();
             mainAddPanel.Location = new Point(locationX, locationY);
@@ -576,20 +579,28 @@ namespace RiceInventorySystem {
 
         #region addItemPanel Textboxes and btn
 
+
         private void riceComboBox_TextChanged(object sender, EventArgs e) {
-            //This is needed so thee user can only input valid rice class
-            //Check if Rice (from the dropdown is in the database)
-            //This is located in addItemPanel
-            riceClassIndicator.Visible = true;
+            //This is needed so the user can only input valid rice class
             if (String.IsNullOrEmpty(riceComboBox.Text)) {
                 riceClassIndicator.Text = "0";
             }
             else {
+                //Check if Rice (from the dropdown is in the database)
                 SqlDataAdapter sda = new SqlDataAdapter("SELECT RiceClass FROM RiceClassPreview WHERE RiceClass = @RiceClass", con);
                 sda.SelectCommand.Parameters.AddWithValue("@RiceClass", riceComboBox.Text); //Parameterized query for SqlDataAdapter
                 DataTable dt = new DataTable();
                 sda.Fill(dt);
-                _ = (dt.Rows.Count >= 1) ? riceClassIndicator.Text = "1" : riceClassIndicator.Text = "0";
+                // _ = (dt.Rows.Count >= 1) ? riceClassIndicator.Text = "1" : riceClassIndicator.Text = "0";
+                //priceValue.Text = "0";
+                if (dt.Rows.Count >= 1) {
+                    riceClassIndicator.Text = "1";
+                    riceComboBoxTextChangedForPrice();
+                }
+                else {
+                    riceClassIndicator.Text = "0";
+                    priceValue.Text = "0";
+                }
             }
         }
 
@@ -640,7 +651,6 @@ namespace RiceInventorySystem {
             }
         }
 
-        //Start Here Later
         private void quantityTextBox_KeyPress(object sender, KeyPressEventArgs e) {
             char ch = e.KeyChar;
             if (ch == 46 && quantityTextBox.Text.IndexOf(".") != -1) {
@@ -653,7 +663,7 @@ namespace RiceInventorySystem {
             }
         }
 
-        private void quantityTextBox_KeyUp(object sender, KeyEventArgs e) {
+        private void DetermineTotalValue() {
             float num1, num2, product;
             num1 = String.IsNullOrEmpty(priceValue.Text) ? 0 : float.Parse(priceValue.Text);
             num2 = String.IsNullOrEmpty(quantityTextBox.Text) ? 0 : float.Parse(quantityTextBox.Text);
@@ -661,9 +671,12 @@ namespace RiceInventorySystem {
             totalValue.Text = product.ToString();
         }
 
+        private void quantityTextBox_KeyUp(object sender, KeyEventArgs e) {
+            DetermineTotalValue();
+        }
+
         private void riceComboBox_SelectedIndexChanged(object sender, EventArgs e) {
-            //priceValue.Text = "0";
-            //quantityTextBox.Text = "";
+            DetermineTotalValue();
 
             //Check If RiceClass exists then Display its PRICE
             SqlDataAdapter sda = new SqlDataAdapter("SELECT RiceClass FROM RiceClassPreview WHERE RiceClass = @RiceClass", con);
@@ -671,19 +684,7 @@ namespace RiceInventorySystem {
             DataTable dt = new DataTable();
             sda.Fill(dt);
 
-            if (dt.Rows.Count >= 1) {
-                con.Open();
-                SqlCommand cmd = new SqlCommand("SELECT Price FROM RiceClassPreview WHERE RiceClass = @RiceClass", con);
-                cmd.Parameters.AddWithValue("@RiceClass", riceComboBox.Text);
-                SqlDataReader dr = cmd.ExecuteReader();
-                if (dr.Read()) {
-                    priceValue.Text = dr.GetValue(dr.GetOrdinal("Price")).ToString();
-                }
-                con.Close();
-            }
-            else {
-                priceValue.Text = "0";
-            }
+            _ = (dt.Rows.Count >= 1) ? new Action(() => riceComboBoxTextChangedForPrice()) : () => priceValue.Text = "0"; //Have a function and string as statements
         }
         #endregion
 

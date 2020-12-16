@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+// This is used at the side panel texts
 namespace RiceInventorySystem {
     public class CustomLabel : Label {
         private Label label1;
