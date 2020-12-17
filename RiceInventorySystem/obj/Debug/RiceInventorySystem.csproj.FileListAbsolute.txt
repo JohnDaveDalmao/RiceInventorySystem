@@ -21,3 +21,7 @@ D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\bin\Debug\itextsharp.xm
 D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\obj\Debug\RiceInventorySystem.csproj.CopyComplete
 D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\obj\Debug\RiceInventorySystem.CustomLabel.resources
 D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\obj\Debug\RiceInventorySystem.csprojAssemblyReference.cache
+D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\bin\Debug\RiceInventorySystem.exe.manifest
+D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\bin\Debug\RiceInventorySystem.application
+D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\obj\Debug\RiceInventorySystem.exe.manifest
+D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\obj\Debug\RiceInventorySystem.application

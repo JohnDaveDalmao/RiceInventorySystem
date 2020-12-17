@@ -48,9 +48,6 @@ namespace RiceInventorySystem {
         public Main() {
             InitializeComponent();
             this.SetStyle(ControlStyles.ResizeRedraw, true);
-            this.Text = string.Empty;
-            this.ControlBox = false;
-            this.DoubleBuffered = true;
 
             DataTable dt = new DataTable();
             DataColumn newColumn = new DataColumn("addOrSubtractItem", typeof(System.String));
