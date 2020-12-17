@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using RiceInventorySystem;
+using System.Runtime.InteropServices;
 
 //STOCK size: 1134, 615 // Location: 166, 39
 //Stock dgv: 870, 503
@@ -23,6 +24,13 @@ using RiceInventorySystem;
  */
 namespace RiceInventorySystem {
     public partial class Main : Form {
+
+        //Move form using panel.mouse down event//
+        [DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
+        private extern static void ReleaseCapture();
+        [DllImport("user32.DLL", EntryPoint = "SendMessage")]
+        private extern static void SendMessage(System.IntPtr hWnd, int wMsg, int wParam, int lParam);
+        ////////////////////////////////////
 
         SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["SystemDatabaseConnection"].ConnectionString); // This is set in App.config
 
@@ -36,11 +44,14 @@ namespace RiceInventorySystem {
         string primarySidePanelBtn = "#455A64";
         string secondarySidePanelBtn = "#637D82";
 
-
         #region Main
         public Main() {
             InitializeComponent();
             this.SetStyle(ControlStyles.ResizeRedraw, true);
+            this.Text = string.Empty;
+            this.ControlBox = false;
+            this.DoubleBuffered = true;
+
             DataTable dt = new DataTable();
             DataColumn newColumn = new DataColumn("addOrSubtractItem", typeof(System.String));
             newColumn.DefaultValue = "Your DropDownList value";
@@ -276,13 +287,9 @@ namespace RiceInventorySystem {
         }
         #endregion
 
-        #region min, max, close btns
+        #region min and close btns
         private void minimize_Click(object sender, EventArgs e) {
             this.WindowState = FormWindowState.Minimized;
-        }
-
-        private void maximize_Click(object sender, EventArgs e) {
-            this.WindowState = FormWindowState.Maximized;
         }
 
         private void close_Click(object sender, EventArgs e) {
@@ -322,6 +329,7 @@ namespace RiceInventorySystem {
             resetTextBoxes();
             mainAddPanel.Location = new Point(locationX, locationY);
             mainAddPanel.Size = new Size(panelWidth, panelHeight);
+            // mainAddPanel.Dock = DockStyle.Fill;
 
             mainAddPanel.Visible = true;
             mainStockPanel.Visible = false;
@@ -377,6 +385,15 @@ namespace RiceInventorySystem {
             mainSummaryPanel.Visible = false;
             addRicePanel.Visible = false;
         }
+
+
+
+
+        private void mainPanel_MouseDown(object sender, MouseEventArgs e) {
+            ReleaseCapture();
+            SendMessage(this.Handle, 0x112, 0xf012, 0);
+        }
+
         #endregion
 
         #region addRicePanel: INSERT, UPDATE, DELETE btns
@@ -694,6 +711,7 @@ namespace RiceInventorySystem {
         }
 
 
+
         private void AddedData_Click(object sender, EventArgs e) {
             populateSummaryDataGridView("SELECT * FROM FullSummary WHERE Type LIKE 'Added' ORDER BY DateAndTime DESC ");
 
@@ -751,7 +769,11 @@ namespace RiceInventorySystem {
 
                         //for Stock
                         con.Open();
-                        cmd.CommandText = "UPDATE Stock SET Quantity='" + Convert.ToInt32(newQuantity.Text) + "', Total='" + Convert.ToDouble(newTotal.Text) + "' WHERE Name='" + row.Cells["RiceClass"].Value + "'";
+                        cmd.CommandText = "UPDATE Stock SET Quantity = @Quantity, Total = @Total WHERE Name = @Name";
+                        cmd.Parameters.AddWithValue("@Quantity", Convert.ToInt32(newQuantity.Text));
+                        cmd.Parameters.AddWithValue("@Total", Convert.ToDouble(newTotal.Text));
+                        cmd.Parameters.AddWithValue("@Name", row.Cells["RiceClass"].Value.ToString());
+
                         cmd.ExecuteNonQuery();
                         con.Close();
 
