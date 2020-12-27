@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using RiceInventorySystem;
 using System.Runtime.InteropServices;
+using System.Configuration;
 
 //STOCK size: 1134, 615 // Location: 166, 39
 //Stock dgv: 870, 503
@@ -24,7 +25,6 @@ using System.Runtime.InteropServices;
  */
 namespace RiceInventorySystem {
     public partial class Main : Form {
-
         //Move form using panel.mouse down event//
         [DllImport("user32.DLL", EntryPoint = "ReleaseCapture")]
         private extern static void ReleaseCapture();
@@ -32,7 +32,7 @@ namespace RiceInventorySystem {
         private extern static void SendMessage(System.IntPtr hWnd, int wMsg, int wParam, int lParam);
         ////////////////////////////////////
 
-        SqlConnection con = new SqlConnection(System.Configuration.ConfigurationManager.ConnectionStrings["SystemDatabaseConnection"].ConnectionString); // This is set in App.config
+
 
         private const int cGrip = 16;
         private const int cCaption = 32;
@@ -44,10 +44,12 @@ namespace RiceInventorySystem {
         string primarySidePanelBtn = "#455A64";
         string secondarySidePanelBtn = "#637D82";
 
+
         #region Main
         public Main() {
             InitializeComponent();
             this.SetStyle(ControlStyles.ResizeRedraw, true);
+            ConnectionStringClientPath();
 
             DataTable dt = new DataTable();
             DataColumn newColumn = new DataColumn("addOrSubtractItem", typeof(System.String));
@@ -77,6 +79,20 @@ namespace RiceInventorySystem {
             }
         }
         #endregion
+
+        // SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["SystemDatabaseConnectionNew"].ConnectionString); // This is set in App.config
+
+        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["SystemDatabaseConnectionNew"].ConnectionString); // This is set in App.config
+
+        public static string ConnectionStringClientPath() {
+            string s = (ConfigurationManager.ConnectionStrings["SystemDatabaseConnectionNew"].ConnectionString);
+            s = s.Replace("##path##", Directory.GetCurrentDirectory());
+            return s;
+        }
+
+        private void GetConnectionString_Click(object sender, EventArgs e) {
+            cName.Text = ConnectionStringClientPath();
+        }
 
         #region Functions
         private void dropdownRefresh() {
@@ -706,8 +722,6 @@ namespace RiceInventorySystem {
         private void LoadAllData_Click(object sender, EventArgs e) {
             populateSummaryDataGridView(loadAllSummaryData);
         }
-
-
 
         private void AddedData_Click(object sender, EventArgs e) {
             populateSummaryDataGridView("SELECT * FROM FullSummary WHERE Type LIKE 'Added' ORDER BY DateAndTime DESC ");
