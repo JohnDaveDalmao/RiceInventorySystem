@@ -26,7 +26,7 @@
     <ProductName>Rice Inventory System</ProductName>
     <PublisherName>John Dave Dalmao</PublisherName>
     <SuiteName>John Dave Dalmao</SuiteName>
-    <ApplicationRevision>9</ApplicationRevision>
+    <ApplicationRevision>10</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>

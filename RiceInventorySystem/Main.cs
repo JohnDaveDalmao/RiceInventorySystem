@@ -32,7 +32,7 @@ namespace RiceInventorySystem {
         private extern static void SendMessage(System.IntPtr hWnd, int wMsg, int wParam, int lParam);
         ////////////////////////////////////
 
-        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["SystemDatabaseConnectionTemp"].ConnectionString); // This is set in App.config
+        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["SystemDatabaseConnection"].ConnectionString); // This is set in App.config
 
         private const int cGrip = 16;
         private const int cCaption = 32;
