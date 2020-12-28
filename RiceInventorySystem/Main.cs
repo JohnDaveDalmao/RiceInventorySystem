@@ -32,7 +32,7 @@ namespace RiceInventorySystem {
         private extern static void SendMessage(System.IntPtr hWnd, int wMsg, int wParam, int lParam);
         ////////////////////////////////////
 
-
+        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["SystemDatabaseConnectionTemp"].ConnectionString); // This is set in App.config
 
         private const int cGrip = 16;
         private const int cCaption = 32;
@@ -49,7 +49,6 @@ namespace RiceInventorySystem {
         public Main() {
             InitializeComponent();
             this.SetStyle(ControlStyles.ResizeRedraw, true);
-            ConnectionStringClientPath();
 
             DataTable dt = new DataTable();
             DataColumn newColumn = new DataColumn("addOrSubtractItem", typeof(System.String));
@@ -79,20 +78,6 @@ namespace RiceInventorySystem {
             }
         }
         #endregion
-
-        // SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["SystemDatabaseConnectionNew"].ConnectionString); // This is set in App.config
-
-        SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["SystemDatabaseConnectionNew"].ConnectionString); // This is set in App.config
-
-        public static string ConnectionStringClientPath() {
-            string s = (ConfigurationManager.ConnectionStrings["SystemDatabaseConnectionNew"].ConnectionString);
-            s = s.Replace("##path##", Directory.GetCurrentDirectory());
-            return s;
-        }
-
-        private void GetConnectionString_Click(object sender, EventArgs e) {
-            cName.Text = ConnectionStringClientPath();
-        }
 
         #region Functions
         private void dropdownRefresh() {

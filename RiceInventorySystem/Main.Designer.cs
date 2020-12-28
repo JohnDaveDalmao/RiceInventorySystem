@@ -32,15 +32,12 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
             this.mainPanel = new System.Windows.Forms.Panel();
             this.summaryPanel = new System.Windows.Forms.Panel();
-            this.summaryLabel = new RiceInventorySystem.CustomLabel();
             this.summaryPictureBox = new System.Windows.Forms.PictureBox();
             this.pictureBox5 = new System.Windows.Forms.PictureBox();
             this.stockPanel = new System.Windows.Forms.Panel();
-            this.stockLabel = new RiceInventorySystem.CustomLabel();
             this.stockPictureBox = new System.Windows.Forms.PictureBox();
             this.addPanel = new System.Windows.Forms.Panel();
             this.addPictureBox = new System.Windows.Forms.PictureBox();
-            this.addLabel = new RiceInventorySystem.CustomLabel();
             this.close = new System.Windows.Forms.PictureBox();
             this.minimize = new System.Windows.Forms.PictureBox();
             this.mainAddPanel = new System.Windows.Forms.Panel();
@@ -102,13 +99,9 @@
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.quantityTextBox = new System.Windows.Forms.TextBox();
-            this.GetConnectionString = new System.Windows.Forms.Button();
-            this.x = new System.Windows.Forms.Label();
-            this.y = new System.Windows.Forms.Label();
-            this.z = new System.Windows.Forms.Label();
-            this.cConString = new System.Windows.Forms.Label();
-            this.cProviderName = new System.Windows.Forms.Label();
-            this.cName = new System.Windows.Forms.Label();
+            this.summaryLabel = new RiceInventorySystem.CustomLabel();
+            this.stockLabel = new RiceInventorySystem.CustomLabel();
+            this.addLabel = new RiceInventorySystem.CustomLabel();
             this.mainPanel.SuspendLayout();
             this.summaryPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.summaryPictureBox)).BeginInit();
@@ -156,17 +149,6 @@
             this.summaryPanel.MouseLeave += new System.EventHandler(this.summaryPanel_MouseLeave);
             this.summaryPanel.MouseHover += new System.EventHandler(this.summaryPanel_MouseHover);
             // 
-            // summaryLabel
-            // 
-            this.summaryLabel.AutoSize = true;
-            this.summaryLabel.Enabled = false;
-            this.summaryLabel.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.summaryLabel.Location = new System.Drawing.Point(14, 100);
-            this.summaryLabel.Name = "summaryLabel";
-            this.summaryLabel.Size = new System.Drawing.Size(139, 22);
-            this.summaryLabel.TabIndex = 19;
-            this.summaryLabel.Text = "S U M M A R Y";
-            // 
             // summaryPictureBox
             // 
             this.summaryPictureBox.Enabled = false;
@@ -203,17 +185,6 @@
             this.stockPanel.MouseLeave += new System.EventHandler(this.stockPanel_MouseLeave);
             this.stockPanel.MouseHover += new System.EventHandler(this.stockPanel_MouseHover);
             // 
-            // stockLabel
-            // 
-            this.stockLabel.AutoSize = true;
-            this.stockLabel.Enabled = false;
-            this.stockLabel.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.stockLabel.Location = new System.Drawing.Point(36, 93);
-            this.stockLabel.Name = "stockLabel";
-            this.stockLabel.Size = new System.Drawing.Size(98, 22);
-            this.stockLabel.TabIndex = 18;
-            this.stockLabel.Text = "S T O C K";
-            // 
             // stockPictureBox
             // 
             this.stockPictureBox.Enabled = false;
@@ -248,17 +219,6 @@
             this.addPictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.addPictureBox.TabIndex = 10;
             this.addPictureBox.TabStop = false;
-            // 
-            // addLabel
-            // 
-            this.addLabel.AutoSize = true;
-            this.addLabel.Enabled = false;
-            this.addLabel.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.addLabel.Location = new System.Drawing.Point(53, 96);
-            this.addLabel.Name = "addLabel";
-            this.addLabel.Size = new System.Drawing.Size(62, 22);
-            this.addLabel.TabIndex = 17;
-            this.addLabel.Text = "A D D";
             // 
             // close
             // 
@@ -970,82 +930,44 @@
             this.quantityTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.quantityTextBox_KeyPress);
             this.quantityTextBox.KeyUp += new System.Windows.Forms.KeyEventHandler(this.quantityTextBox_KeyUp);
             // 
-            // GetConnectionString
+            // summaryLabel
             // 
-            this.GetConnectionString.Location = new System.Drawing.Point(172, 12);
-            this.GetConnectionString.Name = "GetConnectionString";
-            this.GetConnectionString.Size = new System.Drawing.Size(240, 62);
-            this.GetConnectionString.TabIndex = 17;
-            this.GetConnectionString.Text = "Get Connection String";
-            this.GetConnectionString.UseVisualStyleBackColor = true;
-            this.GetConnectionString.Click += new System.EventHandler(this.GetConnectionString_Click);
+            this.summaryLabel.AutoSize = true;
+            this.summaryLabel.Enabled = false;
+            this.summaryLabel.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.summaryLabel.Location = new System.Drawing.Point(14, 100);
+            this.summaryLabel.Name = "summaryLabel";
+            this.summaryLabel.Size = new System.Drawing.Size(139, 22);
+            this.summaryLabel.TabIndex = 19;
+            this.summaryLabel.Text = "S U M M A R Y";
             // 
-            // x
+            // stockLabel
             // 
-            this.x.AutoSize = true;
-            this.x.Location = new System.Drawing.Point(172, 86);
-            this.x.Name = "x";
-            this.x.Size = new System.Drawing.Size(74, 22);
-            this.x.TabIndex = 18;
-            this.x.Text = "Name: ";
+            this.stockLabel.AutoSize = true;
+            this.stockLabel.Enabled = false;
+            this.stockLabel.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.stockLabel.Location = new System.Drawing.Point(36, 93);
+            this.stockLabel.Name = "stockLabel";
+            this.stockLabel.Size = new System.Drawing.Size(98, 22);
+            this.stockLabel.TabIndex = 18;
+            this.stockLabel.Text = "S T O C K";
             // 
-            // y
+            // addLabel
             // 
-            this.y.AutoSize = true;
-            this.y.Location = new System.Drawing.Point(172, 121);
-            this.y.Name = "y";
-            this.y.Size = new System.Drawing.Size(152, 22);
-            this.y.TabIndex = 19;
-            this.y.Text = "ProviderName: ";
-            // 
-            // z
-            // 
-            this.z.AutoSize = true;
-            this.z.Location = new System.Drawing.Point(168, 155);
-            this.z.Name = "z";
-            this.z.Size = new System.Drawing.Size(180, 22);
-            this.z.TabIndex = 20;
-            this.z.Text = "ConnectionString: ";
-            // 
-            // cConString
-            // 
-            this.cConString.AccessibleRole = System.Windows.Forms.AccessibleRole.IpAddress;
-            this.cConString.AutoSize = true;
-            this.cConString.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cConString.Location = new System.Drawing.Point(172, 177);
-            this.cConString.Name = "cConString";
-            this.cConString.Size = new System.Drawing.Size(0, 9);
-            this.cConString.TabIndex = 21;
-            // 
-            // cProviderName
-            // 
-            this.cProviderName.AutoSize = true;
-            this.cProviderName.Location = new System.Drawing.Point(330, 121);
-            this.cProviderName.Name = "cProviderName";
-            this.cProviderName.Size = new System.Drawing.Size(0, 22);
-            this.cProviderName.TabIndex = 22;
-            // 
-            // cName
-            // 
-            this.cName.AutoSize = true;
-            this.cName.Font = new System.Drawing.Font("Microsoft Sans Serif", 6F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cName.Location = new System.Drawing.Point(172, 188);
-            this.cName.Name = "cName";
-            this.cName.Size = new System.Drawing.Size(0, 9);
-            this.cName.TabIndex = 23;
+            this.addLabel.AutoSize = true;
+            this.addLabel.Enabled = false;
+            this.addLabel.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.addLabel.Location = new System.Drawing.Point(53, 96);
+            this.addLabel.Name = "addLabel";
+            this.addLabel.Size = new System.Drawing.Size(62, 22);
+            this.addLabel.TabIndex = 17;
+            this.addLabel.Text = "A D D";
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 22F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1300, 690);
-            this.Controls.Add(this.cName);
-            this.Controls.Add(this.cProviderName);
-            this.Controls.Add(this.cConString);
-            this.Controls.Add(this.z);
-            this.Controls.Add(this.y);
-            this.Controls.Add(this.x);
-            this.Controls.Add(this.GetConnectionString);
             this.Controls.Add(this.close);
             this.Controls.Add(this.minimize);
             this.Controls.Add(this.addItemPanel);
@@ -1094,7 +1016,6 @@
             this.addItemPanel.ResumeLayout(false);
             this.addItemPanel.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -1171,13 +1092,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox quantityTextBox;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button GetConnectionString;
-        private System.Windows.Forms.Label x;
-        private System.Windows.Forms.Label y;
-        private System.Windows.Forms.Label z;
-        private System.Windows.Forms.Label cConString;
-        private System.Windows.Forms.Label cProviderName;
-        private System.Windows.Forms.Label cName;
     }
 }
 
