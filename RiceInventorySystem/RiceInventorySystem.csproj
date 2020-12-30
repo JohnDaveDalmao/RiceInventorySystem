@@ -26,12 +26,13 @@
     <ProductName>Rice Inventory System</ProductName>
     <PublisherName>John Dave Dalmao</PublisherName>
     <SuiteName>John Dave Dalmao</SuiteName>
-    <ApplicationRevision>11</ApplicationRevision>
+    <ApplicationRevision>19</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <BootstrapperComponentsLocation>Relative</BootstrapperComponentsLocation>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -161,9 +162,9 @@
   <ItemGroup>
     <None Include="Resources\square.png" />
     <Content Include="box.ico" />
-    <Content Include="SystemDB.mdf">
+    <None Include="SystemDB.mdf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    </None>
     <Content Include="SystemDB_log.ldf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <DependentUpon>SystemDB.mdf</DependentUpon>
