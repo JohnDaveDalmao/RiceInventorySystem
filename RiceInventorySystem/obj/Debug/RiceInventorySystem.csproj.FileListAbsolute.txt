@@ -1,5 +1,5 @@
-D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\bin\Debug\SystemDB_log.ldf
 D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\bin\Debug\SystemDB.mdf
+D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\bin\Debug\SystemDB_log.ldf
 D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\bin\Debug\RiceInventorySystem.exe.config
 D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\bin\Debug\RiceInventorySystem.exe.manifest
 D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\bin\Debug\RiceInventorySystem.application
@@ -24,3 +24,4 @@ D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\obj\Debug\RiceInventory
 D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\obj\Debug\RiceInventorySystem.csproj.CopyComplete
 D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\obj\Debug\RiceInventorySystem.exe
 D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\obj\Debug\RiceInventorySystem.pdb
+D:\Visual Studio\RiceInventorySystem\RiceInventorySystem\obj\Debug\RiceInventorySystem.csprojAssemblyReference.cache
